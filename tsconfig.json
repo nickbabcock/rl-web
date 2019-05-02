@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "esNext",
+    "target": "es5",
+    "jsx": "react",
+    "strictNullChecks": true,
+    "esModuleInterop": true
+  }
+}
