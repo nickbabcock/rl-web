@@ -13,3 +13,21 @@ body {
   max-width: 65rem;
   min-height: 100%;
 }
+
+.teamScores {
+  margin-top: 2rem;
+  font-size: 80px;
+  text-align: center;
+}
+
+.teamScoreLabel {
+  font-size: 24px;
+}
+
+.rlBlue {
+  color: #00179e;
+}
+
+.rlOrange {
+  color: #c65209;
+}

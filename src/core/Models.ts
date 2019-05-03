@@ -11,10 +11,24 @@ export interface HeaderProperties {
   Team0Score?: number;
   Team1Score?: number;
   Goals: Goal[];
+  PlayerStats: PlayerStat[];
 }
 
 export interface Goal {
   PlayerName: string;
   frame: number;
   PlayerTeam: number;
+}
+
+export interface PlayerStat {
+    Team: number;
+    bBot: boolean;
+    Goals: number;
+    Shots: number;
+    Score: number;
+    Saves: number;
+    Assists: number;
+    OnlineID: string;
+    Platform: number;
+    Name: string;
 }

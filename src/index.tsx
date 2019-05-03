@@ -11,7 +11,11 @@ function newReplay(replay: File) {
   reader.onload = e => {
     if (reader.result && reader.result instanceof ArrayBuffer) {
       let replay = parser.parse(new Uint8Array(reader.result));
-      render(<App newReplay={newReplay} replay={replay} />, mainElement, appElement);
+      render(
+        <App newReplay={newReplay} replay={replay} />,
+        mainElement,
+        appElement
+      );
     }
   };
   reader.readAsArrayBuffer(replay);
