@@ -2,11 +2,12 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "module": "es6",
+    "module": "commonjs",
     "target": "es5",
     "jsx": "react",
     "jsxFactory": "h",
     "strictNullChecks": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": [ "crate/pkg/rl_wasm_bg.d.ts" ]
 }

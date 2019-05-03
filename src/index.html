@@ -4,12 +4,27 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
     <title>Rocket League Replay Parser</title>
   </head>
   <body>
-    <h1>Rocket League Replay Parser</h1>
-    <div id="app"></div>
+    <header>
+      <h1>Rocket League Replay Parser</h1>
+    </header>
+    <main id="main">
+      <p>
+        Select a file or drag and drop onto the webpage. The Rocket League
+        Replay Parser will decode the replay within the browser and present a
+        small array of statistics. This site is ment to demonstrate the
+        versatility of the underlying
+        <a href="https://github.com/nickbabcock/boxcars">Rust based parser</a>.
+        A similar, but offline tool is
+        <a href="https://github.com/nickbabcock/rrrocket">rrrocket</a>
+      </p>
+      <p>No data is uploaded to any server</p>
+
+      <div id="app"></div>
+    </main>
     <script src="./index.tsx"></script>
   </body>
 </html>

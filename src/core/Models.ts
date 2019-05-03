@@ -8,8 +8,8 @@ export interface Replay {
 
 export interface HeaderProperties {
   TeamSize: number;
-  Team0Score: number;
-  Team1Score: number;
+  Team0Score?: number;
+  Team1Score?: number;
   Goals: Goal[];
 }
 

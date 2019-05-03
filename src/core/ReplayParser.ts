@@ -1,4 +1,5 @@
 import { Replay } from './Models';
+// @ts-ignore
 import rl from '../../crate/Cargo.toml';
 
 export class ReplayParser {
