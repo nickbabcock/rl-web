@@ -1,37 +1,31 @@
-import * as React from "react";
-
-interface ReplayFormState {
-  replayFile: string | undefined;
-}
+import { h, Component } from "preact";
 
 interface ReplayFormProps {
   newReplay: (replay: File) => void;
 }
 
-export default class ReplayForm extends React.Component<
+export default class ReplayForm extends Component<
   ReplayFormProps,
-  ReplayFormState
+  {}
 > {
-  state: ReplayFormState = { replayFile: undefined };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  handleChange = (event: HTMLInputElement, props: ReplayFormProps) => {
     let target = event.target;
     let file = (target && target.files && target.files[0]) || null;
     if (!file) {
       return;
     }
 
-    this.props.newReplay(file);
+    props.newReplay(file);
   };
 
-  render() {
+  render(props: ReplayFormProps) {
     return (
       <label>
         Replay file:
         <input
           type="file"
-          value={this.state.replayFile}
-          onChange={this.handleChange}
+          onChange={(e: HTMLInputElement) => this.handleChange(e, props)}
           accept=".replay"
         />
       </label>
