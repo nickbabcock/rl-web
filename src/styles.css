@@ -31,3 +31,7 @@ body {
 .rlOrange {
   color: #c65209;
 }
+
+.rlGraph text {
+    fill: #666A73; 
+}
