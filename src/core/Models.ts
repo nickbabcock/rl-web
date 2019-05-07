@@ -12,6 +12,7 @@ export interface HeaderProperties {
   Team1Score?: number;
   Goals: Goal[];
   PlayerStats: PlayerStat[];
+  Date: string;
 }
 
 export interface Goal {
