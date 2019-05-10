@@ -12,7 +12,13 @@ interface Scores {
   scores: PlayerScore[];
 }
 
-const scale = (num, in_min, in_max, out_min, out_max) => {
+const scale = (
+  num: number,
+  in_min: number,
+  in_max: number,
+  out_min: number,
+  out_max: number
+): number => {
   return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 };
 

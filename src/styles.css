@@ -1,5 +1,10 @@
 @import url(sanitize.css);
 
+:root {
+  --rlBlue: #00179e;
+  --rlOrange: #c65209;
+}
+
 html {
   background-color: #eeeeee;
   height: 100%;
@@ -25,11 +30,20 @@ body {
 }
 
 .rlBlue {
-  color: #00179e;
+  color: var(--rlBlue);
 }
 
 .rlOrange {
-  color: #c65209;
+  color: var(--rlOrange);
+}
+
+a.rlBlue, a.rlOrange {
+    font-weight: bold;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .rlGraph text {

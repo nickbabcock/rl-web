@@ -4,6 +4,7 @@
   "description": "Rocket League Replay Analysis Online",
   "main": "index.js",
   "scripts": {
+    "type-check": "npx tsc --noEmit",
     "test": "jest",
     "start": "parcel src/index.html",
     "build": "parcel build src/index.html"
@@ -12,7 +13,10 @@
   "license": "MIT",
   "postcss": {
     "plugins": {
-      "postcss-import": {}
+      "postcss-import": {},
+      "postcss-preset-env": {
+        "stage": 0
+      }
     }
   },
   "browserslist": [
@@ -23,6 +27,7 @@
     "parcel-bundler": "^1.12.3",
     "parcel-plugin-wasm.rs": "^1.2.9",
     "postcss-import": "^12.0.1",
+    "postcss-preset-env": "^6.6.0",
     "typescript": "^3.4.5"
   },
   "dependencies": {

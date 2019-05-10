@@ -13,6 +13,8 @@ export interface HeaderProperties {
   Goals: Goal[];
   PlayerStats: PlayerStat[];
   Date: string;
+  RecordFPS: number;
+  NumFrames: number;
 }
 
 export interface Goal {
