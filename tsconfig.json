@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
+    "strict": true,
     "module": "es6",
     "moduleResolution": "Node",
     "target": "es6",
     "jsx": "react",
-    "jsxFactory": "h",
-    "strictNullChecks": true
+    "jsxFactory": "h"
   },
-  "exclude": [ "crate/pkg/rl_wasm_bg.d.ts" ]
+  "exclude": [ "crate/pkg/rl_wasm_bg.d.ts", "cypress/**/*" ]
 }

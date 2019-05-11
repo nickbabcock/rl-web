@@ -32,13 +32,13 @@ const Description = ({
     .map(x => (
       <TeamPlayer ClassName="rlBlue" OnlineID={x.OnlineID} Name={x.Name} />
     ))
-    .reduce((acc, x) => [acc, ", ", x], null)!;
+    .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])!;
 
   const orangeSide = PlayerStats.filter(x => x.Team === 1)
     .map(x => (
       <TeamPlayer ClassName="rlOrange" OnlineID={x.OnlineID} Name={x.Name} />
     ))
-    .reduce((acc, x) => [acc, ", ", x], null)!;
+    .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])!;
 
   let gameType;
   if (game_type.includes("Soccar")) {
