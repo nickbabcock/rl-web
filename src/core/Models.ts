@@ -24,14 +24,14 @@ export interface Goal {
 }
 
 export interface PlayerStat {
-    Team: number;
-    bBot: boolean;
-    Goals: number;
-    Shots: number;
-    Score: number;
-    Saves: number;
-    Assists: number;
-    OnlineID: string;
-    Platform: number;
-    Name: string;
+  Team: number;
+  bBot: boolean;
+  Goals: number;
+  Shots: number;
+  Score: number;
+  Saves: number;
+  Assists: number;
+  OnlineID: string;
+  Platform: number;
+  Name: string;
 }

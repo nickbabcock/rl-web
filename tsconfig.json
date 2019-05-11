@@ -5,7 +5,8 @@
     "moduleResolution": "Node",
     "target": "es6",
     "jsx": "react",
+    "esModuleInterop": true,
     "jsxFactory": "h"
   },
-  "exclude": [ "crate/pkg/rl_wasm_bg.d.ts", "cypress/**/*" ]
+  "exclude": ["crate/pkg/rl_wasm_bg.d.ts", "cypress/**/*"]
 }

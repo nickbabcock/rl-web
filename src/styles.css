@@ -37,15 +37,16 @@ body {
   color: var(--rlOrange);
 }
 
-a.rlBlue, a.rlOrange {
-    font-weight: bold;
-    text-decoration: none;
+a.rlBlue,
+a.rlOrange {
+  font-weight: bold;
+  text-decoration: none;
 
-    &:hover {
-        text-decoration: underline;
-    }
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .rlGraph text {
-    fill: #666A73; 
+  fill: #666a73;
 }

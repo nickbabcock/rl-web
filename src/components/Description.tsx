@@ -1,7 +1,7 @@
 import { h, Component } from "preact";
 import TeamPlayer from "./TeamPlayer";
 import { PlayerStat } from "../core/Models";
-const JsDate = Date;
+import { extractDate } from "../core/Dates";
 
 interface DescriptionProps {
   TeamSize: number;
@@ -20,11 +20,7 @@ const Description = ({
   NumFrames,
   game_type
 }: DescriptionProps) => {
-  const [y, m, d] = Date.split(" ")[0]
-    .split("-")
-    .map(parseInt);
-  const gameDate = new JsDate(y, m - 1, d);
-
+  const gameDate = extractDate(Date);
   const seconds = NumFrames / RecordFPS;
   const minutes = Math.floor((seconds + 119) / 60);
 
