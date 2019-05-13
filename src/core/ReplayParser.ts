@@ -8,7 +8,7 @@ export class ReplayParser {
     if (response && response.error) {
       throw new Error(response.error);
     }
-
+	console.log(response);
     return response as Replay;
   }
 }

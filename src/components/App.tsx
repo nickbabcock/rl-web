@@ -4,6 +4,7 @@ import TeamScores from "./TeamScores";
 import PlayerScores from "./PlayerScores";
 import Description from "./Description";
 import { Replay } from "../core/Models";
+import Graph from "./Graph";
 
 interface AppProps {
   newReplay: (replay: File) => void;
@@ -31,7 +32,11 @@ export default class App extends Component<AppProps, {}> {
             game_type={props.replay.game_type}
             {...props.replay.properties}
           />
-          <PlayerScores scores={props.replay.properties.PlayerStats} />
+          <Graph title={"Player Scores"} defaultMax={1000} valFn={(x) => x.Score} scores={props.replay.properties.PlayerStats} />
+          <Graph title={"Player Goals"} defaultMax={4} valFn={(x) => x.Goals} scores={props.replay.properties.PlayerStats} />
+          <Graph title={"Player Shots"} defaultMax={8} valFn={(x) => x.Shots} scores={props.replay.properties.PlayerStats} />
+          <Graph title={"Player Saves"} defaultMax={4} valFn={(x) => x.Saves} scores={props.replay.properties.PlayerStats} />
+          <Graph title={"Player Assists"} defaultMax={4} valFn={(x) => x.Assists} scores={props.replay.properties.PlayerStats} />
         </div>
       );
     }
