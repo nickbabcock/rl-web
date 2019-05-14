@@ -1,7 +1,6 @@
 import { h, Component } from "preact";
 import ReplayForm from "./ReplayForm";
 import TeamScores from "./TeamScores";
-import PlayerScores from "./PlayerScores";
 import Description from "./Description";
 import { Replay } from "../core/Models";
 import Graph from "./Graph";
