@@ -24,13 +24,16 @@ const Description = ({
 //  const seconds = NumFrames / RecordFPS;
  // const minutes = Math.floor((seconds + 119) / 60);
 
-  const blueSide = PlayerStats.filter(x => x.Team === 0)
+  const blues = PlayerStats.filter(x => x.Team == 0);
+  const oranges = PlayerStats.filter(x => x.Team == 1);
+
+  const blueSide = blues
     .map(x => (
       <TeamPlayer ClassName="rlBlue" OnlineID={x.OnlineID} Name={x.Name} />
     ))
     .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[]).slice(1)!;
 
-  const orangeSide = PlayerStats.filter(x => x.Team === 1)
+  const orangeSide = oranges
     .map(x => (
       <TeamPlayer ClassName="rlOrange" OnlineID={x.OnlineID} Name={x.Name} />
     ))
@@ -45,7 +48,7 @@ const Description = ({
 
   return (
     <p className="description">
-      On {gameDate.toLocaleDateString()}, {blueSide} vs. {orangeSide} in a {blueSide.length}v{orangeSide.length} {gameType} match.
+      On {gameDate.toLocaleDateString()}, {blueSide} vs. {orangeSide} in a {blues.length}v{oranges.length} {gameType} match.
     </p>
   );
 };
