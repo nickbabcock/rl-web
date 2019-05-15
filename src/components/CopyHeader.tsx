@@ -33,7 +33,7 @@ export default class CopyHeader extends Component<CopyHeaderProps, {}> {
 
     return (
       <div>
-        <button onClick={this.buttonClick}>Copy JSON data to Clipyboard</button>
+        <button onClick={this.buttonClick}>Copy JSON data to Clipboard</button>
         <textarea
           style={style}
           ref={textElm => (this.textElm = textElm)}
