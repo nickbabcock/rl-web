@@ -2,6 +2,7 @@ import { h, Component } from "preact";
 import ReplayForm from "./ReplayForm";
 import TeamScores from "./TeamScores";
 import Description from "./Description";
+import CopyHeader from "./CopyHeader";
 import { Replay } from "../core/Models";
 import Graph from "./Graph";
 
@@ -31,6 +32,7 @@ export default class App extends Component<AppProps, {}> {
             game_type={props.replay.game_type}
             {...props.replay.properties}
           />
+          <CopyHeader header={JSON.stringify(props.replay)} />
           <Graph title={"Player Scores"} defaultMax={1000} valFn={(x) => x.Score} scores={props.replay.properties.PlayerStats} />
           <Graph title={"Player Goals"} defaultMax={4} valFn={(x) => x.Goals} scores={props.replay.properties.PlayerStats} />
           <Graph title={"Player Shots"} defaultMax={8} valFn={(x) => x.Shots} scores={props.replay.properties.PlayerStats} />
