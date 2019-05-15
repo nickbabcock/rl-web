@@ -62,7 +62,7 @@ input[type="file"] {
 
 .button-primary {
   color: white;
-  background-color: #0078e7;
+  background-color: var(--rlBlue);
 }
 
 .teamScores {
