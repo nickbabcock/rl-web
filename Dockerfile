@@ -16,7 +16,7 @@ RUN set -eux; . ~/.cargo/env && \
   cd .. && \
   npm ci && \
   npm run build && \
-  zopfli dist/*.js dist/*.wasm dist/*.css dist/*.html
+  zopfli dist/*.js dist/*.wasm dist/*.css dist/*.html dist/*.png
 
 FROM nginx:stable-alpine
 COPY --from=0 /usr/src/rl-web/dist /usr/share/nginx/html
