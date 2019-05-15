@@ -17,8 +17,8 @@ export default class ReplayForm extends Component<ReplayFormProps, {}> {
 
   render(props: ReplayFormProps) {
     return (
-      <label>
-        Replay file:
+      <label className="sue-button button-primary">
+        Select Replay File
         <input type="file" onChange={this.handleChange} accept=".replay" />
       </label>
     );
