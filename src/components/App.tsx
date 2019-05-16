@@ -20,7 +20,7 @@ export default class App extends Component<AppProps, {}> {
         </div>
       );
     } else {
-      const { replay, parseMs, file } = replayFile;
+      const { replay, parseMs, file, raw } = replayFile;
       return (
         <div>
           <ReplayForm newReplay={newReplay} />
@@ -34,7 +34,7 @@ export default class App extends Component<AppProps, {}> {
             game_type={replay.game_type}
             {...replay.properties}
           />
-          <CopyHeader header={JSON.stringify(replay)} />
+          <CopyHeader header={raw} />
           <Graph title={"Player Scores"} defaultMax={1000} valFn={(x) => x.Score} scores={replay.properties.PlayerStats} />
           <Graph title={"Player Goals"} defaultMax={4} valFn={(x) => x.Goals} scores={replay.properties.PlayerStats} />
           <Graph title={"Player Shots"} defaultMax={8} valFn={(x) => x.Shots} scores={replay.properties.PlayerStats} />

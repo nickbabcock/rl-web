@@ -14,7 +14,7 @@ function newReplay(file: File) {
       let replay = parser.parse(new Uint8Array(reader.result));
       const t1 = performance.now();
       render(
-        <App newReplay={newReplay} replayFile={{replay, file, parseMs: t1 - t0}} />,
+        <App newReplay={newReplay} replayFile={{...replay, file, parseMs: t1 - t0}} />,
         mainElement,
         appElement
       );
