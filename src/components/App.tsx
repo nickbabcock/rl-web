@@ -3,41 +3,43 @@ import ReplayForm from "./ReplayForm";
 import TeamScores from "./TeamScores";
 import Description from "./Description";
 import CopyHeader from "./CopyHeader";
-import { Replay } from "../core/Models";
+import { ReplayFile } from "../core/Models";
 import Graph from "./Graph";
 
 interface AppProps {
   newReplay: (replay: File) => void;
-  replay?: Replay;
+  replayFile?: ReplayFile;
 }
 
 export default class App extends Component<AppProps, {}> {
-  render(props: AppProps) {
-    if (!props.replay) {
+  render({ newReplay, replayFile}: AppProps) {
+    if (!replayFile) {
       return (
         <div>
-          <ReplayForm newReplay={props.newReplay} />
+          <ReplayForm newReplay={newReplay} />
         </div>
       );
     } else {
+      const { replay, parseMs, file } = replayFile;
       return (
         <div>
-          <ReplayForm newReplay={props.newReplay} />
+          <ReplayForm newReplay={newReplay} />
+          <span className="parse-span">{`parsed ${file.name} in ${parseMs.toFixed(2)}ms`}</span>
           <hr />
           <TeamScores
-            team0score={props.replay.properties.Team0Score}
-            team1score={props.replay.properties.Team1Score}
+            team0score={replay.properties.Team0Score}
+            team1score={replay.properties.Team1Score}
           />
           <Description
-            game_type={props.replay.game_type}
-            {...props.replay.properties}
+            game_type={replay.game_type}
+            {...replay.properties}
           />
-          <CopyHeader header={JSON.stringify(props.replay)} />
-          <Graph title={"Player Scores"} defaultMax={1000} valFn={(x) => x.Score} scores={props.replay.properties.PlayerStats} />
-          <Graph title={"Player Goals"} defaultMax={4} valFn={(x) => x.Goals} scores={props.replay.properties.PlayerStats} />
-          <Graph title={"Player Shots"} defaultMax={8} valFn={(x) => x.Shots} scores={props.replay.properties.PlayerStats} />
-          <Graph title={"Player Saves"} defaultMax={4} valFn={(x) => x.Saves} scores={props.replay.properties.PlayerStats} />
-          <Graph title={"Player Assists"} defaultMax={4} valFn={(x) => x.Assists} scores={props.replay.properties.PlayerStats} />
+          <CopyHeader header={JSON.stringify(replay)} />
+          <Graph title={"Player Scores"} defaultMax={1000} valFn={(x) => x.Score} scores={replay.properties.PlayerStats} />
+          <Graph title={"Player Goals"} defaultMax={4} valFn={(x) => x.Goals} scores={replay.properties.PlayerStats} />
+          <Graph title={"Player Shots"} defaultMax={8} valFn={(x) => x.Shots} scores={replay.properties.PlayerStats} />
+          <Graph title={"Player Saves"} defaultMax={4} valFn={(x) => x.Saves} scores={replay.properties.PlayerStats} />
+          <Graph title={"Player Assists"} defaultMax={4} valFn={(x) => x.Assists} scores={replay.properties.PlayerStats} />
         </div>
       );
     }

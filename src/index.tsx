@@ -6,19 +6,21 @@ let parser = new ReplayParser();
 const mainElement = document.getElementById("main")!;
 const appElement = document.getElementById("app")!;
 
-function newReplay(replay: File) {
+function newReplay(file: File) {
   const reader = new FileReader();
   reader.onload = e => {
     if (reader.result && reader.result instanceof ArrayBuffer) {
+      const t0 = performance.now();
       let replay = parser.parse(new Uint8Array(reader.result));
+      const t1 = performance.now();
       render(
-        <App newReplay={newReplay} replay={replay} />,
+        <App newReplay={newReplay} replayFile={{replay, file, parseMs: t1 - t0}} />,
         mainElement,
         appElement
       );
     }
   };
-  reader.readAsArrayBuffer(replay);
+  reader.readAsArrayBuffer(file);
 }
 
 const dragHoverElement = document.getElementById("drag-hover")!;

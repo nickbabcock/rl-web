@@ -48,6 +48,11 @@ input[type="file"] {
   display: none;
 }
 
+.parse-span {
+  margin-left: 1em;
+  color: gray;
+}
+
 .hover {
   position: fixed;
   top: 0;

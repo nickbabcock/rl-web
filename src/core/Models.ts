@@ -35,3 +35,9 @@ export interface PlayerStat {
   Platform: number;
   Name: string;
 }
+
+export interface ReplayFile {
+  replay: Replay;
+  file: File;
+  parseMs: number;
+}
