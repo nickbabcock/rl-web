@@ -55,6 +55,12 @@ input[type="file"] {
   display: none;
 }
 
+.error {
+  background-color: #f99292;
+  padding: 1em;
+  margin-top: 0;
+}
+
 .parse-span {
   margin-left: 1em;
   color: gray;
@@ -73,8 +79,7 @@ input[type="file"] {
 }
 
 .downloadContainer {
-  display: flex;
-  align-items: center;
+  display: inherit;
 }
 
 .button-primary {
@@ -118,12 +123,14 @@ a.rlOrange {
   display: inline-block;
   width: 28px;
   height: 28px;
-  border: 3px solid rgba(255,255,255,.3);
+  border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: #333;
   animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }

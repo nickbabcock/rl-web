@@ -1,8 +1,10 @@
 import { h, Component } from "preact";
 import { ReplayParser } from "../core/ReplayParser";
+import RlError from "./RlError";
 
 interface DownloadState {
   loading: boolean;
+  error: Error | null;
 }
 
 interface DownloadProps {
@@ -19,13 +21,15 @@ export default class DownloadNetwork extends Component<
   constructor() {
     super();
     this.state = {
-      loading: false
+      loading: false,
+      error: null
     };
   }
 
   clickDownload = () => {
     this.setState({
-      loading: true
+      loading: true,
+      error: null
     });
 
     setTimeout(() => {
@@ -48,6 +52,10 @@ export default class DownloadNetwork extends Component<
               this.download!.download = fileName;
               this.download!.click();
               URL.revokeObjectURL(this.download!.href);
+            } catch (error) {
+              this.setState({
+                error: error
+              });
             } finally {
               this.setState({
                 loading: false
@@ -60,23 +68,24 @@ export default class DownloadNetwork extends Component<
     }, 50);
   };
 
-  render(props: DownloadProps, { loading }: DownloadState) {
+  render(props: DownloadProps, { loading, error }: DownloadState) {
     return (
       <div className="downloadContainer">
-        <button
-          disabled={loading}
-          className={loading ? "disabled" : undefined}
-          onClick={this.clickDownload}
-        >
-          Download full network data
-        </button>
-        <div>
+        <span>
+          <button
+            disabled={loading}
+            className={loading ? "disabled" : undefined}
+            onClick={this.clickDownload}
+          >
+            Download full network data
+          </button>
           <span
             style={{ display: loading ? "inline-flex" : "none" }}
             className="spinner"
           />
-        </div>
+        </span>
         <a style={{ display: "none" }} ref={x => (this.download = x)} />
+        <RlError error={error} />
       </div>
     );
   }
