@@ -33,24 +33,26 @@ export default class DownloadNetwork extends Component<
         const reader = new FileReader();
         reader.onload = e => {
           if (reader.result && reader.result instanceof ArrayBuffer) {
-            const t0 = performance.now();
-            let replay = parser.parse_network(new Uint8Array(reader.result));
-            const t1 = performance.now();
-            console.log(`${t1 - t0}ms`);
+            try {
+              const t0 = performance.now();
+              let replay = parser.parse_network(new Uint8Array(reader.result));
+              const t1 = performance.now();
+              console.log(`${t1 - t0}ms`);
 
-            const blob = new Blob([replay], {
-              type: "application/json"
-            });
+              const blob = new Blob([replay], {
+                type: "application/json"
+              });
 
-            const fileName = `${this.props.file.name}.json`;
-            this.download!.href = URL.createObjectURL(blob);
-            this.download!.download = fileName;
-            this.download!.click();
-            URL.revokeObjectURL(this.download!.href);
-
-            this.setState({
-              loading: false
-            });
+              const fileName = `${this.props.file.name}.json`;
+              this.download!.href = URL.createObjectURL(blob);
+              this.download!.download = fileName;
+              this.download!.click();
+              URL.revokeObjectURL(this.download!.href);
+            } finally {
+              this.setState({
+                loading: false
+              });
+            }
           }
         };
         reader.readAsArrayBuffer(this.props.file);
