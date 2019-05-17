@@ -28,6 +28,7 @@ button,
   background-color: #e6e6e6;
   border-radius: 2px;
   cursor: pointer;
+  margin: 0.25em;
 
   &:focus,
   &:hover {
@@ -42,6 +43,12 @@ button,
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset,
       0 0 6px rgba(0, 0, 0, 0.2) inset;
   }
+}
+
+button.disabled {
+  border: none;
+  opacity: 0.4;
+  box-shadow: none;
 }
 
 input[type="file"] {
@@ -63,6 +70,11 @@ input[type="file"] {
   border-color: #50adff;
   border-style: solid;
   border-width: 10px;
+}
+
+.downloadContainer {
+  display: flex;
+  align-items: center;
 }
 
 .button-primary {
@@ -100,4 +112,18 @@ a.rlOrange {
 
 .rlGraph text {
   fill: #666a73;
+}
+
+.spinner {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #333;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

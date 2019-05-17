@@ -3,16 +3,19 @@ import ReplayForm from "./ReplayForm";
 import TeamScores from "./TeamScores";
 import Description from "./Description";
 import CopyHeader from "./CopyHeader";
+import DownloadNetwork from "./DownloadNetwork";
 import { ReplayFile } from "../core/Models";
 import Graph from "./Graph";
+import { ReplayParser } from "../core/ReplayParser";
 
 interface AppProps {
   newReplay: (replay: File) => void;
   replayFile?: ReplayFile;
+  parserMod: Promise<ReplayParser>;
 }
 
 export default class App extends Component<AppProps, {}> {
-  render({ newReplay, replayFile}: AppProps) {
+  render({ newReplay, replayFile, parserMod}: AppProps) {
     if (!replayFile) {
       return (
         <div>
@@ -34,7 +37,10 @@ export default class App extends Component<AppProps, {}> {
             game_type={replay.game_type}
             {...replay.properties}
           />
-          <CopyHeader header={raw} />
+          <span style={{'display': 'flex'}}>
+              <CopyHeader header={raw} />
+              <DownloadNetwork file={file} parserMod={parserMod} />
+          </span>
           <Graph title={"Player Scores"} defaultMax={1000} valFn={(x) => x.Score} scores={replay.properties.PlayerStats} />
           <Graph title={"Player Goals"} defaultMax={4} valFn={(x) => x.Goals} scores={replay.properties.PlayerStats} />
           <Graph title={"Player Shots"} defaultMax={8} valFn={(x) => x.Shots} scores={replay.properties.PlayerStats} />

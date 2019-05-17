@@ -1,12 +1,14 @@
 import { render, h } from "preact";
+// @ts-ignore
+import rl from "../crate/Cargo.toml";
 import { ReplayParser } from "./core/ReplayParser";
 import App from "./components/App";
 
-let parser = new ReplayParser();
-const mainElement = document.getElementById("main")!;
-const appElement = document.getElementById("app")!;
+function loadParser() {
+  return Promise.resolve(new ReplayParser(rl));
+}
 
-function newReplay(file: File) {
+function loadReplay(file: File, parser: ReplayParser) {
   const reader = new FileReader();
   reader.onload = e => {
     if (reader.result && reader.result instanceof ArrayBuffer) {
@@ -14,7 +16,11 @@ function newReplay(file: File) {
       let replay = parser.parse(new Uint8Array(reader.result));
       const t1 = performance.now();
       render(
-        <App newReplay={newReplay} replayFile={{...replay, file, parseMs: t1 - t0}} />,
+        <App
+          newReplay={newReplay}
+          parserMod={parserMod}
+          replayFile={{ ...replay, file, parseMs: t1 - t0 }}
+        />,
         mainElement,
         appElement
       );
@@ -22,6 +28,14 @@ function newReplay(file: File) {
   };
   reader.readAsArrayBuffer(file);
 }
+
+function newReplay(file: File) {
+  parserMod.then(parser => loadReplay(file, parser));
+}
+
+let parserMod = loadParser();
+const mainElement = document.getElementById("main")!;
+const appElement = document.getElementById("app")!;
 
 const dragHoverElement = document.getElementById("drag-hover")!;
 function dragDrop(ev: DragEvent) {
@@ -63,4 +77,8 @@ document.addEventListener("drop", dragDrop, false);
 document.addEventListener("dragover", dragOverHandler, false);
 document.addEventListener("dragleave", dragLeaveHandler, false);
 
-render(<App newReplay={newReplay} />, mainElement, appElement);
+render(
+  <App newReplay={newReplay} parserMod={parserMod} />,
+  mainElement,
+  appElement
+);
