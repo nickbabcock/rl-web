@@ -32,6 +32,11 @@ export default class DownloadNetwork extends Component<
       error: null
     });
 
+    // This timeout is a poor man's web worker that allow the spinner
+    // animation to spin while replay is parsed. Ideally the network
+    // parser would be put on a web worker, but thus far I have not
+    // been able to successfully share a WebAssembly.Module with
+    // a web worker and have it instantiated.
     setTimeout(() => {
       this.props.parserMod.then(parser => {
         const reader = new FileReader();
@@ -65,7 +70,7 @@ export default class DownloadNetwork extends Component<
         };
         reader.readAsArrayBuffer(this.props.file);
       });
-    }, 50);
+    }, 10);
   };
 
   render(props: DownloadProps, { loading, error }: DownloadState) {
