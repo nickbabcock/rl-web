@@ -17,10 +17,12 @@ export default class ReplayForm extends Component<ReplayFormProps, {}> {
 
   render(props: ReplayFormProps) {
     return (
-      <label className="sue-button button-primary">
-        Select Replay File
-        <input type="file" onChange={this.handleChange} accept=".replay" />
-      </label>
+      <button className="sue-button button-primary">
+        <label>
+          Select Replay File
+          <input type="file" onChange={this.handleChange} accept=".replay" />
+        </label>
+      </button>
     );
   }
 }

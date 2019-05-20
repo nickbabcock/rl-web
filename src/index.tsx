@@ -12,18 +12,30 @@ function loadReplay(file: File, parser: ReplayParser) {
   const reader = new FileReader();
   reader.onload = e => {
     if (reader.result && reader.result instanceof ArrayBuffer) {
-      const t0 = performance.now();
-      let replay = parser.parse(new Uint8Array(reader.result));
-      const t1 = performance.now();
-      render(
-        <App
-          newReplay={newReplay}
-          parserMod={parserMod}
-          replayFile={{ ...replay, file, parseMs: t1 - t0 }}
-        />,
-        mainElement,
-        appElement
-      );
+      try {
+        const t0 = performance.now();
+        let replay = parser.parse(new Uint8Array(reader.result));
+        const t1 = performance.now();
+        render(
+          <App
+            newReplay={newReplay}
+            parserMod={parserMod}
+            replayFile={{ ...replay, file, parseMs: t1 - t0 }}
+          />,
+          mainElement,
+          appElement
+        );
+      } catch (error) {
+        render(
+          <App
+            newReplay={newReplay}
+            parserMod={parserMod}
+            parseError={error}
+          />,
+          mainElement,
+          appElement
+        );
+      }
     }
   };
   reader.readAsArrayBuffer(file);
