@@ -121,6 +121,11 @@ a.rlOrange {
   fill: #666a73;
 }
 
+#pretty-print-checkbox {
+  margin-right: 0.3em;
+  margin-left: 0.3em;
+}
+
 .spinner {
   display: inline-block;
   width: 28px;

@@ -10,6 +10,7 @@ interface DownloadState {
 interface DownloadProps {
   parserMod: Promise<ReplayParser>;
   file: File;
+  pretty: boolean;
 }
 
 export default class DownloadNetwork extends Component<
@@ -44,7 +45,8 @@ export default class DownloadNetwork extends Component<
           if (reader.result && reader.result instanceof ArrayBuffer) {
             try {
               const t0 = performance.now();
-              let replay = parser.parse_network(new Uint8Array(reader.result));
+              const data = new Uint8Array(reader.result);
+              const replay = this.props.pretty ? parser.parse_network_pretty(data) : parser.parse_network(data);
               const t1 = performance.now();
               console.log(`${t1 - t0}ms`);
 

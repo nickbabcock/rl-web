@@ -1,8 +1,10 @@
 import { Replay, DecodedReplay } from "./Models";
 
 interface RlModule {
-  parse_replay: (arg0: Uint8Array) => string;
-  parse_network_replay: (arg0: Uint8Array) => string;
+  parse_replay_network: (arg0: Uint8Array) => string;
+  parse_replay_header: (arg0: Uint8Array) => string;
+  parse_replay_network_pretty: (arg0: Uint8Array) => string;
+  parse_replay_header_pretty: (arg0: Uint8Array) => string;
 }
 
 export class ReplayParser {
@@ -11,8 +13,8 @@ export class ReplayParser {
     this.rl = rl;
   }
 
-  parse(data: Uint8Array): DecodedReplay {
-    const raw = this.rl.parse_replay(data);
+  _parse(data: Uint8Array, fn: (arg0: Uint8Array) => string) {
+    const raw = fn(data);
     const response = JSON.parse(raw);
     if (response && response.error) {
       throw new Error(response.error);
@@ -24,8 +26,8 @@ export class ReplayParser {
     };
   }
 
-  parse_network(data: Uint8Array): string {
-    let response = this.rl.parse_network_replay(data);
+  _parse_network(data: Uint8Array, fn: (arg0: Uint8Array) => string) {
+    let response = fn(data);
     if (response.length < 2048) {
       let json = JSON.parse(response);
       if (json && json.error) {
@@ -35,4 +37,13 @@ export class ReplayParser {
 
     return response;
   }
+
+  parse = (data: Uint8Array): DecodedReplay =>
+    this._parse(data, this.rl.parse_replay_header);
+  parse_pretty = (data: Uint8Array): DecodedReplay =>
+    this._parse(data, this.rl.parse_replay_header_pretty);
+  parse_network = (data: Uint8Array): string =>
+    this._parse_network(data, this.rl.parse_replay_network);
+  parse_network_pretty = (data: Uint8Array): string =>
+    this._parse_network(data, this.rl.parse_replay_network_pretty);
 }

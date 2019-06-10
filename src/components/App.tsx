@@ -2,11 +2,10 @@ import { h, Component } from "preact";
 import ReplayForm from "./ReplayForm";
 import TeamScores from "./TeamScores";
 import Description from "./Description";
-import CopyHeader from "./CopyHeader";
-import DownloadNetwork from "./DownloadNetwork";
 import { ReplayFile } from "../core/Models";
 import Graph from "./Graph";
 import { ReplayParser } from "../core/ReplayParser";
+import ExportData from "./ExportData";
 import RlError from "./RlError";
 
 interface AppProps {
@@ -44,11 +43,8 @@ export default class App extends Component<AppProps, {}> {
             team0score={replay.properties.Team0Score}
             team1score={replay.properties.Team1Score}
           />
+          <ExportData raw={raw} file={file} parserMod={parserMod} />
           <Description game_type={replay.game_type} {...replay.properties} />
-          <span>
-            <CopyHeader header={raw} />
-            <DownloadNetwork file={file} parserMod={parserMod} />
-          </span>
           <Graph
             title={"Player Scores"}
             defaultMax={1000}
