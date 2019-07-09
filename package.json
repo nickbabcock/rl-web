@@ -38,7 +38,7 @@
     "postcss-preset-env": "^6.6.0",
     "start-server-and-test": "^1.9.1",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "preact": "^8.4.2",
