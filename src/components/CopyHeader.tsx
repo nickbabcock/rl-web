@@ -19,23 +19,12 @@ export default class CopyHeader extends Component<CopyHeaderProps, {}> {
 
   render({ header }: CopyHeaderProps) {
     const isRTL = document.documentElement.getAttribute("dir") == "rtl";
-
-    // styling stolen from clipboard.js
-    const style = {
-      fontSize: "12pt",
-      border: "0",
-      padding: "0",
-      margin: "0",
-      position: "absolute",
-      [isRTL ? "right" : "left"]: "-9999px",
-      top: `${window.pageYOffset || document.documentElement.scrollTop}px`
-    };
-
+    const clsName = `clipboard ${isRTL ? "rtl-right" : "rtl-left"}`;
     return (
       <span>
         <button onClick={this.buttonClick}>Copy JSON data to Clipboard</button>
         <textarea
-          style={style}
+          className={clsName}
           ref={textElm => (this.textElm = textElm)}
           value={header}
         />

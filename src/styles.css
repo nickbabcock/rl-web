@@ -121,19 +121,45 @@ a.rlOrange {
   fill: #666a73;
 }
 
+.graph-line {
+  stroke: #d2d6df;
+}
+
+.hidden {
+  display: none;
+}
+
 #pretty-print-checkbox {
   margin-right: 0.3em;
   margin-left: 0.3em;
 }
 
 .spinner {
-  display: inline-block;
+  display: inline-flex;
   width: 28px;
   height: 28px;
   border: 3px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top-color: #333;
   animation: spin 1s ease-in-out infinite;
+}
+
+/* styling stolen from clipboard.js */
+.clipboard {
+  fontSize: 12pt;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+}
+
+.rtl-right {
+  right: -9999px;
+}
+
+.rtl-left {
+  left: -9999px;
 }
 
 @keyframes spin {
