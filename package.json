@@ -42,6 +42,6 @@
   },
   "dependencies": {
     "preact": "^8.4.2",
-    "sanitize.css": "^10.0.0"
+    "sanitize.css": "^11.0.0"
   }
 }
