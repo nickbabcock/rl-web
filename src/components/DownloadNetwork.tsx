@@ -86,12 +86,9 @@ export default class DownloadNetwork extends Component<
           >
             Download full network data
           </button>
-          <span
-            style={{ display: loading ? "inline-flex" : "none" }}
-            className="spinner"
-          />
+          <span className={loading ? "spinner" : "hidden"} />
         </span>
-        <a style={{ display: "none" }} ref={x => (this.download = x)} />
+        <a className="hidden" ref={x => (this.download = x)} />
         <RlError error={error} />
       </div>
     );

@@ -52,7 +52,7 @@ const appElement = document.getElementById("app")!;
 const dragHoverElement = document.getElementById("drag-hover")!;
 function dragDrop(ev: DragEvent) {
   ev.preventDefault();
-  dragHoverElement.style.display = "none";
+  dragHoverElement.classList.add("hidden");
 
   if (ev.dataTransfer && ev.dataTransfer.items) {
     const items = ev.dataTransfer.items;
@@ -78,11 +78,11 @@ function dragDrop(ev: DragEvent) {
 
 function dragOverHandler(ev: Event) {
   ev.preventDefault();
-  dragHoverElement.style.display = "inherit";
+  dragHoverElement.classList.remove("hidden");
 }
 
 function dragLeaveHandler() {
-  dragHoverElement.style.display = "none";
+  dragHoverElement.classList.add("hidden");
 }
 
 document.addEventListener("drop", dragDrop, false);

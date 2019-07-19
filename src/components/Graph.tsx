@@ -57,7 +57,7 @@ const Graph = ({ scores, defaultMax, valFn, title }: GraphProps) => {
       y2={scores.length * yPointHeight}
       x1={i * tickWidth}
       x2={i * tickWidth}
-      style={{ stroke: "#D2D6DF" }}
+      className="graph-line"
     />
   ));
 
