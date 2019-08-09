@@ -41,7 +41,7 @@
     "typescript": "^3.5.3"
   },
   "dependencies": {
-    "preact": "^8.5.0",
+    "preact": "^8.5.1",
     "sanitize.css": "^11.0.0"
   }
 }
