@@ -21,9 +21,6 @@ const Description = ({
   game_type
 }: DescriptionProps) => {
   const gameDate = extractDate(Date);
-//  const seconds = NumFrames / RecordFPS;
- // const minutes = Math.floor((seconds + 119) / 60);
-
   const blues = PlayerStats.filter(x => x.Team == 0);
   const oranges = PlayerStats.filter(x => x.Team == 1);
 

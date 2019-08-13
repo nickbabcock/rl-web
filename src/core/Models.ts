@@ -11,7 +11,7 @@ export interface HeaderProperties {
   Team0Score?: number;
   Team1Score?: number;
   Goals: Goal[];
-  PlayerStats: PlayerStat[];
+  PlayerStats?: PlayerStat[];
   Date: string;
   RecordFPS: number;
   NumFrames: number;

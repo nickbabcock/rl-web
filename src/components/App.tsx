@@ -30,8 +30,9 @@ export default class App extends Component<AppProps, {}> {
           <RlError error={parseError} />
         </div>
       );
-    } else {
+    } else if (replayFile!.replay.properties.PlayerStats) {
       const { replay, parseMs, file, raw } = replayFile!;
+      const stats = replay.properties.PlayerStats!;
       return (
         <div>
           <ReplayForm newReplay={newReplay} />
@@ -44,37 +45,45 @@ export default class App extends Component<AppProps, {}> {
             team1score={replay.properties.Team1Score}
           />
           <ExportData raw={raw} file={file} parserMod={parserMod} />
-          <Description game_type={replay.game_type} {...replay.properties} />
+          <Description game_type={replay.game_type} PlayerStats={stats} {...replay.properties} />
           <Graph
             title={"Player Scores"}
             defaultMax={1000}
             valFn={x => x.Score}
-            scores={replay.properties.PlayerStats}
+            scores={stats}
           />
           <Graph
             title={"Player Goals"}
             defaultMax={4}
             valFn={x => x.Goals}
-            scores={replay.properties.PlayerStats}
+            scores={stats}
           />
           <Graph
             title={"Player Shots"}
             defaultMax={8}
             valFn={x => x.Shots}
-            scores={replay.properties.PlayerStats}
+            scores={stats}
           />
           <Graph
             title={"Player Saves"}
             defaultMax={4}
             valFn={x => x.Saves}
-            scores={replay.properties.PlayerStats}
+            scores={stats}
           />
           <Graph
             title={"Player Assists"}
             defaultMax={4}
             valFn={x => x.Assists}
-            scores={replay.properties.PlayerStats}
+            scores={stats}
           />
+        </div>
+      );
+    } else {
+      const error = !replayFile!.replay.properties.PlayerStats ? "Player stats missing from replay" : "Unknown error";
+      return (
+        <div>
+          <ReplayForm newReplay={newReplay} />
+          <RlError error={new Error(error)} />
         </div>
       );
     }
