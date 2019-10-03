@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import { h, Component, JSX } from "preact";
 import TeamPlayer from "./TeamPlayer";
 import { PlayerStat } from "../core/Models";
 import { extractDate } from "../core/Dates";
