@@ -5,7 +5,7 @@ interface CopyHeaderProps {
 }
 
 export default class CopyHeader extends Component<CopyHeaderProps, {}> {
-  textElm: HTMLInputElement | null = null;
+  textElm: HTMLTextAreaElement | null = null;
 
   buttonClick = (e: Event) => {
     if (this.textElm === null) {
