@@ -19,3 +19,5 @@ steps:
     displayName: e2e tests
   - script: docker build .
     displayName: build docker image
+  - script: ./assets/wasm-size-check.sh
+    displayName: test wasm bundle size

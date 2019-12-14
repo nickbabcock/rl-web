@@ -9,9 +9,8 @@ RUN set -eux; curl https://sh.rustup.rs -sSf | sh -s -- -y && \
   curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s
 
 # Build rust dependencies
-RUN . ~/.cargo/env && USER=root cargo new --lib --name rl-web /usr/src/rl-web/crate
-COPY ./crate/Cargo.toml ./crate/Cargo.lock /usr/src/rl-web/crate/
-RUN . ~/.cargo/env && cd /usr/src/rl-web/crate && wasm-pack build --release
+COPY ./crate /usr/src/rl-web
+RUN . ~/.cargo/env && cd /usr/src/rl-web && wasm-pack build --release
 
 WORKDIR /usr/src/rl-web
 
