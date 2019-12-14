@@ -17,3 +17,5 @@ steps:
     displayName: Unit Tests
   - script: npm test
     displayName: e2e tests
+  - script: docker build .
+    displayName: build docker image
