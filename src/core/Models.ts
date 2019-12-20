@@ -37,8 +37,8 @@ export interface PlayerStat {
 }
 
 export interface DecodedReplay {
-    raw: string;
-    replay: Replay;
+  raw: string;
+  replay: Replay;
 }
 
 export interface ReplayFile {

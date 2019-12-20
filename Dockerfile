@@ -15,8 +15,8 @@ RUN set -eux; curl https://sh.rustup.rs -sSf | sh -s -- -y && \
   curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s
 
 # Build rust dependencies
-COPY ./crate /usr/src/rl-web
-RUN . ~/.cargo/env && cd /usr/src/rl-web && wasm-pack build --release
+COPY ./crate /usr/src/rl-web/crate
+RUN . ~/.cargo/env && cd /usr/src/rl-web/crate && wasm-pack build --release
 
 WORKDIR /usr/src/rl-web
 
@@ -27,6 +27,7 @@ RUN npm ci
 COPY . .
 RUN set -eux; . ~/.cargo/env && \
   npm run build && \
+  ./assets/asset-pipeline.sh rl_wasm_bg.wasm dist/worker.*.js && \
   wasm-opt -Oz -o - dist/*.wasm | sponge dist/*.wasm && \
   zopfli dist/*.js dist/*.wasm dist/*.css dist/*.html dist/*.png
 

@@ -9,7 +9,7 @@ steps:
     displayName: Install wasm-pack
   - script: npm ci
     displayName: Npm Install
-  - script: 'cd crate && wasm-pack build'
+  - script: './assets/build-wasm.sh'
     displayName: Build rust crate
   - script: npm run type-check
     displayName: Typescript check
