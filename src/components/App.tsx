@@ -1,4 +1,5 @@
 import { h, Component, Fragment, createRef } from "preact";
+import LoadSample from "./LoadSample";
 import ReplayForm from "./ReplayForm";
 import Report from "./Report";
 import { ReplayFile } from "../core/Models";
@@ -8,10 +9,10 @@ import { subscribeFile } from "../injector";
 
 interface AppState {
   wasmLoaded: boolean;
-  replayFile: ReplayFile?;
+  replayFile: ReplayFile | undefined;
   prettyPrint: boolean;
   loading: boolean;
-  error: Error?;
+  error: string | undefined;
 }
 
 export default class App extends Component<{}, AppState> {
@@ -45,14 +46,14 @@ export default class App extends Component<{}, AppState> {
         type: "application/json"
       });
 
-      const fileName = `${this.state.replayFile.file.name}.json`;
+      const fileName = `${this.state.replayFile.name}.json`;
       const link = this.downloadNetworkLink.current;
       link.href = URL.createObjectURL(blob);
       link.download = fileName;
       link.click();
       URL.revokeObjectURL(link.href);
     } else if (action === "FAILED") {
-        this.setState({ ...this.state, error: data });
+      this.setState({ ...this.state, error: data });
     }
   };
 
@@ -93,10 +94,7 @@ export default class App extends Component<{}, AppState> {
     if (this.replayWorker && this.state.replayFile) {
       this.replayWorker.postMessage([
         "PARSE_NETWORK",
-        {
-          file: this.state.replayFile.file,
-          pretty: this.state.prettyPrint
-        }
+        { pretty: this.state.prettyPrint }
       ]);
 
       this.setState({ ...this.state, loading: true });
@@ -109,16 +107,11 @@ export default class App extends Component<{}, AppState> {
     localStorage.setItem("pretty-print", JSON.stringify(value));
     let valueChanged = value != this.state.prettyPrint;
     if (valueChanged) {
-      this.setState({ ...this.state, prettyPrint: value });
       if (this.state.replayFile && this.replayWorker) {
-        this.replayWorker.postMessage([
-          "NEW_FILE",
-          {
-            file: this.state.replayFile.file,
-            pretty: value
-          }
-        ]);
-        this.setState({ ...this.state, loading: true });
+        this.replayWorker.postMessage(["PRETTY_PRINT", { pretty: value }]);
+        this.setState({ ...this.state, loading: true, prettyPrint: value });
+      } else {
+        this.setState({ ...this.state, prettyPrint: value });
       }
     }
   };
@@ -130,6 +123,7 @@ export default class App extends Component<{}, AppState> {
         <Fragment>
           <div>&#x2713; Replay parser successfully loaded. Enjoy!</div>
           <ReplayForm loading={this.state.loading} />
+          <LoadSample />
           <label>
             <input
               type="checkbox"
@@ -148,15 +142,14 @@ export default class App extends Component<{}, AppState> {
     if (replayFile) {
       if (replayFile.replay.properties.PlayerStats) {
         const stats = replayFile.replay.properties.PlayerStats;
-        const { replay, parseMs, file, raw } = replayFile;
+        const { replay, parseMs, name, raw } = replayFile;
         replayElement = (
           <div>
-            <div className="parse-span">{`parsed ${
-              file.name
-            } in ${parseMs.toFixed(2)}ms`}</div>
+            <div className="parse-span">{`parsed ${name} in ${parseMs.toFixed(
+              2
+            )}ms`}</div>
             <ExportData
               raw={raw}
-              file={file}
               loading={this.state.loading}
               downloadNetworkCb={this.downloadNetwork}
             />
@@ -167,14 +160,14 @@ export default class App extends Component<{}, AppState> {
         );
       } else {
         replayElement = (
-          <RlError error="Replay successfully parsed but no stats extracted"/>
+          <RlError error="Replay successfully parsed but no stats extracted" />
         );
       }
     }
 
     let errorElement = null;
     if (error) {
-        errorElement = <RlError error={error} />
+      errorElement = <RlError error={error} />;
     }
 
     return (

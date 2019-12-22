@@ -2,7 +2,14 @@ import { ReplayParser } from "./core/ReplayParser";
 import { ReplayFile } from "./core/Models";
 import * as rl_wasm from "../crate/pkg/rl_wasm";
 
+interface LoadedReplay {
+  name: string;
+  data: Uint8Array;
+}
+
 let parser: ReplayParser | null = null;
+let loadedReplay: LoadedReplay | null = null;
+
 onmessage = function(e) {
   const [action, data] = e.data;
   switch (action) {
@@ -21,72 +28,96 @@ onmessage = function(e) {
             postMessage(["FAILED", err.message]);
           });
       } catch (err) {
+        // @ts-ignore
         postMessage(["FAILED", err.message]);
       }
       break;
+    case "PRETTY_PRINT":
+      if (loadedReplay) {
+        innerMost(loadedReplay, data.pretty);
+      }
+      break;
     case "NEW_FILE":
-      loadReplay(data.file, data.pretty);
+      if (data.file instanceof File) {
+        loadReplay(data.file, data.pretty);
+      } else if (typeof data.file === "string") {
+        fetchReplayLoad(data.file, data.pretty);
+      }
       break;
     case "PARSE_NETWORK":
-      parseNetwork(data.file, data.pretty);
+      parseNetwork(data.pretty);
       break;
   }
 };
 
-function loadReplay(file: File, pretty: boolean) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    if (reader.result && reader.result instanceof ArrayBuffer) {
-      try {
-        const t0 = performance.now();
-        if (!parser) {
-          return;
-        }
-
-        const fn = pretty ? parser.parse_pretty : parser.parse;
-        let replay = fn(new Uint8Array(reader.result));
-        const t1 = performance.now();
-
-        let res: ReplayFile = {
-          ...replay,
-          file,
-          parseMs: t1 - t0
-        };
-
-        // @ts-ignore
-        postMessage(["PARSED", res]);
-      } catch (error) {
-        postMessage(["FAILED", err.message]);
-      }
-    }
-  };
-  reader.readAsArrayBuffer(file);
+function fetchReplayLoad(path: string, pretty: boolean) {
+  fetch(path)
+    .then(x => x.arrayBuffer())
+    .then(x => innerLoad("sample", pretty, x))
+    .catch(err => {
+      // @ts-ignore
+      postMessage(["FAILED", err.message]);
+    });
 }
 
-function parseNetwork(file: File, pretty: boolean) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    if (reader.result && reader.result instanceof ArrayBuffer) {
-      try {
-        const t0 = performance.now();
-        if (!parser) {
-          return;
-        }
-
-        const data = new Uint8Array(reader.result);
-        const replay = pretty
-          ? parser.parse_network_pretty(data)
-          : parser.parse_network(data);
-        const t1 = performance.now();
-        console.log(`${t1 - t0}ms`);
-
-        // @ts-ignore
-        postMessage(["PARSED_NETWORK", replay]);
-      } catch (error) {
-        postMessage(["FAILED", err.message]);
-      }
+function innerMost(loaded: LoadedReplay, pretty: boolean) {
+  try {
+    if (!parser) {
+      return;
     }
-  };
+    const t0 = performance.now();
+    const fn = pretty ? parser.parse_pretty : parser.parse;
+    let replay = fn(loaded.data);
+    const t1 = performance.now();
 
-  reader.readAsArrayBuffer(file);
+    let res: ReplayFile = {
+      ...replay,
+      name: loaded.name,
+      parseMs: t1 - t0
+    };
+
+    // @ts-ignore
+    postMessage(["PARSED", res]);
+  } catch (err) {
+    // @ts-ignore
+    postMessage(["FAILED", err.message]);
+  }
+}
+
+function innerLoad(name: string, pretty: boolean, buffer: ArrayBuffer) {
+  const arr = new Uint8Array(buffer);
+  loadedReplay = {
+    name,
+    data: arr
+  };
+  innerMost(loadedReplay, pretty);
+}
+
+function loadReplay(file: File, pretty: boolean) {
+  new Response(file)
+    .arrayBuffer()
+    .then(buf => innerLoad(file.name, pretty, buf))
+    .catch(err => {
+      // @ts-ignore
+      postMessage(["FAILED", err.message]);
+    });
+}
+
+function parseNetwork(pretty: boolean) {
+  if (loadedReplay && parser) {
+    try {
+      const t0 = performance.now();
+      const replay = pretty
+        ? parser.parse_network_pretty(loadedReplay.data)
+        : parser.parse_network(loadedReplay.data);
+      const t1 = performance.now();
+      console.log(`${t1 - t0}ms`);
+
+      // @ts-ignore
+      postMessage(["PARSED_NETWORK", replay]);
+    } catch (err) {
+      // @ts-ignore
+      postMessage(["FAILED", err.message]);
+    }
+  }
 }

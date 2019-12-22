@@ -28,6 +28,7 @@ COPY . .
 RUN set -eux; . ~/.cargo/env && \
   npm run build && \
   ./assets/asset-pipeline.sh rl_wasm_bg.wasm dist/worker.*.js && \
+  ./assets/asset-pipeline.sh sample.replay dist/src.*.js && \
   wasm-opt -Oz -o - dist/*.wasm | sponge dist/*.wasm && \
   zopfli dist/*.js dist/*.wasm dist/*.css dist/*.html dist/*.png
 
