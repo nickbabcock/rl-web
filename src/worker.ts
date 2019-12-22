@@ -7,18 +7,22 @@ onmessage = function(e) {
   const [action, data] = e.data;
   switch (action) {
     case "LOAD":
-      rl_wasm
-        .default("rl_wasm_bg.wasm")
-        .then(x => {
-          parser = new ReplayParser(rl_wasm);
+      try {
+        rl_wasm
+          .default("rl_wasm_bg.wasm")
+          .then(x => {
+            parser = new ReplayParser(rl_wasm);
 
-          // @ts-ignore
-          postMessage(["SUCCESS"]);
-        })
-        .catch(err => {
-          // @ts-ignore
-          postMessage(["FAILED", err]);
-        });
+            // @ts-ignore
+            postMessage(["SUCCESS"]);
+          })
+          .catch(err => {
+            // @ts-ignore
+            postMessage(["FAILED", err.message]);
+          });
+      } catch (err) {
+        postMessage(["FAILED", err.message]);
+      }
       break;
     case "NEW_FILE":
       loadReplay(data.file, data.pretty);
@@ -52,7 +56,7 @@ function loadReplay(file: File, pretty: boolean) {
         // @ts-ignore
         postMessage(["PARSED", res]);
       } catch (error) {
-        console.log(error);
+        postMessage(["FAILED", err.message]);
       }
     }
   };
@@ -79,7 +83,7 @@ function parseNetwork(file: File, pretty: boolean) {
         // @ts-ignore
         postMessage(["PARSED_NETWORK", replay]);
       } catch (error) {
-        console.log(error);
+        postMessage(["FAILED", err.message]);
       }
     }
   };

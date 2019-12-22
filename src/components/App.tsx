@@ -8,9 +8,10 @@ import { subscribeFile } from "../injector";
 
 interface AppState {
   wasmLoaded: boolean;
-  replayFile: ReplayFile | undefined;
+  replayFile: ReplayFile?;
   prettyPrint: boolean;
   loading: boolean;
+  error: Error?;
 }
 
 export default class App extends Component<{}, AppState> {
@@ -20,7 +21,8 @@ export default class App extends Component<{}, AppState> {
     wasmLoaded: false,
     replayFile: undefined,
     prettyPrint: false,
-    loading: false
+    loading: false,
+    error: undefined
   };
 
   // @ts-ignore
@@ -49,6 +51,8 @@ export default class App extends Component<{}, AppState> {
       link.download = fileName;
       link.click();
       URL.revokeObjectURL(link.href);
+    } else if (action === "FAILED") {
+        this.setState({ ...this.state, error: data });
     }
   };
 
@@ -119,7 +123,7 @@ export default class App extends Component<{}, AppState> {
     }
   };
 
-  render(_props: {}, { wasmLoaded, replayFile, prettyPrint }: AppState) {
+  render(_props: {}, { wasmLoaded, replayFile, prettyPrint, error }: AppState) {
     let wasmElement = null;
     if (wasmLoaded === true) {
       wasmElement = (
@@ -138,8 +142,6 @@ export default class App extends Component<{}, AppState> {
           </label>
         </Fragment>
       );
-    } else if (wasmLoaded === false) {
-      wasmElement = <div>&#x2573; Replay parse failed to load</div>;
     }
 
     let replayElement = null;
@@ -165,13 +167,19 @@ export default class App extends Component<{}, AppState> {
         );
       } else {
         replayElement = (
-          <div>Replay successfully parsed but no stats extracted</div>
+          <RlError error="Replay successfully parsed but no stats extracted"/>
         );
       }
     }
 
+    let errorElement = null;
+    if (error) {
+        errorElement = <RlError error={error} />
+    }
+
     return (
       <Fragment>
+        {errorElement}
         <div className={this.state.loading ? "spinner" : "hidden"} />
         {wasmElement}
         {replayElement}
