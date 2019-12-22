@@ -1,7 +1,8 @@
 import { h, Component } from "preact";
+import { publishFile } from "../injector";
 
 interface ReplayFormProps {
-  newReplay: (replay: File) => void;
+  loading: boolean;
 }
 
 export default class ReplayForm extends Component<ReplayFormProps, {}> {
@@ -12,12 +13,15 @@ export default class ReplayForm extends Component<ReplayFormProps, {}> {
       return;
     }
 
-    this.props.newReplay(file);
+    publishFile(file);
   };
 
-  render(props: ReplayFormProps) {
+  render({ loading }: ReplayFormProps) {
+    const className = loading
+      ? "sue-button button-primary disabled"
+      : "sue-button button-primary";
     return (
-      <button className="sue-button button-primary">
+      <button className={className} disabled={loading}>
         <label>
           Select Replay File
           <input type="file" onChange={this.handleChange} accept=".replay" />

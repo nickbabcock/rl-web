@@ -1,55 +1,10 @@
 import { render, h } from "preact";
-// @ts-ignore
-import rl from "../crate/Cargo.toml";
-import { ReplayParser } from "./core/ReplayParser";
+import { publishFile } from "./injector";
 import App from "./components/App";
 
-function loadParser() {
-  return Promise.resolve(new ReplayParser(rl));
-}
-
-function loadReplay(file: File, parser: ReplayParser) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    if (reader.result && reader.result instanceof ArrayBuffer) {
-      try {
-        const t0 = performance.now();
-        let replay = parser.parse(new Uint8Array(reader.result));
-        const t1 = performance.now();
-        render(
-          <App
-            newReplay={newReplay}
-            parserMod={parserMod}
-            replayFile={{ ...replay, file, parseMs: t1 - t0 }}
-          />,
-          mainElement,
-          appElement
-        );
-      } catch (error) {
-        render(
-          <App
-            newReplay={newReplay}
-            parserMod={parserMod}
-            parseError={error}
-          />,
-          mainElement,
-          appElement
-        );
-      }
-    }
-  };
-  reader.readAsArrayBuffer(file);
-}
-
-function newReplay(file: File) {
-  parserMod.then(parser => loadReplay(file, parser));
-}
-
-let parserMod = loadParser();
-const mainElement = document.getElementById("main")!;
 const appElement = document.getElementById("app")!;
-
 const dragHoverElement = document.getElementById("drag-hover")!;
+
 function dragDrop(ev: DragEvent) {
   ev.preventDefault();
   dragHoverElement.classList.add("hidden");
@@ -64,13 +19,14 @@ function dragDrop(ev: DragEvent) {
       throw Error("bad dropped file");
     }
 
-    newReplay(file);
+    publishFile(file);
   } else if (ev.dataTransfer && ev.dataTransfer.files) {
     const files = ev.dataTransfer.files;
     if (files.length !== 1) {
       throw Error("unexpected one file drop");
     }
-    newReplay(files[0]);
+
+    publishFile(files[0]);
   } else {
     throw Error("unexpected data transfer");
   }
@@ -89,8 +45,4 @@ document.addEventListener("drop", dragDrop, false);
 document.addEventListener("dragover", dragOverHandler, false);
 document.addEventListener("dragleave", dragLeaveHandler, false);
 
-render(
-  <App newReplay={newReplay} parserMod={parserMod} />,
-  mainElement,
-  appElement
-);
+render(<App />, appElement);

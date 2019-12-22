@@ -7,7 +7,7 @@ interface GraphProps {
   scores: PlayerStat[];
   defaultMax: number;
   valFn: (x: PlayerStat) => number;
-    title: string;
+  title: string;
 }
 
 const scale = (

@@ -28,13 +28,15 @@ const Description = ({
     .map(x => (
       <TeamPlayer ClassName="rlBlue" OnlineID={x.OnlineID} Name={x.Name} />
     ))
-    .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[]).slice(1)!;
+    .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])
+    .slice(1)!;
 
   const orangeSide = oranges
     .map(x => (
       <TeamPlayer ClassName="rlOrange" OnlineID={x.OnlineID} Name={x.Name} />
     ))
-    .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[]).slice(1)!;
+    .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])
+    .slice(1)!;
 
   let gameType;
   if (game_type.includes("Soccar")) {
@@ -45,7 +47,8 @@ const Description = ({
 
   return (
     <p className="description">
-      On {gameDate.toLocaleDateString()}, {blueSide} vs. {orangeSide} in a {blues.length}v{oranges.length} {gameType} match.
+      On {gameDate.toLocaleDateString()}, {blueSide} vs. {orangeSide} in a{" "}
+      {blues.length}v{oranges.length} {gameType} match.
     </p>
   );
 };
