@@ -44,6 +44,6 @@ export interface DecodedReplay {
 export interface ReplayFile {
   raw: string;
   replay: Replay;
-  file: File;
+  name: string;
   parseMs: number;
 }

@@ -3,13 +3,12 @@ import CopyHeader from "./CopyHeader";
 
 interface ExportDataProps {
   raw: string;
-  file: File;
   downloadNetworkCb: () => void;
   loading: boolean;
 }
 
 export default class ExportData extends Component<ExportDataProps, {}> {
-  render({ raw, file, downloadNetworkCb, loading }: ExportDataProps) {
+  render({ raw, downloadNetworkCb, loading }: ExportDataProps) {
     return (
       <span>
         <CopyHeader header={raw} />
