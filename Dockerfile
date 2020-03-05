@@ -25,10 +25,17 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+
+# First we build the wasm bundle with our optimizations. Then we create the
+# hashed filename version and modify the source code directly. We have to
+# modify the source as else parcel will derive the same hash when only the
+# /crate directory has been modified.
 RUN set -eux; . ~/.cargo/env && \
+  ./assets/build-wasm.sh && \
+  ./assets/asset-pipeline.sh rl_wasm_bg.wasm src/worker.ts && \
+  ./assets/asset-pipeline.sh sample.replay src/components/LoadSample.tsx && \
   npm run build && \
-  ./assets/asset-pipeline.sh rl_wasm_bg.wasm dist/worker.*.js && \
-  ./assets/asset-pipeline.sh sample.replay dist/src.*.js && \
+  rm dist/rl_wasm_bg.wasm dist/sample.replay && \
   wasm-opt -Oz -o - dist/*.wasm | sponge dist/*.wasm && \
   zopfli dist/*.js dist/*.wasm dist/*.css dist/*.html dist/*.png
 
