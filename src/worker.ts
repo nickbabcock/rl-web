@@ -1,32 +1,24 @@
 import { ReplayParser } from "./core/ReplayParser";
 import { ReplayFile } from "./core/Models";
-import * as rl_wasm from "../crate/pkg/rl_wasm";
+import init from "../crate/pkg/rl_wasm";
 
 interface LoadedReplay {
   name: string;
   data: Uint8Array;
 }
 
-let parser: ReplayParser | null = null;
+let parser: ReplayParser = new ReplayParser();
 let loadedReplay: LoadedReplay | null = null;
 
-onmessage = function(e) {
+onmessage = async e => {
   const [action, data] = e.data;
   switch (action) {
     case "LOAD":
       try {
-        rl_wasm
-          .default("rl_wasm_bg.wasm")
-          .then(x => {
-            parser = new ReplayParser(rl_wasm);
+        await init("rl_wasm_bg.wasm");
 
-            // @ts-ignore
-            postMessage(["SUCCESS"]);
-          })
-          .catch(err => {
-            // @ts-ignore
-            postMessage(["FAILED", err.message]);
-          });
+        // @ts-ignore
+        postMessage(["SUCCESS"]);
       } catch (err) {
         // @ts-ignore
         postMessage(["FAILED", err.message]);
@@ -62,9 +54,6 @@ function fetchReplayLoad(path: string, pretty: boolean) {
 
 function innerMost(loaded: LoadedReplay, pretty: boolean) {
   try {
-    if (!parser) {
-      return;
-    }
     const t0 = performance.now();
     const fn = pretty ? parser.parse_pretty : parser.parse;
     let replay = fn(loaded.data);
@@ -104,7 +93,7 @@ function loadReplay(file: File, pretty: boolean) {
 }
 
 function parseNetwork(pretty: boolean) {
-  if (loadedReplay && parser) {
+  if (loadedReplay) {
     try {
       const t0 = performance.now();
       const replay = pretty

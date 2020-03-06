@@ -1,18 +1,14 @@
 import { Replay, DecodedReplay } from "./Models";
+import {
+  parse_replay_header,
+  parse_replay_network,
+  parse_replay_header_pretty,
+  parse_replay_network_pretty
+} from "../../crate/pkg/rl_wasm";
 
-interface RlModule {
-  parse_replay_network: (arg0: Uint8Array) => string;
-  parse_replay_header: (arg0: Uint8Array) => string;
-  parse_replay_network_pretty: (arg0: Uint8Array) => string;
-  parse_replay_header_pretty: (arg0: Uint8Array) => string;
-}
-
+// The parser assumes that the wasm bundle has been fetched and compiled before
+// any of these functions are executed
 export class ReplayParser {
-  rl: RlModule;
-  constructor(rl: RlModule) {
-    this.rl = rl;
-  }
-
   _parse(data: Uint8Array, fn: (arg0: Uint8Array) => string) {
     const raw = fn(data);
     const response = JSON.parse(raw);
@@ -39,11 +35,11 @@ export class ReplayParser {
   }
 
   parse = (data: Uint8Array): DecodedReplay =>
-    this._parse(data, this.rl.parse_replay_header);
+    this._parse(data, parse_replay_header);
   parse_pretty = (data: Uint8Array): DecodedReplay =>
-    this._parse(data, this.rl.parse_replay_header_pretty);
+    this._parse(data, parse_replay_header_pretty);
   parse_network = (data: Uint8Array): string =>
-    this._parse_network(data, this.rl.parse_replay_network);
+    this._parse_network(data, parse_replay_network);
   parse_network_pretty = (data: Uint8Array): string =>
-    this._parse_network(data, this.rl.parse_replay_network_pretty);
+    this._parse_network(data, parse_replay_network_pretty);
 }
