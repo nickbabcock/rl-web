@@ -12,9 +12,6 @@ export class ReplayParser {
   _parse(data: Uint8Array, fn: (arg0: Uint8Array) => string) {
     const raw = fn(data);
     const response = JSON.parse(raw);
-    if (response && response.error) {
-      throw new Error(response.error);
-    }
 
     return {
       raw,
@@ -22,24 +19,16 @@ export class ReplayParser {
     };
   }
 
-  _parse_network(data: Uint8Array, fn: (arg0: Uint8Array) => string) {
-    let response = fn(data);
-    if (response.length < 2048) {
-      let json = JSON.parse(response);
-      if (json && json.error) {
-        throw new Error(json.error);
-      }
-    }
-
-    return response;
+  _parse_network(data: Uint8Array, fn: (arg0: Uint8Array) => Uint8Array) {
+    return fn(data);
   }
 
   parse = (data: Uint8Array): DecodedReplay =>
     this._parse(data, parse_replay_header);
   parse_pretty = (data: Uint8Array): DecodedReplay =>
     this._parse(data, parse_replay_header_pretty);
-  parse_network = (data: Uint8Array): string =>
+  parse_network = (data: Uint8Array): Uint8Array =>
     this._parse_network(data, parse_replay_network);
-  parse_network_pretty = (data: Uint8Array): string =>
+  parse_network_pretty = (data: Uint8Array): Uint8Array =>
     this._parse_network(data, parse_replay_network_pretty);
 }

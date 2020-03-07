@@ -37,8 +37,10 @@ onmessage = async e => {
         break;
     }
   } catch (err) {
+    const msg = err instanceof Error ? err.message : err;
+
     // @ts-ignore
-    postMessage(["FAILED", err.message]);
+    postMessage(["FAILED", msg]);
   }
 };
 
@@ -83,6 +85,6 @@ function parseNetwork(pretty: boolean) {
     console.log(`${t1 - t0}ms`);
 
     // @ts-ignore
-    postMessage(["PARSED_NETWORK", replay]);
+    postMessage(["PARSED_NETWORK", replay.buffer], [replay.buffer]);
   }
 }
