@@ -69,7 +69,7 @@ export default class App extends Component<{}, AppState> {
   };
 
   componentDidMount() {
-    this.replayWorker = new Worker("../worker.ts");
+    this.replayWorker = new Worker("../worker.ts", { type: 'module'});
     this.replayWorker.postMessage(["LOAD"]);
 
     this.replayWorker.onmessage = this.workerMessage;

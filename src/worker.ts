@@ -1,13 +1,14 @@
-import { ReplayParser } from "./core/ReplayParser";
+//import { ReplayParser } from "./core/ReplayParser";
 import { ReplayFile } from "./core/Models";
-import init from "../crate/pkg/rl_wasm";
+//import init from "../crate/pkg/rl_wasm";
 
 interface LoadedReplay {
   name: string;
   data: Uint8Array;
 }
 
-let parser: ReplayParser = new ReplayParser();
+//let parser: ReplayParser = new ReplayParser();
+let parser: any = null;
 let loadedReplay: LoadedReplay | null = null;
 
 onmessage = async e => {
@@ -15,7 +16,7 @@ onmessage = async e => {
   try {
     switch (action) {
       case "LOAD":
-        await init("rl_wasm_bg.wasm");
+		const module = await import("../crate/pkg");
 
         // @ts-ignore
         postMessage(["SUCCESS"]);
