@@ -5,7 +5,7 @@ steps:
       curl https://sh.rustup.rs -sSf | sh -s -- -y
       echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
     displayName: Install rust
-  - script: cargo install wasm-pack
+  - script: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
     displayName: Install wasm-pack
   - script: npm ci
     displayName: Npm Install
