@@ -3,12 +3,6 @@ FROM node
 # Install zopfli for a better gzip and sponge from moreutils
 RUN apt-get update && apt-get install -y moreutils zopfli && rm -rf /var/lib/apt/lists/*
 
-# Install wasm-opt
-RUN set -eux; curl -O -L "https://github.com/WebAssembly/binaryen/releases/download/1.39.1/binaryen-1.39.1-x86_64-linux.tar.gz" && \
-    tar -xzf binaryen*.tar.gz && \
-    rm binaryen*.tar.gz && \
-    mv binaryen-*/wasm-opt /usr/bin/.
-
 # Install rust
 RUN set -eux; curl https://sh.rustup.rs -sSf | sh -s -- -y && \
   . ~/.cargo/env && \
@@ -36,7 +30,6 @@ RUN set -eux; . ~/.cargo/env && \
   ./assets/asset-pipeline.sh sample.replay src/components/LoadSample.tsx && \
   npm run build && \
   rm dist/rl_wasm_bg.wasm dist/sample.replay && \
-  wasm-opt -Oz -o - dist/*.wasm | sponge dist/*.wasm && \
   zopfli dist/*.js dist/*.wasm dist/*.css dist/*.html dist/*.png
 
 FROM nginx:stable-alpine
