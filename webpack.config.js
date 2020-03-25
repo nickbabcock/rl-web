@@ -1,28 +1,13 @@
 const path = require("path");
 const WorkerPlugin = require("worker-plugin");
-const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const AssetsPlugin = require('assets-webpack-plugin');
 
 module.exports = {
-  entry: "./src/index.tsx",
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/
-      }
-    ]
-  },
-  resolve: {
-    extensions: [".tsx", ".ts", ".js"]
-  },
+  entry: './dist/index.js',
+  node: false,
   plugins: [
-    new CleanWebpackPlugin(),
     new WorkerPlugin(),
-    new HtmlWebpackPlugin({ template: 'src/index.html' }),
-    new WasmPackPlugin({ crateDirectory: path.resolve(__dirname, "crate") })
+    new AssetsPlugin(),
   ],
   output: {
     filename: "[name].[contenthash].js"
