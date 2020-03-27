@@ -29,8 +29,8 @@ COPY . .
 # /crate directory has been modified.
 RUN set -eux; . ~/.cargo/env && \
   npm run build && \
-  zopfli public/js/* public/*.css public/*.html public/*.png
+  find public -iname "*.js" -o -iname "*.wasm" -o -iname "*.html" -o -iname "*.png" -o -iname "*.replay" | xargs zopfli
 
 FROM nginx:stable-alpine
 COPY --from=0 /usr/src/rl-web/public /usr/share/nginx/html
-COPY assets/nginx.conf /etc/nginx/conf.d/default.conf
+COPY dev/nginx.conf /etc/nginx/conf.d/default.conf

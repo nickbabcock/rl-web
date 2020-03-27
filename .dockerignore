@@ -1,5 +1,10 @@
+data/webpack.json
+public
+static/js
+resources/
 node_modules
 .git
 dist
-*/target
+crate/target
+crate/pkg
 .cache

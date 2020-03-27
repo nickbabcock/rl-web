@@ -1,7 +1,7 @@
 use rl_wasm::*;
 use wasm_bindgen_test::*;
 
-const REPLAY: &'static [u8] = include_bytes!("../../assets/3d07e.replay");
+const REPLAY: &'static [u8] = include_bytes!("../../dev/sample.replay");
 
 #[wasm_bindgen_test]
 fn test_parse_header() {

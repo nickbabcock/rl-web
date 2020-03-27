@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "Rocket League Replay Analysis Online",
   "scripts": {
-    "type-check": "npx tsc --noEmit",
-    "cy:run": "cypress run",
-    "test": "start-server-and-test start http://localhost:1234 cy:run",
+    "test": "start-server-and-test 1313 'cypress run'",
     "unit": "jest",
-    "start": "./assets/build-wasm.sh && parcel src/index.html",
+    "start": "npm run build && hugo serve",
     "build": "wasm-pack build --release crate && tsc && webpack --mode production && hugo"
   },
   "author": "",
@@ -17,10 +15,11 @@
   },
   "devDependencies": {
     "@types/jest": "^25.1.4",
+    "assets-webpack-plugin": "^3.9.12",
     "cypress": "^4.2.0",
     "cypress-file-upload": "^4.0.4",
-    "assets-webpack-plugin": "^3.9.12",
     "jest": "^25.1.0",
+    "start-server-and-test": "^1.10.11",
     "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.3",
