@@ -7,6 +7,10 @@ steps:
     displayName: Install rust
   - script: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
     displayName: Install wasm-pack
+  - script: |
+      curl -O -L https://github.com/gohugoio/hugo/releases/download/v0.68.3/hugo_extended_0.68.3_Linux-64bit.deb
+      dpkg -i hugo_extended_0.68.3_Linux-64bit.deb 
+    displayName: Install hugo
   - script: npm ci
     displayName: Npm Install
   - script: npm run build
