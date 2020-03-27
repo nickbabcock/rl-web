@@ -4,6 +4,6 @@ export function extractDate(input: string): Date {
   const [y, m, d] = input
     .split(" ")[0]
     .split("-")
-    .map(x => parseInt(x, 10));
+    .map((x) => parseInt(x, 10));
   return new Date(y, m - 1, d);
 }

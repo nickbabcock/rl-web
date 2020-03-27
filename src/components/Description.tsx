@@ -18,21 +18,21 @@ const Description = ({
   Date,
   RecordFPS,
   NumFrames,
-  game_type
+  game_type,
 }: DescriptionProps) => {
   const gameDate = extractDate(Date);
-  const blues = PlayerStats.filter(x => x.Team == 0);
-  const oranges = PlayerStats.filter(x => x.Team == 1);
+  const blues = PlayerStats.filter((x) => x.Team == 0);
+  const oranges = PlayerStats.filter((x) => x.Team == 1);
 
   const blueSide = blues
-    .map(x => (
+    .map((x) => (
       <TeamPlayer ClassName="rlBlue" OnlineID={x.OnlineID} Name={x.Name} />
     ))
     .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])
     .slice(1)!;
 
   const orangeSide = oranges
-    .map(x => (
+    .map((x) => (
       <TeamPlayer ClassName="rlOrange" OnlineID={x.OnlineID} Name={x.Name} />
     ))
     .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])

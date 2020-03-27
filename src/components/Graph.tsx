@@ -79,8 +79,9 @@ const Graph = ({ scores, defaultMax, valFn, title }: GraphProps) => {
 
   const scoreLabels = pureScores.map((x, i) => (
     <g
-      transform={`translate(${3 + scale(x, 0, maxScore, 0, graphWidth)}, ${24 +
-        i * yPointHeight})`}
+      transform={`translate(${3 + scale(x, 0, maxScore, 0, graphWidth)}, ${
+        24 + i * yPointHeight
+      })`}
     >
       <text>{x}</text>
     </g>

@@ -5,10 +5,10 @@ type RLMod = typeof rl_mod;
 // The parser assumes that the wasm bundle has been fetched and compiled before
 // any of these functions are executed
 export class ReplayParser {
-    mod: RLMod;
-    constructor(mod: RLMod) {
-        this.mod = mod;
-    }
+  mod: RLMod;
+  constructor(mod: RLMod) {
+    this.mod = mod;
+  }
 
   _parse(data: Uint8Array, fn: (arg0: Uint8Array) => string) {
     const raw = fn(data);
@@ -16,7 +16,7 @@ export class ReplayParser {
 
     return {
       raw,
-      replay: response as Replay
+      replay: response as Replay,
     };
   }
 

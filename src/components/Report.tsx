@@ -25,31 +25,31 @@ export default class Report extends Component<ReportProps, {}> {
         <Graph
           title={"Player Scores"}
           defaultMax={1000}
-          valFn={x => x.Score}
+          valFn={(x) => x.Score}
           scores={stats}
         />
         <Graph
           title={"Player Goals"}
           defaultMax={4}
-          valFn={x => x.Goals}
+          valFn={(x) => x.Goals}
           scores={stats}
         />
         <Graph
           title={"Player Shots"}
           defaultMax={8}
-          valFn={x => x.Shots}
+          valFn={(x) => x.Shots}
           scores={stats}
         />
         <Graph
           title={"Player Saves"}
           defaultMax={4}
-          valFn={x => x.Saves}
+          valFn={(x) => x.Saves}
           scores={stats}
         />
         <Graph
           title={"Player Assists"}
           defaultMax={4}
-          valFn={x => x.Assists}
+          valFn={(x) => x.Assists}
           scores={stats}
         />
       </Fragment>

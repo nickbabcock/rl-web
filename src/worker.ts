@@ -9,12 +9,12 @@ interface LoadedReplay {
 let parser: ReplayParser | null = null;
 let loadedReplay: LoadedReplay | null = null;
 
-onmessage = async e => {
+onmessage = async (e) => {
   const [action, data] = e.data;
   try {
     switch (action) {
       case "LOAD":
-		const module = await import("../crate/pkg/rl_wasm");
+        const module = await import("../crate/pkg/rl_wasm");
         parser = new ReplayParser(module);
 
         // @ts-ignore
@@ -63,7 +63,7 @@ function parseReplay(loaded: LoadedReplay, pretty: boolean) {
   let res: ReplayFile = {
     ...replay,
     name: loaded.name,
-    parseMs: t1 - t0
+    parseMs: t1 - t0,
   };
 
   loadedReplay = loaded;
@@ -75,7 +75,7 @@ function parseReplay(loaded: LoadedReplay, pretty: boolean) {
 async function loadReplayFile(file: File, pretty: boolean) {
   let data = await new Response(file)
     .arrayBuffer()
-    .then(x => new Uint8Array(x));
+    .then((x) => new Uint8Array(x));
   parseReplay({ name: file.name, data }, pretty);
 }
 
