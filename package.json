@@ -6,7 +6,7 @@
     "test": "start-server-and-test 1313 'cypress run'",
     "unit": "jest",
     "start": "npm run build && hugo serve",
-    "build": "wasm-pack build --release crate && tsc && mkdir data && webpack --mode production && hugo"
+    "build": "wasm-pack build --release crate && tsc && mkdir -p data && webpack --mode production && hugo"
   },
   "author": "",
   "license": "MIT",
