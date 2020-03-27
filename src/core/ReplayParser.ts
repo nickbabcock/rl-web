@@ -1,5 +1,5 @@
 import { Replay, DecodedReplay } from "./Models";
-import * as rl_mod from "../../crate/pkg";
+import * as rl_mod from "../../crate/pkg/rl_wasm";
 type RLMod = typeof rl_mod;
 
 // The parser assumes that the wasm bundle has been fetched and compiled before

@@ -8,37 +8,19 @@
     "test": "start-server-and-test start http://localhost:1234 cy:run",
     "unit": "jest",
     "start": "./assets/build-wasm.sh && parcel src/index.html",
-    "build": "./assets/build-wasm.sh --release && parcel build src/index.html"
+    "build": "wasm-pack build --release crate && tsc && webpack --mode production && hugo"
   },
   "author": "",
   "license": "MIT",
   "jest": {
     "preset": "ts-jest"
   },
-  "postcss": {
-    "plugins": {
-      "postcss-import": {},
-      "postcss-preset-env": {
-        "stage": 0
-      }
-    }
-  },
-  "browserslist": [
-    "since 2018-01",
-    "not kaios <= 2.5",
-    "not android < 80"
-  ],
   "devDependencies": {
     "@types/jest": "^25.1.4",
     "cypress": "^4.2.0",
     "cypress-file-upload": "^4.0.4",
     "assets-webpack-plugin": "^3.9.12",
-    "clean-webpack-plugin": "^3.0.0",
     "jest": "^25.1.0",
-    "parcel-bundler": "^1.12.4",
-    "postcss-import": "^12.0.1",
-    "postcss-preset-env": "^6.7.0",
-    "start-server-and-test": "^1.10.11",
     "ts-jest": "^25.2.1",
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.3",

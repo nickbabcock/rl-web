@@ -3,8 +3,11 @@ FROM node
 # Install zopfli for a better gzip and sponge from moreutils
 RUN apt-get update && apt-get install -y moreutils zopfli && rm -rf /var/lib/apt/lists/*
 
+RUN curl -O -L https://github.com/gohugoio/hugo/releases/download/v0.68.3/hugo_extended_0.68.3_Linux-64bit.deb && \
+    dpkg -i hugo_extended_0.68.3_Linux-64bit.deb 
+
 # Install rust
-RUN set -eux; curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+RUN set -eux; curl https://sh.rustup.rs -sSf | sh -s -- --profile minimal -y && \
   . ~/.cargo/env && \
   curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s
 
@@ -25,13 +28,9 @@ COPY . .
 # modify the source as else parcel will derive the same hash when only the
 # /crate directory has been modified.
 RUN set -eux; . ~/.cargo/env && \
-  ./assets/build-wasm.sh && \
-  ./assets/asset-pipeline.sh rl_wasm_bg.wasm src/worker.ts && \
-  ./assets/asset-pipeline.sh sample.replay src/components/LoadSample.tsx && \
   npm run build && \
-  rm dist/rl_wasm_bg.wasm dist/sample.replay && \
-  zopfli dist/*.js dist/*.wasm dist/*.css dist/*.html dist/*.png
+  zopfli public/js/* public/*.css public/*.html public/*.png
 
 FROM nginx:stable-alpine
-COPY --from=0 /usr/src/rl-web/dist /usr/share/nginx/html
+COPY --from=0 /usr/src/rl-web/public /usr/share/nginx/html
 COPY assets/nginx.conf /etc/nginx/conf.d/default.conf

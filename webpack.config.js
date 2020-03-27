@@ -7,9 +7,11 @@ module.exports = {
   node: false,
   plugins: [
     new WorkerPlugin(),
-    new AssetsPlugin(),
+    new AssetsPlugin({filename: 'data/webpack.json'}),
   ],
   output: {
-    filename: "[name].[contenthash].js"
+    filename: "[name].[contenthash].js",
+    path: path.join(__dirname, "static", "js"),
+    publicPath: "/js/",
   }
 };
