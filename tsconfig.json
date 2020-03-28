@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
     "strict": true,
-    "module": "esNext",
-    "moduleResolution": "Node",
-    "target": "es2017",
-    "sourceMap": true,
-    "inlineSources": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es2018",
     "jsx": "react",
     "jsxFactory": "h",
-    "esModuleInterop": true,
     "outDir": "./dist/"
   },
   "include": ["src/**/*"]
