@@ -7,20 +7,22 @@ steps:
     displayName: Install rust
   - script: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
     displayName: Install wasm-pack
+  - script: |
+      curl -O -L https://github.com/gohugoio/hugo/releases/download/v0.68.3/hugo_extended_0.68.3_Linux-64bit.deb
+      sudo dpkg -i hugo_extended_0.68.3_Linux-64bit.deb 
+    displayName: Install hugo
   - script: npm ci
     displayName: Npm Install
-  - script: './assets/build-wasm.sh'
-    displayName: Build rust crate
+  - script: npm run build
+    displayName: Build app
   - script: 'wasm-pack test --node'
     workingDirectory: './crate'
     displayName: Test rust crate
-  - script: npm run type-check
-    displayName: Typescript check
   - script: npm run unit
     displayName: Unit Tests
   - script: npm test
     displayName: e2e tests
   - script: docker build .
     displayName: build docker image
-  - script: ./assets/wasm-size-check.sh
+  - script: ./dev/wasm-size-check.sh
     displayName: test wasm bundle size

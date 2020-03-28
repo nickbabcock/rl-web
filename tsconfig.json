@@ -3,10 +3,13 @@
     "strict": true,
     "module": "esNext",
     "moduleResolution": "Node",
-    "target": "es6",
+    "target": "es2017",
+    "sourceMap": true,
+    "inlineSources": true,
     "jsx": "react",
+    "jsxFactory": "h",
     "esModuleInterop": true,
-    "jsxFactory": "h"
+    "outDir": "./dist/"
   },
-  "exclude": ["crate/pkg/rl_wasm_bg.d.ts", "cypress/**/*"]
+  "include": ["src/**/*"]
 }

@@ -25,7 +25,7 @@ export default class CopyHeader extends Component<CopyHeaderProps, {}> {
         <button onClick={this.buttonClick}>Copy JSON data to Clipboard</button>
         <textarea
           className={clsName}
-          ref={textElm => (this.textElm = textElm)}
+          ref={(textElm) => (this.textElm = textElm)}
           value={header}
         />
       </span>

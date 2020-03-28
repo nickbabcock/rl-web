@@ -2,44 +2,29 @@
   "name": "rl-web",
   "version": "1.0.0",
   "description": "Rocket League Replay Analysis Online",
-  "main": "index.js",
   "scripts": {
-    "type-check": "npx tsc --noEmit",
-    "cy:run": "cypress run",
-    "test": "start-server-and-test start http://localhost:1234 cy:run",
+    "test": "start-server-and-test 1313 'cypress run'",
     "unit": "jest",
-    "start": "./assets/build-wasm.sh && parcel src/index.html",
-    "build": "./assets/build-wasm.sh --release && parcel build src/index.html"
+    "start": "npm run build && hugo serve",
+    "build": "wasm-pack build crate && tsc && mkdir -p data && webpack --mode production && hugo"
   },
   "author": "",
   "license": "MIT",
   "jest": {
     "preset": "ts-jest"
   },
-  "postcss": {
-    "plugins": {
-      "postcss-import": {},
-      "postcss-preset-env": {
-        "stage": 0
-      }
-    }
-  },
-  "browserslist": [
-    "since 2018-01",
-    "not kaios <= 2.5",
-    "not android < 80"
-  ],
   "devDependencies": {
     "@types/jest": "^25.1.4",
+    "assets-webpack-plugin": "^3.9.12",
     "cypress": "^4.2.0",
     "cypress-file-upload": "^4.0.4",
     "jest": "^25.1.0",
-    "parcel-bundler": "^1.12.4",
-    "postcss-import": "^12.0.1",
-    "postcss-preset-env": "^6.7.0",
     "start-server-and-test": "^1.10.11",
     "ts-jest": "^25.2.1",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "worker-plugin": "^4.0.2"
   },
   "dependencies": {
     "preact": "^10.3.4",

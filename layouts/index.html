@@ -5,11 +5,12 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-    <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
-    <link rel="shortcut icon" href="../assets/favicon.ico">
+    {{ $opts := (dict "outputStyle" "compressed" "includePaths" (slice "node_modules")) }}
+    {{ $style := resources.Get "styles.scss" | toCSS $opts | fingerprint }}
+    <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ (resources.Get "apple-touch-icon.png" | fingerprint).RelPermalink }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ (resources.Get "favicon-32x32.png" | fingerprint).RelPermalink }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ (resources.Get "favicon-16x16.png" | fingerprint).RelPermalink }}">
     <title>Rocket League Replay Parser</title>
   </head>
   <body>
@@ -35,6 +36,6 @@
       <div id="app"/>
     </main>
     <div id="drag-hover" class="hover hidden"/>
-    <script src="./index.tsx"></script>
+    <script type="text/javascript" src="{{ .Site.Data.webpack.main.js | relURL }}"></script>
   </body>
 </html>

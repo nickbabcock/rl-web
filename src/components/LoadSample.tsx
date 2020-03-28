@@ -3,7 +3,7 @@ import { publishFile } from "../injector";
 
 export default class LoadSample extends Component<{}, {}> {
   sampleClick = (event: Event) => {
-    publishFile("sample.replay");
+    publishFile("/sample.replay");
   };
 
   render() {

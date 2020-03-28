@@ -1,21 +1,21 @@
 import { ReplayParser } from "./core/ReplayParser";
 import { ReplayFile } from "./core/Models";
-import init from "../crate/pkg/rl_wasm";
 
 interface LoadedReplay {
   name: string;
   data: Uint8Array;
 }
 
-let parser: ReplayParser = new ReplayParser();
+let parser: ReplayParser | null = null;
 let loadedReplay: LoadedReplay | null = null;
 
-onmessage = async e => {
+onmessage = async (e) => {
   const [action, data] = e.data;
   try {
     switch (action) {
       case "LOAD":
-        await init("rl_wasm_bg.wasm");
+        const module = await import("../crate/pkg/rl_wasm");
+        parser = new ReplayParser(module);
 
         // @ts-ignore
         postMessage(["SUCCESS"]);
@@ -51,6 +51,10 @@ async function fetchReplayLoad(path: string, pretty: boolean) {
 }
 
 function parseReplay(loaded: LoadedReplay, pretty: boolean) {
+  if (!parser) {
+    throw Error("expected parser to be initialized before parsing");
+  }
+
   const t0 = performance.now();
   const fn = pretty ? parser.parse_pretty : parser.parse;
   let replay = fn(loaded.data);
@@ -59,7 +63,7 @@ function parseReplay(loaded: LoadedReplay, pretty: boolean) {
   let res: ReplayFile = {
     ...replay,
     name: loaded.name,
-    parseMs: t1 - t0
+    parseMs: t1 - t0,
   };
 
   loadedReplay = loaded;
@@ -71,12 +75,12 @@ function parseReplay(loaded: LoadedReplay, pretty: boolean) {
 async function loadReplayFile(file: File, pretty: boolean) {
   let data = await new Response(file)
     .arrayBuffer()
-    .then(x => new Uint8Array(x));
+    .then((x) => new Uint8Array(x));
   parseReplay({ name: file.name, data }, pretty);
 }
 
 function parseNetwork(pretty: boolean) {
-  if (loadedReplay) {
+  if (loadedReplay && parser) {
     const t0 = performance.now();
     const replay = pretty
       ? parser.parse_network_pretty(loadedReplay.data)

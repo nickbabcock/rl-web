@@ -23,27 +23,27 @@ export default class App extends Component<{}, AppState> {
     replayFile: undefined,
     prettyPrint: false,
     loading: false,
-    error: undefined
+    error: undefined,
   };
 
   // @ts-ignore
-  workerMessage = e => {
+  workerMessage = (e) => {
     const [action, data] = e.data;
     if (action === "SUCCESS") {
       this.setState({
         ...this.state,
-        wasmLoaded: true
+        wasmLoaded: true,
       });
     } else if (action === "PARSED") {
       this.setState({
         ...this.state,
         loading: false,
-        replayFile: data
+        replayFile: data,
       });
     } else if (action === "PARSED_NETWORK" && this.state.replayFile) {
       this.setState({ ...this.state, loading: false });
       const blob = new Blob([data], {
-        type: "application/json"
+        type: "application/json",
       });
 
       const fileName = `${this.state.replayFile.name}.json`;
@@ -69,18 +69,18 @@ export default class App extends Component<{}, AppState> {
   };
 
   componentDidMount() {
-    this.replayWorker = new Worker("../worker.ts");
+    this.replayWorker = new Worker("../worker.js", { type: "module" });
     this.replayWorker.postMessage(["LOAD"]);
 
     this.replayWorker.onmessage = this.workerMessage;
-    subscribeFile(data => {
+    subscribeFile((data) => {
       if (this.replayWorker) {
         this.replayWorker.postMessage([
           "NEW_FILE",
           {
             file: data,
-            pretty: this.state.prettyPrint
-          }
+            pretty: this.state.prettyPrint,
+          },
         ]);
 
         this.setState({ ...this.state, loading: true });
@@ -94,7 +94,7 @@ export default class App extends Component<{}, AppState> {
     if (this.replayWorker && this.state.replayFile) {
       this.replayWorker.postMessage([
         "PARSE_NETWORK",
-        { pretty: this.state.prettyPrint }
+        { pretty: this.state.prettyPrint },
       ]);
 
       this.setState({ ...this.state, loading: true });

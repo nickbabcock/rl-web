@@ -13,7 +13,7 @@ feature rich analysis of replays, see [calculated.gg](https://calculated.gg/)
 
 ## Screenshot
 
-![Screenshot of web page](assets/rl-web-screenshot.png?raw=true)
+![Screenshot of web page](dev/rl-web-screenshot.png?raw=true)
 
 ## Goals
 

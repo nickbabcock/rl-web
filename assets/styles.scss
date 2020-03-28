@@ -1,6 +1,6 @@
-@import url(sanitize.css);
-@import url(sanitize.css/typography.css);
-@import url(sanitize.css/forms.css);
+@import "sanitize.css/sanitize";
+@import "sanitize.css/typography";
+@import "sanitize.css/forms";
 
 :root {
   --rlBlue: #00179e;
