@@ -21,7 +21,6 @@
     "jest": "^25.1.0",
     "start-server-and-test": "^1.10.11",
     "ts-jest": "^25.2.1",
-    "ts-loader": "^6.2.1",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
