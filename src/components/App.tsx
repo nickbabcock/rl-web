@@ -6,6 +6,7 @@ import { ReplayFile } from "../core/Models";
 import ExportData from "./ExportData";
 import RlError from "./RlError";
 import { subscribeFile } from "../injector";
+import { WorkerRequest, WorkerResponse } from "../core/Messaging";
 
 interface AppState {
   wasmLoaded: boolean;
@@ -28,32 +29,39 @@ export default class App extends Component<{}, AppState> {
 
   // @ts-ignore
   workerMessage = (e) => {
-    const [action, data] = e.data;
-    if (action === "SUCCESS") {
-      this.setState({
-        ...this.state,
-        wasmLoaded: true,
-      });
-    } else if (action === "PARSED") {
-      this.setState({
-        ...this.state,
-        loading: false,
-        replayFile: data,
-      });
-    } else if (action === "PARSED_NETWORK" && this.state.replayFile) {
-      this.setState({ ...this.state, loading: false });
-      const blob = new Blob([data], {
-        type: "application/json",
-      });
+    const action = e.data as WorkerResponse;
+    switch (action.kind) {
+      case "SUCCESS":
+        this.setState({
+          ...this.state,
+          wasmLoaded: true,
+        });
+        break;
+      case "PARSED":
+        this.setState({
+          ...this.state,
+          loading: false,
+          replayFile: action.replay,
+        });
+        break;
+      case "PARSED_NETWORK":
+        if (this.state.replayFile) {
+          this.setState({ ...this.state, loading: false });
+          const blob = new Blob([action.buffer], {
+            type: "application/json",
+          });
 
-      const fileName = `${this.state.replayFile.name}.json`;
-      const link = this.downloadNetworkLink.current;
-      link.href = URL.createObjectURL(blob);
-      link.download = fileName;
-      link.click();
-      URL.revokeObjectURL(link.href);
-    } else if (action === "FAILED") {
-      this.setState({ ...this.state, error: data });
+          const fileName = `${this.state.replayFile.name}.json`;
+          const link = this.downloadNetworkLink.current;
+          link.href = URL.createObjectURL(blob);
+          link.download = fileName;
+          link.click();
+          URL.revokeObjectURL(link.href);
+        }
+        break;
+      case "FAILED":
+        this.setState({ ...this.state, error: action.msg });
+        break;
     }
   };
 
@@ -70,18 +78,16 @@ export default class App extends Component<{}, AppState> {
 
   componentDidMount() {
     this.replayWorker = new Worker("../worker.js", { type: "module" });
-    this.replayWorker.postMessage(["LOAD"]);
+    this.replayWorker.postMessage({ kind: "LOAD" } as WorkerRequest);
 
     this.replayWorker.onmessage = this.workerMessage;
     subscribeFile((data) => {
       if (this.replayWorker) {
-        this.replayWorker.postMessage([
-          "NEW_FILE",
-          {
-            file: data,
-            pretty: this.state.prettyPrint,
-          },
-        ]);
+        this.replayWorker.postMessage({
+          kind: "NEW_FILE",
+          file: data,
+          pretty: this.state.prettyPrint,
+        } as WorkerRequest);
 
         this.setState({ ...this.state, loading: true });
       }
@@ -92,10 +98,10 @@ export default class App extends Component<{}, AppState> {
 
   downloadNetwork = () => {
     if (this.replayWorker && this.state.replayFile) {
-      this.replayWorker.postMessage([
-        "PARSE_NETWORK",
-        { pretty: this.state.prettyPrint },
-      ]);
+      this.replayWorker.postMessage({
+        kind: "PARSE_NETWORK",
+        pretty: this.state.prettyPrint,
+      } as WorkerRequest);
 
       this.setState({ ...this.state, loading: true });
     }
@@ -108,7 +114,10 @@ export default class App extends Component<{}, AppState> {
     let valueChanged = value != this.state.prettyPrint;
     if (valueChanged) {
       if (this.state.replayFile && this.replayWorker) {
-        this.replayWorker.postMessage(["PRETTY_PRINT", { pretty: value }]);
+        this.replayWorker.postMessage({
+          kind: "PRETTY_PRINT",
+          pretty: value,
+        } as WorkerRequest);
         this.setState({ ...this.state, loading: true, prettyPrint: value });
       } else {
         this.setState({ ...this.state, prettyPrint: value });

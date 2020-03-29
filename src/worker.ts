@@ -1,5 +1,6 @@
 import { ReplayParser } from "./core/ReplayParser";
 import { ReplayFile } from "./core/Models";
+import { WorkerRequest, WorkerResponse } from "./core/Messaging";
 
 interface LoadedReplay {
   name: string;
@@ -10,37 +11,37 @@ let parser: ReplayParser | null = null;
 let loadedReplay: LoadedReplay | null = null;
 
 onmessage = async (e) => {
-  const [action, data] = e.data;
+  const action = e.data as WorkerRequest;
   try {
-    switch (action) {
+    switch (action.kind) {
       case "LOAD":
         const module = await import("../crate/pkg/rl_wasm");
         parser = new ReplayParser(module);
 
         // @ts-ignore
-        postMessage(["SUCCESS"]);
+        postMessage({ kind: "SUCCESS" } as WorkerResponse);
         break;
       case "PRETTY_PRINT":
         if (loadedReplay) {
-          parseReplay(loadedReplay, data.pretty);
+          parseReplay(loadedReplay, action.pretty);
         }
         break;
       case "NEW_FILE":
-        if (data.file instanceof File) {
-          await loadReplayFile(data.file, data.pretty);
-        } else if (typeof data.file === "string") {
-          await fetchReplayLoad(data.file, data.pretty);
+        if (action.file instanceof File) {
+          await loadReplayFile(action.file, action.pretty);
+        } else {
+          await fetchReplayLoad(action.file, action.pretty);
         }
         break;
       case "PARSE_NETWORK":
-        parseNetwork(data.pretty);
+        parseNetwork(action.pretty);
         break;
     }
   } catch (err) {
     const msg = err instanceof Error ? err.message : err;
 
     // @ts-ignore
-    postMessage(["FAILED", msg]);
+    postMessage({ kind: "FAILED", msg: msg } as WorkerResponse);
   }
 };
 
@@ -69,7 +70,7 @@ function parseReplay(loaded: LoadedReplay, pretty: boolean) {
   loadedReplay = loaded;
 
   // @ts-ignore
-  postMessage(["PARSED", res]);
+  postMessage({ kind: "PARSED", replay: res } as WorkerResponse);
 }
 
 async function loadReplayFile(file: File, pretty: boolean) {
@@ -88,7 +89,10 @@ function parseNetwork(pretty: boolean) {
     const t1 = performance.now();
     console.log(`${t1 - t0}ms`);
 
-    // @ts-ignore
-    postMessage(["PARSED_NETWORK", replay.buffer], [replay.buffer]);
+    postMessage(
+      { kind: "PARSED_NETWORK", buffer: replay.buffer } as WorkerResponse,
+      // @ts-ignore
+      [replay.buffer]
+    );
   }
 }
