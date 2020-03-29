@@ -38,7 +38,7 @@ interface Parsed {
 
 interface ParsedNetwork {
   kind: "PARSED_NETWORK";
-  buffer: Uint8Array;
+  buffer: ArrayBuffer;
 }
 
 export type WorkerResponse = Success | Failed | Parsed | ParsedNetwork;

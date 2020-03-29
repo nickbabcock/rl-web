@@ -27,10 +27,8 @@ export default class App extends Component<{}, AppState> {
     error: undefined,
   };
 
-  // @ts-ignore
-  workerMessage = (e) => {
-    const action = e.data as WorkerResponse;
-    switch (action.kind) {
+  workerMessage = ({ data }: { data: WorkerResponse }) => {
+    switch (data.kind) {
       case "SUCCESS":
         this.setState({
           ...this.state,
@@ -41,13 +39,13 @@ export default class App extends Component<{}, AppState> {
         this.setState({
           ...this.state,
           loading: false,
-          replayFile: action.replay,
+          replayFile: data.replay,
         });
         break;
       case "PARSED_NETWORK":
         if (this.state.replayFile) {
           this.setState({ ...this.state, loading: false });
-          const blob = new Blob([action.buffer], {
+          const blob = new Blob([data.buffer], {
             type: "application/json",
           });
 
@@ -60,7 +58,7 @@ export default class App extends Component<{}, AppState> {
         }
         break;
       case "FAILED":
-        this.setState({ ...this.state, error: action.msg });
+        this.setState({ ...this.state, error: data.msg });
         break;
     }
   };
