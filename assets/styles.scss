@@ -78,6 +78,7 @@ input[type="file"] {
   border-color: #50adff;
   border-style: solid;
   border-width: 10px;
+  pointer-events: none;
 }
 
 .downloadContainer {
