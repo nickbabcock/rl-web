@@ -1,7 +1,7 @@
-FROM node
+FROM node:lts
 
 # Install zopfli for a better gzip and sponge from moreutils
-RUN apt-get update && apt-get install -y moreutils zopfli && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install --no-install-recommends -y moreutils zopfli && rm -rf /var/lib/apt/lists/*
 
 RUN curl -O -L https://github.com/gohugoio/hugo/releases/download/v0.68.3/hugo_extended_0.68.3_Linux-64bit.deb && \
     dpkg -i hugo_extended_0.68.3_Linux-64bit.deb 
