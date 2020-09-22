@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.7",
-    "assets-webpack-plugin": "^5.1.1",
+    "assets-webpack-plugin": "^5.1.2",
     "cypress": "^5.2.0",
     "cypress-file-upload": "^4.1.1",
     "jest": "^25.5.4",
