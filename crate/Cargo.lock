@@ -7,7 +7,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "boxcars"
-version = "0.8.3"
+version = "0.8.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "bitter 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -206,7 +206,7 @@ dependencies = [
 name = "rl-wasm"
 version = "0.1.0"
 dependencies = [
- "boxcars 0.8.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "boxcars 0.8.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.57 (registry+https://github.com/rust-lang/crates.io-index)",
  "wasm-bindgen 0.2.65 (registry+https://github.com/rust-lang/crates.io-index)",
  "wasm-bindgen-test 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -368,7 +368,7 @@ dependencies = [
 
 [metadata]
 "checksum bitter 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f5eda7961e9ec30693e08246d7d34aced60a5b885dc077cc39bae04580914fb3"
-"checksum boxcars 0.8.3 (registry+https://github.com/rust-lang/crates.io-index)" = "f14f8cbd490de92ae9f83a31079e5fc3169590ff2bad77a17d84be4034f3fd94"
+"checksum boxcars 0.8.5 (registry+https://github.com/rust-lang/crates.io-index)" = "3d53eb2078089da37117023205d292bc0880e4412ae4faa896be54bea3996e1e"
 "checksum bumpalo 3.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "2e8c087f005730276d1096a652e92a8bacee2e2472bcc9715a74d2bec38b5820"
 "checksum cfg-if 0.1.10 (registry+https://github.com/rust-lang/crates.io-index)" = "4785bdd1c96b2a846b2bd7cc02e86b6b3dbf14e7e53446c4f54c92a361040822"
 "checksum console_error_panic_hook 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)" = "b8d976903543e0c48546a91908f21588a680a8c8f984df9a5d69feccb2b2a211"
