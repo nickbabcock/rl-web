@@ -18,3 +18,7 @@ wasm-bindgen-test = "0.3"
 [profile.release]
 lto = true
 opt-level = 'z'
+
+# https://github.com/rustwasm/wasm-pack/issues/886#issuecomment-667669802
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-Oz", "--enable-mutable-globals"]
