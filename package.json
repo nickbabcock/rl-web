@@ -14,20 +14,20 @@
     "preset": "ts-jest"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.7",
-    "assets-webpack-plugin": "^5.1.1",
-    "cypress": "^5.2.0",
+    "@types/jest": "^26.0.14",
+    "assets-webpack-plugin": "^5.1.2",
+    "cypress": "^5.3.0",
     "cypress-file-upload": "^4.1.1",
-    "jest": "^25.5.4",
-    "start-server-and-test": "^1.11.3",
-    "ts-jest": "^25.5.1",
-    "typescript": "^3.9.7",
-    "webpack": "^4.44.1",
+    "jest": "^26.5.0",
+    "start-server-and-test": "^1.11.5",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "worker-plugin": "^5.0.0"
   },
   "dependencies": {
-    "preact": "^10.4.8",
+    "preact": "^10.5.4",
     "sanitize.css": "^12.0.1"
   }
 }
