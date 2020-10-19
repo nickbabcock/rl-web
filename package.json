@@ -27,7 +27,7 @@
     "worker-plugin": "^5.0.0"
   },
   "dependencies": {
-    "preact": "^10.5.4",
+    "preact": "^10.5.5",
     "sanitize.css": "^12.0.1"
   }
 }
