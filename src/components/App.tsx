@@ -75,7 +75,7 @@ export default class App extends Component<{}, AppState> {
   };
 
   componentDidMount() {
-    this.replayWorker = new Worker("../worker.js", { type: "module" });
+    this.replayWorker = new Worker(new URL("../worker.js", import.meta.url));
     this.replayWorker.postMessage({ kind: "LOAD" } as WorkerRequest);
 
     this.replayWorker.onmessage = this.workerMessage;

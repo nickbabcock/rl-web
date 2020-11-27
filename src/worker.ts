@@ -1,6 +1,7 @@
 import { ReplayParser } from "./core/ReplayParser";
 import { ReplayFile } from "./core/Models";
 import { WorkerRequest, WorkerResponse } from "./core/Messaging";
+import init, * as wasmMod from "../crate/pkg/rl_wasm";
 
 interface LoadedReplay {
   name: string;
@@ -14,8 +15,9 @@ onmessage = async ({ data }: { data: WorkerRequest }) => {
   try {
     switch (data.kind) {
       case "LOAD":
-        const module = await import("../crate/pkg/rl_wasm");
-        parser = new ReplayParser(module);
+        const wasmPath = require("../crate/pkg/rl_wasm_bg.wasm").default as string;
+        await init(wasmPath);
+        parser = new ReplayParser(wasmMod);
         sendMessage({ kind: "SUCCESS" });
         break;
       case "PRETTY_PRINT":
