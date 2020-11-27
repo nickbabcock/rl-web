@@ -6,7 +6,7 @@
     "test": "start-server-and-test 1313 'cypress run'",
     "unit": "jest",
     "start": "./dev/start.sh",
-    "build": "wasm-pack build crate && tsc && mkdir -p data && webpack --mode production && hugo"
+    "build": "wasm-pack build -t web crate && tsc && mkdir -p data && webpack --mode production && hugo"
   },
   "author": "",
   "license": "MIT",
@@ -18,13 +18,13 @@
     "assets-webpack-plugin": "^6.0.4",
     "cypress": "^5.6.0",
     "cypress-file-upload": "^4.1.1",
+    "file-loader": "^6.2.0",
     "jest": "^26.6.3",
     "start-server-and-test": "^1.11.5",
     "ts-jest": "^26.4.4",
     "typescript": "^4.0.5",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^4.2.0",
-    "worker-plugin": "^5.0.0"
+    "webpack": "^5.8.0",
+    "webpack-cli": "^4.2.0"
   },
   "dependencies": {
     "preact": "^10.5.7",
