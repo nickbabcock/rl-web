@@ -1,0 +1,79 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: webpack
+    versions:
+    - 5.18.0
+    - 5.19.0
+    - 5.20.0
+    - 5.20.1
+    - 5.20.2
+    - 5.21.1
+    - 5.23.0
+    - 5.24.4
+    - 5.25.0
+    - 5.25.1
+    - 5.26.0
+    - 5.26.2
+    - 5.27.1
+    - 5.27.2
+    - 5.28.0
+    - 5.30.0
+    - 5.31.0
+    - 5.31.2
+    - 5.32.0
+    - 5.33.2
+    - 5.34.0
+    - 5.35.0
+    - 5.35.1
+  - dependency-name: cypress
+    versions:
+    - 6.3.0
+    - 6.4.0
+    - 7.0.0
+    - 7.0.1
+  - dependency-name: cypress-file-upload
+    versions:
+    - 5.0.4
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+    - 4.0.2
+  - dependency-name: typescript
+    versions:
+    - 4.1.4
+  - dependency-name: start-server-and-test
+    versions:
+    - 1.12.0
+  - dependency-name: ts-jest
+    versions:
+    - 26.5.0
+  - dependency-name: webpack-cli
+    versions:
+    - 4.4.0
+    - 4.5.0
+  - dependency-name: preact
+    versions:
+    - 10.5.12
+- package-ecosystem: cargo
+  directory: "/crate"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: wasm-bindgen
+    versions:
+    - 0.2.70
+    - 0.2.71
+    - 0.2.72
+  - dependency-name: serde_json
+    versions:
+    - 1.0.63
+  - dependency-name: wasm-bindgen-test
+    versions:
+    - 0.3.20
