@@ -27,7 +27,7 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "preact": "^10.5.13",
+    "preact": "^10.5.14",
     "sanitize.css": "^12.0.1"
   }
 }
