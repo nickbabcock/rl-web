@@ -1,6 +1,6 @@
 # Rocket League Replay Parser (rl-web)
 
-[![Build Status](https://dev.azure.com/nbabcock19/nbabcock19/_apis/build/status/nickbabcock.rl-web?branchName=master)](https://dev.azure.com/nbabcock19/nbabcock19/_build/latest?definitionId=4&branchName=master)
+[![CI](https://github.com/nickbabcock/rl-web/actions/workflows/ci.yml/badge.svg)](https://github.com/nickbabcock/rl-web/actions/workflows/ci.yml)
 
 The Rocket League Replay Parser (rl-web) allows one to select a local [Rocket
 League](https://www.rocketleague.com/) replay and view statistics all from the
