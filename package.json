@@ -14,7 +14,7 @@
     "preset": "ts-jest"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^27.0.2",
     "assets-webpack-plugin": "^7.1.1",
     "cypress": "^8.3.1",
     "cypress-file-upload": "^5.0.8",
