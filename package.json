@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "preact": "^10.6.4",
-    "sanitize.css": "^12.0.1"
+    "sanitize.css": "^13.0.0"
   }
 }
