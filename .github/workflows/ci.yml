@@ -15,10 +15,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install wasm-pack
       run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-    - name: Install hugo
-      run: |
-        curl -O -L https://github.com/gohugoio/hugo/releases/download/v0.83.1/hugo_extended_0.83.1_Linux-64bit.deb
-        sudo dpkg -i hugo_extended_0.83.1_Linux-64bit.deb 
+    - run: npx playwright install-deps
     - name: Npm Install
       run: npm ci
     - name: Build app
@@ -26,12 +23,6 @@ jobs:
     - name: Test rust crate
       run: 'wasm-pack test --node'
       working-directory: './crate'
-    - name: Unit Tests
-      run: npm run unit
-    - name: e2e tests
+    - name: Run Tests
       run: npm test
-    - name: build docker image
-      run: docker build .
-    - name: test wasm bundle size
-      run: ./dev/wasm-size-check.sh
       
