@@ -25,4 +25,4 @@ jobs:
       working-directory: './crate'
     - name: Run Tests
       run: npm test
-      
+    - run: npm run lint
