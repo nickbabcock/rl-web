@@ -1,1 +1,0 @@
-disableKinds = ["taxonomy", "taxonomyTerm", "RSS", "sitemap"]

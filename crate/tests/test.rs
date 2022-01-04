@@ -4,40 +4,24 @@ use wasm_bindgen_test::*;
 const REPLAY: &'static [u8] = include_bytes!("../../dev/sample.replay");
 
 #[wasm_bindgen_test]
-fn test_parse_header() {
-    let res = parse_replay_header(&REPLAY[..]).unwrap();
-    assert!(res.contains(r#""header_size":6402,"#));
+fn test_parse() {
+    let replay = parse(&REPLAY[..]).unwrap();
+    assert!(replay.network_err().is_none());
+    assert!(replay.header_json(false).contains(r#""header_size":6402,"#));
+    assert!(replay.header_json(true).contains(r#""header_size": 6402,"#));
+
+    assert!(String::from_utf8(replay.full_json(false))
+        .unwrap()
+        .contains(r#""linear_velocity":{"#));
+    assert!(String::from_utf8(replay.full_json(true))
+        .unwrap()
+        .contains(r#""linear_velocity": {"#));
 }
 
 #[wasm_bindgen_test]
-fn test_parse_header_pretty() {
-    let res = parse_replay_header_pretty(&REPLAY[..]).unwrap();
-    assert!(res.contains(r#""header_size": 6402,"#));
-}
-
-#[wasm_bindgen_test]
-fn test_parse_header_bad() {
-    let err = parse_replay_header(b"lakjsdlasjdfal;")
-        .unwrap_err()
-        .as_string()
-        .unwrap();
+fn test_parse_garbage() {
+    let err = parse(b"lakjsdlasjdfal;").unwrap_err().as_string().unwrap();
     assert!(err.contains("Could not decode replay header data"));
-}
-
-#[wasm_bindgen_test]
-fn test_parse_network() {
-    let res = parse_replay_network(&REPLAY[..])
-        .map(|x| String::from_utf8(x).unwrap())
-        .unwrap();
-    assert!(res.contains(r#""linear_velocity":{"#));
-}
-
-#[wasm_bindgen_test]
-fn test_parse_network_pretty() {
-    let res = parse_replay_network_pretty(&REPLAY[..])
-        .map(|x| String::from_utf8(x).unwrap())
-        .unwrap();
-    assert!(res.contains(r#""linear_velocity": {"#));
 }
 
 #[wasm_bindgen_test]
@@ -47,6 +31,9 @@ fn test_parse_network_bad() {
         v[i] = 10;
     }
 
-    let err = parse_replay_network(&v).unwrap_err().as_string().unwrap();
+    let replay = parse(&v).unwrap();
+    let err = replay.network_err().unwrap();
     assert!(err.contains("Error decoding frame: attribute unknown or not implemented"));
+    assert!(replay.header_json(false).contains(r#""header_size":6402,"#));
+    assert!(replay.header_json(true).contains(r#""header_size": 6402,"#));
 }
