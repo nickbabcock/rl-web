@@ -67,7 +67,11 @@ type ContextState = {
 
 const ReplayContext = React.createContext<ContextState | undefined>(undefined);
 
-export const ReplayProvider: React.FC<{}> = ({ children }) => {
+interface ReplayProviderProps {
+  children: React.ReactNode;
+}
+
+export const ReplayProvider = ({ children }: ReplayProviderProps) => {
   const [state, dispatch] = React.useReducer(replayReducer, {
     replay: undefined,
     isWorking: false,

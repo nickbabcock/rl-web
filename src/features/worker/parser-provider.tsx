@@ -15,7 +15,13 @@ const ReplayParserContext = React.createContext<ContextState | undefined>(
   undefined
 );
 
-export const ReplayParserProvider: React.FC<{}> = ({ children }) => {
+interface ReplayParserProviderProps {
+  children: React.ReactNode;
+}
+
+export const ReplayParserProvider = ({
+  children,
+}: ReplayParserProviderProps) => {
   const workerRef = React.useRef<ReplayParserState>();
 
   useEffect(() => {

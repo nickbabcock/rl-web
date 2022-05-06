@@ -3,7 +3,11 @@ import apple from "./apple-touch-icon.png";
 import favicon16 from "./favicon-16x16.png";
 import favicon32 from "./favicon-32x32.png";
 
-export const RlHead: React.FC<{}> = ({ children }) => {
+interface RlHeadProps {
+  children?: React.ReactNode;
+}
+
+export const RlHead = ({ children }: RlHeadProps) => {
   return (
     <Head>
       <title>Rocket League Replay Parser</title>
