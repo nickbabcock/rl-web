@@ -20,12 +20,7 @@ const scale = (
   return ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
 };
 
-export const Graph: React.FC<GraphProps> = ({
-  scores,
-  defaultMax,
-  valFn,
-  title,
-}) => {
+export const Graph = ({ scores, defaultMax, valFn, title }: GraphProps) => {
   const yPointHeight = 40;
 
   // width and height of svg

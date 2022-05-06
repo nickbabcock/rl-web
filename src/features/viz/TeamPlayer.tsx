@@ -4,11 +4,7 @@ interface TeamPlayerProps {
   name: string;
 }
 
-export const TeamPlayer: React.FC<TeamPlayerProps> = ({
-  color,
-  onlineId,
-  name,
-}) => {
+export const TeamPlayer = ({ color, onlineId, name }: TeamPlayerProps) => {
   if (onlineId && onlineId !== "0") {
     return (
       <span className="font-bold">

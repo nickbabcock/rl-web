@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDocumentFileDrop } from "./useDocumentFileDrop";
 
-export const DropOverlay: React.FC<{}> = () => {
+export const DropOverlay = () => {
   const [hover, setHover] = useState(false);
   useDocumentFileDrop({ setFileHover: setHover });
 

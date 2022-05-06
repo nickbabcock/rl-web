@@ -4,7 +4,7 @@ import { ReplayInput } from "./ReplayInput";
 import { Report } from "@/features/viz";
 import { WarningBox } from "@/components/WarningBox";
 
-export const Replay: React.FC<{}> = () => {
+export const Replay = () => {
   const { replay, networkErr, criticalErr } = useReplayData();
   return (
     <div className="flex-col gap">

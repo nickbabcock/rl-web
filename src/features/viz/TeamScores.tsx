@@ -3,10 +3,7 @@ interface TeamScoresProps {
   team1score?: number;
 }
 
-export const TeamScores: React.FC<TeamScoresProps> = ({
-  team0score,
-  team1score,
-}) => (
+export const TeamScores = ({ team0score, team1score }: TeamScoresProps) => (
   <div className="flex-col place-items-center my-4">
     <div className="text-2xl">Team Score:</div>
     <div className="text-7xl">

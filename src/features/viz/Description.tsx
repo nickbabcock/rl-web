@@ -8,11 +8,11 @@ interface DescriptionProps {
   game_type: string;
 }
 
-export const Description: React.FC<DescriptionProps> = ({
+export const Description = ({
   PlayerStats,
   Date,
   game_type,
-}) => {
+}: DescriptionProps) => {
   const gameDate = extractDate(Date);
   const blues = PlayerStats.filter((x) => x.Team == 0);
   const oranges = PlayerStats.filter((x) => x.Team == 1);

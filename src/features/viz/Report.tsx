@@ -9,7 +9,7 @@ interface ReportProps {
   stats: PlayerStat[];
 }
 
-export const Report: React.FC<ReportProps> = ({ replay, stats }) => {
+export const Report = ({ replay, stats }: ReportProps) => {
   return (
     <>
       <TeamScores

@@ -2,7 +2,7 @@ interface WarningBoxProps {
   message: string;
 }
 
-export const WarningBox: React.FC<WarningBoxProps> = ({ message }) => {
+export const WarningBox = ({ message }: WarningBoxProps) => {
   return (
     <div>
       {message}

@@ -5,7 +5,7 @@ import { useReplay, useReplayData } from "@/features/replay";
 import { logError } from "@/utils/logError";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
-export const DownloadReplayJson: React.FC<{}> = () => {
+export const DownloadReplayJson = () => {
   const worker = useReplayParser();
   const { isWorking } = useReplayData();
   const { dispatch } = useReplay();

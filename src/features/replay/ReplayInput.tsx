@@ -12,7 +12,7 @@ export function keyboardTrigger(fn: () => void) {
   };
 }
 
-export const ReplayInput: React.FC<{}> = () => {
+export const ReplayInput = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const publishFile = useFilePublisher();
   const { isWorking } = useReplayData();
