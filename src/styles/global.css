@@ -23,7 +23,7 @@ html {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --rl-blue: #0075BF;
+    --rl-blue: #0075bf;
     --background-clr: hsl(0, 0%, 7%);
     --foreground-clr: hsl(0, 0%, 100%);
   }
@@ -94,14 +94,14 @@ button[disabled],
 .btn[disabled] {
   border: none;
   background-image: none;
-  opacity: 0.40;
+  opacity: 0.4;
   cursor: not-allowed;
   box-shadow: none;
 }
 
 input[type="checkbox"]:focus {
-  outline: thin solid #129FEA;
-  outline: 1px auto #129FEA;
+  outline: thin solid #129fea;
+  outline: 1px auto #129fea;
 }
 
 /* open props */

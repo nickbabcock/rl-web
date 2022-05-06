@@ -59,7 +59,6 @@ export const Graph: React.FC<GraphProps> = ({
   const lines = Array.from({ length: lineCount }, (x, i) => (
     <Fragment key={`line ${i}`}>
       <line
-        
         y1="0"
         y2={scores.length * yPointHeight}
         x1={i * tickWidth}

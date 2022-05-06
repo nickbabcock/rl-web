@@ -16,7 +16,7 @@ export const Report: React.FC<ReportProps> = ({ replay, stats }) => {
         team0score={replay.properties.Team0Score}
         team1score={replay.properties.Team1Score}
       />
-      <DownloadReplayJson/>
+      <DownloadReplayJson />
       <Description
         game_type={replay.game_type}
         PlayerStats={stats}
