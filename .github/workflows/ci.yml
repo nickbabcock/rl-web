@@ -15,9 +15,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install wasm-pack
       run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-    - run: npx playwright install-deps
     - name: Npm Install
       run: npm ci
+    - run: npx playwright install --with-deps
     - name: Build app
       run: npm run build
     - name: Test rust crate
