@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
+  eslint: {
+    dirs: ["./src", "./tests"],
+  },
   webpack: (config) => {
     config.experiments.asyncWebAssembly = true;
     config.output.assetModuleFilename = `static/[hash][ext]`;

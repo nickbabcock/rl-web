@@ -10,6 +10,7 @@ export const TeamPlayer = ({ color, onlineId, name }: TeamPlayerProps) => {
       <span className="font-bold">
         <a
           target="_blank"
+          rel="noreferrer"
           className={color}
           href={`https://calculated.gg/players/${onlineId}/overview`}
         >
