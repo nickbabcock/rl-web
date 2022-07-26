@@ -18,6 +18,7 @@ export const RlHead = ({ children }: RlHeadProps) => {
       <link rel="apple-touch-icon" sizes="180x180" href={apple.src} />
       <link rel="icon" type="image/png" sizes="32x32" href={favicon32.src} />
       <link rel="icon" type="image/png" sizes="16x16" href={favicon16.src} />
+      <meta name="color-scheme" content="dark light" />
       {children}
     </Head>
   );

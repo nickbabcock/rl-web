@@ -7,9 +7,12 @@ import { WarningBox } from "@/components/WarningBox";
 export const Replay = () => {
   const { replay, networkErr, criticalErr } = useReplayData();
   return (
-    <div className="flex-col gap">
+    <div className="m-4 flex flex-col gap-2">
       <DropOverlay />
       <ReplayInput />
+      <div className="max-w-prose mx-auto">
+        <p>Drag and drop enabled</p>
+      </div>
       {criticalErr ? (
         <WarningBox message={`Critical error: ${criticalErr}`} />
       ) : null}

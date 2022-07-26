@@ -4,16 +4,11 @@ interface WarningBoxProps {
 
 export const WarningBox = ({ message }: WarningBoxProps) => {
   return (
-    <div>
-      {message}
-      <style jsx>{`
-        div {
-          background-color: var(--red-4);
-          outline: 3px var(--red-6) solid;
-          padding: 0.5rem 1rem;
-          color: black;
-        }
-      `}</style>
+    <div
+      className="max-w-prose mx-auto p-4 border-l-4 text-amber-700 bg-amber-50 border-amber-700"
+      role="alert"
+    >
+      <h3 className="text-sm font-medium">{message}</h3>
     </div>
   );
 };

@@ -43,11 +43,16 @@ export const DownloadReplayJson = () => {
 
   return (
     <div className="grid place-items-center">
-      <button disabled={isWorking} onClick={onClick}>
+      <button
+        className="btn dark:text-slate-700 bg-gray-50 active:bg-gray-200 border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 focus-visible:outline-blue-600 disabled:opacity-40 disabled:hover:border-blue-300 disabled:hover:bg-transparent"
+        disabled={isWorking}
+        onClick={onClick}
+      >
         Convert Replay to JSON
       </button>
       <label>
         <input
+          className="rounded mr-1 focus:outline focus:outline-2 focus:outline-blue-600"
           type="checkbox"
           checked={prettyPrint}
           onChange={(e) => togglePretty(e.target.checked)}
@@ -55,11 +60,6 @@ export const DownloadReplayJson = () => {
         />
         Pretty print
       </label>
-      <style jsx>{`
-        input {
-          margin-inline-end: 0.3rem;
-        }
-      `}</style>
     </div>
   );
 };

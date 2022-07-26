@@ -1,5 +1,6 @@
 import { PlayerStat } from "@/features/worker";
 import { Fragment } from "react";
+import classes from "./Graph.module.css";
 
 // d3-scales alone add 110kb to the minified, productionized output
 
@@ -58,12 +59,8 @@ export const Graph = ({ scores, defaultMax, valFn, title }: GraphProps) => {
         y2={scores.length * yPointHeight}
         x1={i * tickWidth}
         x2={i * tickWidth}
+        className="stroke-zinc-600/60 dark:stroke-zinc-200"
       />
-      <style jsx>{`
-        line {
-          stroke: #d2d6df;
-        }
-      `}</style>
     </Fragment>
   ));
 
@@ -84,7 +81,7 @@ export const Graph = ({ scores, defaultMax, valFn, title }: GraphProps) => {
       x="0"
       y={i * yPointHeight}
       width={scale(valFn(x), 0, maxScore, 0, graphWidth)}
-      fill={x.Team === 0 ? "var(--rl-blue)" : "var(--rl-orange)"}
+      className={x.Team === 0 ? "blue-team" : "orange-team"}
     />
   ));
 
@@ -107,9 +104,18 @@ export const Graph = ({ scores, defaultMax, valFn, title }: GraphProps) => {
 
   return (
     <div>
-      <h2>{title}</h2>
-      <svg height={totalHeightPx} width={totalWidthPx}>
-        <g transform={`translate(${nameWidthPx}, 20)`}>
+      <h2
+        className="text-xl font-bold"
+        style={{ marginLeft: nameWidthPx + 24 }}
+      >
+        {title}
+      </h2>
+      <svg
+        height={totalHeightPx}
+        width={totalWidthPx}
+        className={classes["graph"]}
+      >
+        <g transform={`translate(${nameWidthPx}, 10)`}>
           <g transform="translate(0, 20)" textAnchor="end">
             {names}
           </g>
@@ -126,11 +132,6 @@ export const Graph = ({ scores, defaultMax, valFn, title }: GraphProps) => {
           </g>
         </g>
       </svg>
-      <style jsx>{`
-        svg :global(text) {
-          fill: #666a73;
-        }
-      `}</style>
     </div>
   );
 };

@@ -1,0 +1,3 @@
+.graph text {
+  @apply fill-slate-700 dark:fill-slate-100;
+}

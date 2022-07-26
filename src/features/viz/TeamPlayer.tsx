@@ -11,7 +11,7 @@ export const TeamPlayer = ({ color, onlineId, name }: TeamPlayerProps) => {
         <a
           target="_blank"
           rel="noreferrer"
-          className={color}
+          className={`${color}-team`}
           href={`https://calculated.gg/players/${onlineId}/overview`}
         >
           {name}
@@ -19,6 +19,6 @@ export const TeamPlayer = ({ color, onlineId, name }: TeamPlayerProps) => {
       </span>
     );
   } else {
-    return <span className={color}>{name}</span>;
+    return <span className={`${color}-team`}>{name}</span>;
   }
 };

@@ -33,50 +33,31 @@ export const ReplayInput = () => {
     publishFile(sampleReplay);
   };
 
-  const labelClazz = `btn${isWorking ? " disabled" : ""}`;
   return (
-    <div className="grid gap">
-      <div>
-        Drag and drop a replay file onto this page or{" "}
-        <label
-          className={labelClazz}
-          tabIndex={isWorking ? -1 : 0}
-          onKeyUp={keyboardTrigger(labelFocus)}
-        >
-          select file
-          <input
-            ref={fileInputRef}
-            type="file"
-            disabled={isWorking}
-            hidden
-            onChange={handleChange}
-            accept=".replay"
-          />
-        </label>
-      </div>
-      <button onClick={loadSample}>Load sample replay</button>
-
-      <style jsx>{`
-        label {
-          background-color: rgb(0, 120, 231);
-          vertical-align: baseline;
-          color: #fff;
-        }
-
-        .disabled {
-          filter: saturate(20%);
-        }
-
-        @media (min-width: 768px) {
-          .grid {
-            grid-template-columns: max-content auto;
-          }
-        }
-
-        button {
-          margin-inline-end: auto;
-        }
-      `}</style>
+    <div className="flex gap-4 mx-auto">
+      <label
+        className={`btn ${
+          isWorking ? " saturate-50 " : ""
+        } bg-blue-600 text-white hover:bg-blue-500 focus-visible:outline-blue-600 active:bg-blue-700 active:text-white/80 disabled:opacity-30 disabled:hover:bg-blue-600`}
+        tabIndex={isWorking ? -1 : 0}
+        onKeyUp={keyboardTrigger(labelFocus)}
+      >
+        Select file
+        <input
+          ref={fileInputRef}
+          type="file"
+          disabled={isWorking}
+          hidden
+          onChange={handleChange}
+          accept=".replay"
+        />
+      </label>
+      <button
+        className="btn dark:text-slate-700 bg-gray-50 active:bg-gray-200 border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 focus-visible:outline-blue-600 disabled:opacity-40 disabled:hover:border-blue-300 disabled:hover:bg-transparent"
+        onClick={loadSample}
+      >
+        Load sample replay
+      </button>
     </div>
   );
 };

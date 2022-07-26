@@ -11,7 +11,7 @@ interface ReportProps {
 
 export const Report = ({ replay, stats }: ReportProps) => {
   return (
-    <>
+    <div className="flex flex-col gap-8 mt-8">
       <TeamScores
         team0score={replay.properties.Team0Score}
         team1score={replay.properties.Team1Score}
@@ -22,41 +22,43 @@ export const Report = ({ replay, stats }: ReportProps) => {
         PlayerStats={stats}
         {...replay.properties}
       />
-      <Graph
-        key="Player Scores"
-        title="Player Scores"
-        defaultMax={1000}
-        valFn={(x) => x.Score}
-        scores={stats}
-      />
-      <Graph
-        key="Player Goals"
-        title="Player Goals"
-        defaultMax={4}
-        valFn={(x) => x.Goals}
-        scores={stats}
-      />
-      <Graph
-        key="Player Shots"
-        title="Player Shots"
-        defaultMax={8}
-        valFn={(x) => x.Shots}
-        scores={stats}
-      />
-      <Graph
-        key="Player Saves"
-        title="Player Saves"
-        defaultMax={4}
-        valFn={(x) => x.Saves}
-        scores={stats}
-      />
-      <Graph
-        key="Player Assists"
-        title="Player Assists"
-        defaultMax={4}
-        valFn={(x) => x.Assists}
-        scores={stats}
-      />
-    </>
+      <div className="flex flex-wrap gap-10 place-content-center">
+        <Graph
+          key="Player Scores"
+          title="Player Scores"
+          defaultMax={1000}
+          valFn={(x) => x.Score}
+          scores={stats}
+        />
+        <Graph
+          key="Player Goals"
+          title="Player Goals"
+          defaultMax={4}
+          valFn={(x) => x.Goals}
+          scores={stats}
+        />
+        <Graph
+          key="Player Shots"
+          title="Player Shots"
+          defaultMax={8}
+          valFn={(x) => x.Shots}
+          scores={stats}
+        />
+        <Graph
+          key="Player Saves"
+          title="Player Saves"
+          defaultMax={4}
+          valFn={(x) => x.Saves}
+          scores={stats}
+        />
+        <Graph
+          key="Player Assists"
+          title="Player Assists"
+          defaultMax={4}
+          valFn={(x) => x.Assists}
+          scores={stats}
+        />
+      </div>
+    </div>
   );
 };

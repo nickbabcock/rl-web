@@ -49,9 +49,9 @@ export const Description = ({
   }
 
   return (
-    <p className="description">
+    <div className="max-w-prose text-lg mx-auto">
       On {gameDate.toLocaleDateString()}, {blueSide} vs. {orangeSide} in a{" "}
       {blues.length}v{oranges.length} {gameType} match.
-    </p>
+    </div>
   );
 };
