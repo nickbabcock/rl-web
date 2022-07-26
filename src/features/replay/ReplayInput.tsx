@@ -38,7 +38,7 @@ export const ReplayInput = () => {
       <label
         className={`btn ${
           isWorking ? " saturate-50 " : ""
-        } bg-blue-600 text-white hover:bg-blue-500 focus-visible:outline-blue-600 active:bg-blue-700 active:text-white/80 disabled:opacity-30 disabled:hover:bg-blue-600`}
+        } bg-blue-600 text-white hover:bg-blue-500 border-2 border-blue-500 hover:border-blue-400 focus-visible:outline-blue-600 active:bg-blue-700 active:text-white/80 disabled:opacity-30 disabled:hover:bg-blue-600`}
         tabIndex={isWorking ? -1 : 0}
         onKeyUp={keyboardTrigger(labelFocus)}
       >
