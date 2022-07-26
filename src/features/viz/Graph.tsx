@@ -103,7 +103,7 @@ export const Graph = ({ scores, defaultMax, valFn, title }: GraphProps) => {
   ));
 
   return (
-    <div>
+    <div className="max-w-full overflow-x-auto">
       <h2
         className="text-xl font-bold"
         style={{ marginLeft: nameWidthPx + 24 }}
