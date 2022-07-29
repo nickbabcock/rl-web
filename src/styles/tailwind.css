@@ -11,7 +11,7 @@ body {
 }
 
 .btn {
-  @apply inline-flex justify-center rounded-md py-1 px-4 text-base font-semibold tracking-tight shadow-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2;
+  @apply inline-flex justify-center rounded-md py-1 px-4 text-base font-semibold tracking-tight shadow-sm cursor-default focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2;
 }
 
 .blue-team {
