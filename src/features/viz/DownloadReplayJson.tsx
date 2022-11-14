@@ -6,19 +6,15 @@ import { logError } from "@/utils/logError";
 import { getErrorMessage } from "@/utils/getErrorMessage";
 
 export const DownloadReplayJson = () => {
-  const worker = useReplayParser();
+  const parser = useReplayParser();
   const { isWorking } = useReplayData();
   const { dispatch } = useReplay();
   const [prettyPrint, setPrettyPrint] = useState(false);
 
   const onClick = async () => {
-    if (!worker.current) {
-      throw new Error("worker must be defined");
-    }
-
     try {
       dispatch({ kind: "start-json" });
-      const { name, data } = await worker.current.worker.replayJson({
+      const { name, data } = await parser().replayJson({
         pretty: prettyPrint,
       });
       downloadData(data, name);

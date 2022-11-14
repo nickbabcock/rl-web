@@ -10,13 +10,9 @@ export function useFilePublisher() {
 
   return useCallback(
     async (file: File | string) => {
-      if (!parser.current) {
-        throw new Error("har parser is not defined");
-      }
-
       try {
         dispatch({ kind: "start-parsing" });
-        const data = await parser.current.worker.parse(file);
+        const data = await parser().parse(file);
 
         dispatch({ kind: "parsed-replay", ...data });
       } catch (ex) {

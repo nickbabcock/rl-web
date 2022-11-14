@@ -59,5 +59,11 @@ export function useReplayParser() {
       "useReplayParser must be used within a ReplayParserProvider"
     );
   }
-  return context;
+
+  return React.useCallback(() => {
+    if (context.current === undefined) {
+      throw new Error("Replay parser is undefined");
+    }
+    return context.current.worker;
+  }, [context.current]);
 }
