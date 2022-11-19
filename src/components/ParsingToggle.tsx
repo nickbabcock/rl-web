@@ -1,4 +1,4 @@
-import { CloudsIcon, HelpIcon } from "@/components/icons";
+import { CloudsIcon } from "@/components/icons";
 import { useIsWorkerBusy } from "@/features/replay/useFilePublisher";
 import { atom, useAtom } from "jotai";
 import { useId } from "react";
