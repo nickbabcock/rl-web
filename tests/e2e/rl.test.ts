@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("sample", async ({ page, baseURL }) => {
   await page.goto(baseURL + "");
-  await page.click("text=Load sample replay");
+  await page.click("text=View sample");
   const description = page.locator("[data-test-id=description]");
   await expect(description).toContainText("On 12/8/2016, comagoosie");
   const [download] = await Promise.all([
