@@ -5,13 +5,18 @@ import { PlayerStat, Replay } from "@/features/worker";
 import { DownloadReplayJson } from "./DownloadReplayJson";
 
 interface ReportProps {
+  name: string;
   replay: Replay;
   stats: PlayerStat[];
 }
 
-export const Report = ({ replay, stats }: ReportProps) => {
+export const Report = ({ replay, stats, name }: ReportProps) => {
   return (
-    <div className="flex flex-col gap-8 mt-8">
+    <div className="mt-8 flex flex-col space-y-6">
+      <div className="text-center">
+        <h2 className="mb-1 text-2xl font-semibold">{name}</h2>
+        <h3 className="text-2xl">Score:</h3>
+      </div>
       <TeamScores
         team0score={replay.properties.Team0Score}
         team1score={replay.properties.Team1Score}
@@ -22,7 +27,7 @@ export const Report = ({ replay, stats }: ReportProps) => {
         PlayerStats={stats}
         {...replay.properties}
       />
-      <div className="flex flex-wrap gap-10 place-content-center">
+      <div className="flex flex-wrap place-content-center space-y-10">
         <Graph
           key="Player Scores"
           title="Player Scores"

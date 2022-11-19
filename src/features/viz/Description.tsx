@@ -49,7 +49,7 @@ export const Description = ({
   }
 
   return (
-    <p data-test-id="description" className="max-w-prose text-lg mx-auto">
+    <p data-test-id="description" className="mx-auto max-w-prose text-lg">
       On {gameDate.toLocaleDateString()}, {blueSide} vs. {orangeSide} in a{" "}
       {blues.length}v{oranges.length} {gameType} match.
     </p>

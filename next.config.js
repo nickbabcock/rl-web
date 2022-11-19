@@ -10,6 +10,9 @@ module.exports = {
     config.output.publicPath = `/_next/`;
     config.module.rules.push({
       test: /\.(wasm|replay)$/,
+      resourceQuery: {
+        not: /module/
+      },
       type: "asset/resource",
     });
     return config;

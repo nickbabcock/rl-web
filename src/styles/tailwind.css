@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 a {
-  @apply underline font-medium text-gray-700 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-200;
+  @apply font-medium text-gray-700 underline hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-200;
 }
 
 body {
@@ -11,13 +11,21 @@ body {
 }
 
 .btn {
-  @apply inline-flex justify-center rounded-md py-1 px-4 text-base font-semibold tracking-tight shadow-sm cursor-default focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2;
+  @apply inline-flex cursor-default justify-center rounded-md py-1 px-4 text-base font-semibold tracking-tight shadow-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2;
 }
 
 .blue-team {
-  @apply text-blue-800 dark:text-blue-400 fill-blue-800 dark:fill-blue-400;
+  @apply fill-blue-800 text-blue-800 dark:fill-blue-400 dark:text-blue-400;
 }
 
 .orange-team {
-  @apply text-orange-500 fill-orange-500;
+  @apply fill-orange-500 text-orange-500;
+}
+
+.icon-primary {
+  @apply fill-orange-500;
+}
+
+.icon-secondary {
+  @apply fill-zinc-600;
 }

@@ -7,8 +7,7 @@ import { ReplayJsonOptions } from "./types";
 import { transfer } from "comlink";
 
 let parser: ReplayParser | null = null;
-let inputName: string | null = null;
-type ParseInput = File | string;
+export type ParseInput = File | string;
 
 function getParser() {
   if (parser == null) {
@@ -36,9 +35,6 @@ export async function initialize() {
 export async function parse(input: ParseInput) {
   const parser = await initialize();
 
-  inputName = typeof input == "string" ? "sample" : input.name;
-  inputName = `${inputName.replace(".replay", "")}.json`;
-
   const buffer =
     typeof input == "string"
       ? fetch(input).then((x) => x.arrayBuffer())
@@ -51,11 +47,7 @@ export async function parse(input: ParseInput) {
 }
 
 export async function replayJson(options: ReplayJsonOptions) {
-  if (inputName === null) {
-    throw new Error("expected input name to be defined");
-  }
-
   const [data, elapsedMs] = await timeit(() => getParser().replayJson(options));
   console.log(`replay json: ${formatFloat(elapsedMs)}ms`);
-  return transfer({ name: inputName, data }, [data.buffer]);
+  return transfer({ data }, [data.buffer]);
 }

@@ -25,16 +25,12 @@ export const ReplayParserProvider = ({
   const workerRef = React.useRef<ReplayParserState>();
 
   useEffect(() => {
-    async function effect() {
-      const rawWorker = new Worker(new URL("./worker.ts", import.meta.url));
-      const worker = wrap<WasmWorker>(rawWorker);
-      workerRef.current = {
-        worker,
-        rawWorker,
-      };
-    }
-
-    effect();
+    const rawWorker = new Worker(new URL("./worker.ts", import.meta.url));
+    const worker = wrap<WasmWorker>(rawWorker);
+    workerRef.current = {
+      worker,
+      rawWorker,
+    };
 
     return () => {
       if (workerRef.current) {
@@ -65,5 +61,5 @@ export function useReplayParser() {
       throw new Error("Replay parser is undefined");
     }
     return context.current.worker;
-  }, [context.current]);
+  }, [context]);
 }

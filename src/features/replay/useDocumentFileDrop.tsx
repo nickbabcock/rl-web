@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useFilePublisher } from "./useFilePublisher";
+import { useEffect, useRef, useState } from "react";
+import { useFilePublisher, useIsWorkerBusy } from "./useFilePublisher";
 
 // ref: https://css-tricks.com/snippets/javascript/test-if-dragenterdragover-event-contains-files/
 function containsFiles(e: DragEvent): boolean {
@@ -11,21 +11,36 @@ function containsFiles(e: DragEvent): boolean {
   return false;
 }
 
-interface DropProps {
-  setFileHover: (hover: boolean) => void;
-}
+export function useDocumentFileDrop() {
+  const [isHovering, setHovering] = useState(false);
+  const { mutate } = useFilePublisher();
+  const busyWorker = useIsWorkerBusy();
 
-export function useDocumentFileDrop({ setFileHover }: DropProps) {
-  const publishFile = useFilePublisher();
+  // So we don't need to add and remove event listeners every time the loading
+  // state changes.
+  const loadingRef = useRef(busyWorker);
+  useEffect(() => {
+    loadingRef.current = busyWorker;
+  }, [busyWorker]);
 
   // keep count of drags: https://stackoverflow.com/a/21002544/433785
   const dragCount = useRef(0);
 
   useEffect(() => {
+    const resetDragCount = {
+      onSettled() {
+        dragCount.current = 0;
+      },
+    };
+
     function dragDrop(e: DragEvent) {
+      if (!containsFiles(e)) {
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
-      setFileHover(false);
+      setHovering(false);
 
       if (e.dataTransfer && e.dataTransfer.items) {
         const items = e.dataTransfer.items;
@@ -37,36 +52,34 @@ export function useDocumentFileDrop({ setFileHover }: DropProps) {
           throw Error("bad dropped file");
         }
 
-        publishFile(file);
+        mutate(file, resetDragCount);
       } else if (e.dataTransfer && e.dataTransfer.files) {
         const files = e.dataTransfer.files;
         if (files.length !== 1) {
           throw Error("unexpected one file drop");
         }
 
-        publishFile(files[0]);
+        mutate(files[0], resetDragCount);
       } else {
         throw Error("unexpected data transfer");
       }
     }
 
     function highlight(e: DragEvent) {
-      if (containsFiles(e)) {
+      if (!loadingRef.current && containsFiles(e)) {
         dragCount.current += 1;
         e.preventDefault();
         e.stopPropagation();
-        setFileHover(true);
+        setHovering(true);
       }
     }
 
     function unhighlight(e: DragEvent) {
-      if (containsFiles(e)) {
+      if (!loadingRef.current && containsFiles(e)) {
         dragCount.current -= 1;
         e.preventDefault();
         e.stopPropagation();
-        if (dragCount.current === 0) {
-          setFileHover(false);
-        }
+        setHovering(dragCount.current !== 0);
       }
     }
 
@@ -88,5 +101,7 @@ export function useDocumentFileDrop({ setFileHover }: DropProps) {
       document.removeEventListener("dragleave", unhighlight, false);
       document.removeEventListener("dragover", dragover, false);
     };
-  }, [setFileHover, publishFile]);
+  }, [mutate]);
+
+  return { isHovering };
 }

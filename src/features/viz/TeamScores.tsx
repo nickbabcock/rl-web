@@ -4,8 +4,7 @@ interface TeamScoresProps {
 }
 
 export const TeamScores = ({ team0score, team1score }: TeamScoresProps) => (
-  <div className="flex flex-col place-items-center my-4">
-    <div className="text-2xl">Team Score:</div>
+  <div className="mb-4 flex flex-col place-items-center">
     <div className="text-7xl">
       <span className="blue-team font-bold">{team0score || 0}</span>
       <span> - </span>
