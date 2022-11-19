@@ -10,7 +10,7 @@ test("sample", async ({ page, baseURL }) => {
     page.click("text=Convert Replay to JSON"),
   ]);
 
-  expect(download.suggestedFilename()).toEqual("sample.json");
+  expect(download.suggestedFilename()).toMatch(/^sample\.\w+\.json$/);
 });
 
 test("sample file", async ({ page, baseURL }) => {
