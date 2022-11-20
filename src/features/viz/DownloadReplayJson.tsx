@@ -54,7 +54,6 @@ export const DownloadReplayJson = () => {
       const params = new URLSearchParams({
         pretty: prettyPrint.toString(),
       });
-      console.log(input);
       const form = new FormData();
       form.append("file", input);
 
