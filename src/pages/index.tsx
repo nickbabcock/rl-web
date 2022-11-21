@@ -1,7 +1,6 @@
 import { RlHead } from "@/components/head";
-import { Replay, ReplayProvider } from "@/features/replay";
+import { Replay } from "@/features/replay";
 import { ReplayParserProvider } from "@/features/worker";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ParsingToggle } from "@/components/ParsingToggle";
 import { GithubIcon } from "@/components/icons";
 import type { NextPage } from "next";
@@ -32,9 +31,7 @@ const Home: NextPage = () => {
         <ParsingToggle />
       </div>
       <ReplayParserProvider>
-        <ReplayProvider>
-          <Replay />
-        </ReplayProvider>
+        <Replay />
       </ReplayParserProvider>
     </main>
   );
