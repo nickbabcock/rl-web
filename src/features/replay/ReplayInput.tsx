@@ -1,6 +1,7 @@
 import { useRef, KeyboardEvent } from "react";
 import { useFilePublisher, useIsWorkerBusy } from "./useFilePublisher";
 import sampleReplay from "../../../dev/sample.replay";
+import { DropOverlay } from "./DropOverlay";
 
 export function keyboardTrigger(fn: () => void) {
   return (e: KeyboardEvent) => {
@@ -30,6 +31,8 @@ export const ReplayInput = () => {
 
   return (
     <div className="mx-auto flex gap-4">
+      <DropOverlay onFile={mutate} enabled={!busyWorker} />
+
       <label
         className={`btn ${
           busyWorker ? " saturate-50 " : ""

@@ -1,5 +1,3 @@
-import { useReplayData } from "./replay-provider";
-import { DropOverlay } from "./DropOverlay";
 import { ReplayInput } from "./ReplayInput";
 import { Report } from "@/features/viz";
 import { WarningBox } from "@/components/WarningBox";
@@ -20,7 +18,6 @@ export const Replay = () => {
 
   return (
     <div className="m-4 flex flex-col space-y-2">
-      <DropOverlay />
       <div className="flex flex-col items-center space-y-1">
         <ReplayInput />
         <p className="text-xs">(Drag and drop enabled)</p>
