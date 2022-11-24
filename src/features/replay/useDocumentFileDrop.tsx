@@ -60,14 +60,14 @@ export function useDocumentFileDrop({
           throw Error("bad dropped file");
         }
 
-        onFile(file, resetDragCount);
+        onFileRef.current(file, resetDragCount);
       } else if (e.dataTransfer && e.dataTransfer.files) {
         const files = e.dataTransfer.files;
         if (files.length !== 1) {
           throw Error("unexpected one file drop");
         }
 
-        onFile(files[0], resetDragCount);
+        onFileRef.current(files[0], resetDragCount);
       } else {
         throw Error("unexpected data transfer");
       }

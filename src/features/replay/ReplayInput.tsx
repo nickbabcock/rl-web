@@ -1,7 +1,8 @@
 import { useRef, KeyboardEvent } from "react";
-import { useFilePublisher, useIsWorkerBusy } from "./useFilePublisher";
+import { useFilePublisher } from "./useFilePublisher";
 import sampleReplay from "../../../dev/sample.replay";
 import { DropOverlay } from "./DropOverlay";
+import { useIsActionInFlight } from "@/hooks";
 
 export function keyboardTrigger(fn: () => void) {
   return (e: KeyboardEvent) => {
@@ -14,7 +15,7 @@ export function keyboardTrigger(fn: () => void) {
 
 export const ReplayInput = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const busyWorker = useIsWorkerBusy();
+  const busyWorker = useIsActionInFlight();
   const { mutate } = useFilePublisher();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

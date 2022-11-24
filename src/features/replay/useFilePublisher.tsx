@@ -1,49 +1,18 @@
-import { parsingModeAtom } from "@/components/ParsingToggle";
-import { ParsedReplay, ParseInput, useReplayParser } from "@/features/worker";
-import {
-  useIsFetching,
-  useIsMutating,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { atom, useAtomValue, useSetAtom } from "jotai";
-
-const statusAtom = atom<"idle" | "loading" | "error" | "success">("idle");
-export const dataAtom = atom<undefined | ParsedReplay>(undefined);
-export const errorAtom = atom<null | unknown>(null);
-export const inputAtom = atom<ParseInput | undefined>(undefined);
-export const inputNameAtom = atom<undefined | string>(undefined);
-export const parsedNameAtom = atom<undefined | string>(undefined);
-export const parsedRawNameAtom = atom<undefined | string>(undefined);
-export const successModeAtom = atom<"local" | "edge">("local");
-export const jsonNameAtom = atom<undefined | string>((get) => {
-  const name = get(parsedNameAtom);
-  return `${name?.replace(".replay", "")}.json`;
-});
-
-export const useIsWorkerBusy = () => useIsFetching() + useIsMutating() !== 0;
-
-interface MutationContext {
-  name: string;
-  raw: string;
-}
+import { ParseInput, useReplayParser } from "@/features/worker";
+import { useParseMode } from "@/stores/uiStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useReplayActions } from "./replayStore";
 
 export function useFilePublisher() {
   const queryClient = useQueryClient();
   const parser = useReplayParser();
-  const setStatus = useSetAtom(statusAtom);
-  const setData = useSetAtom(dataAtom);
-  const setError = useSetAtom(errorAtom);
-  const setInputName = useSetAtom(inputNameAtom);
-  const setParsedName = useSetAtom(parsedNameAtom);
-  const parsingMode = useAtomValue(parsingModeAtom);
-  const setSuccessMode = useSetAtom(successModeAtom);
-  const setParsedRawName = useSetAtom(parsedRawNameAtom);
-  const setInputAtom = useSetAtom(inputAtom);
+  const parseMode = useParseMode();
+  const { parseError, parsed } = useReplayActions();
 
   const { mutate } = useMutation({
+    mutationKey: ["parse"],
     mutationFn: async (input: ParseInput) => {
-      if (parsingMode === "local") {
+      if (parseMode === "local") {
         return parser().parse(input);
       } else {
         const form = new FormData();
@@ -60,31 +29,13 @@ export function useFilePublisher() {
         }
       }
     },
-    networkMode: parsingMode === "local" ? "always" : "online",
-    onSuccess(data, variables, context?: MutationContext) {
-      setSuccessMode(parsingMode);
-      setStatus("success");
-      setData(data);
-      setInputAtom(variables);
-      setParsedName(context?.name);
-      setParsedRawName(context?.raw);
+    networkMode: parseMode === "local" ? "always" : "online",
+    onSuccess(data, variables, _context) {
+      parsed(data, parseMode, { input: variables });
       queryClient.invalidateQueries();
     },
-    onMutate(variables): MutationContext {
-      setStatus("loading");
-      if (typeof variables === "string") {
-        let name = variables.slice(variables.lastIndexOf("/") + 1);
-        return { raw: variables, name };
-      } else {
-        return { raw: variables.name, name: variables.name };
-      }
-    },
-    onError(_error, _variables, _context) {
-      setStatus("error");
-    },
-    onSettled(_data, error, _variables, context) {
-      setInputName(context?.name);
-      setError(error);
+    onError(error, variables, _context) {
+      parseError(error, { input: variables });
     },
   });
 

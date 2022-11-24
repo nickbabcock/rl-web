@@ -1,20 +1,12 @@
 import { ReplayInput } from "./ReplayInput";
 import { Report } from "@/features/viz";
 import { WarningBox } from "@/components/WarningBox";
-import {
-  dataAtom,
-  errorAtom,
-  inputNameAtom,
-  parsedNameAtom,
-} from "./useFilePublisher";
 import { getErrorMessage } from "@/utils/getErrorMessage";
-import { useAtomValue } from "jotai";
+import { useLatestParse, useParsedReplay } from "./replayStore";
 
 export const Replay = () => {
-  const inputName = useAtomValue(inputNameAtom);
-  const data = useAtomValue(dataAtom);
-  const error = useAtomValue(errorAtom);
-  const parsedName = useAtomValue(parsedNameAtom);
+  const latestParse = useLatestParse();
+  const parsedReplay = useParsedReplay();
 
   return (
     <div className="m-4 flex flex-col space-y-2">
@@ -22,19 +14,20 @@ export const Replay = () => {
         <ReplayInput />
         <p className="text-xs">(Drag and drop enabled)</p>
       </div>
-      {error ? (
+      {latestParse.kind === "error" ? (
         <WarningBox
-          message={`Unable to parse (${inputName}): ${getErrorMessage(error)}`}
+          message={`Unable to parse (${latestParse.input.path()}): ${getErrorMessage(
+            latestParse.error
+          )}`}
         />
       ) : null}
-      {data?.networkErr ? (
-        <WarningBox message={`network data: ${data?.networkErr}`} />
+      {parsedReplay?.networkErr ? (
+        <WarningBox message={`network data: ${parsedReplay.networkErr}`} />
       ) : null}
-      {parsedName && data?.replay && data?.replay.properties.PlayerStats ? (
+      {parsedReplay !== null && parsedReplay.data.properties.PlayerStats ? (
         <Report
-          name={parsedName}
-          replay={data?.replay}
-          stats={data?.replay.properties.PlayerStats}
+          replay={parsedReplay}
+          stats={parsedReplay.data.properties.PlayerStats}
         />
       ) : null}
     </div>

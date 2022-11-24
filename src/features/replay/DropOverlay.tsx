@@ -6,8 +6,19 @@ import {
 import classes from "./DropOverlay.module.css";
 import { useEffect, useState } from "react";
 
-export const DropOverlay = (props: DocumentFileDropProps) => {
+export const DropHighlight = (props: DocumentFileDropProps) => {
   const { isHovering } = useDocumentFileDrop(props);
+  return (
+    <div
+      className={`absolute top-0 left-0 z-10 bg-transparent transition duration-200 ${
+        isHovering &&
+        `h-full w-full bg-gray-500/25 outline outline-blue-500/50 ${classes["overlay-outline"]}`
+      }`}
+    ></div>
+  );
+};
+
+export const DropOverlay = (props: DocumentFileDropProps) => {
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
@@ -15,15 +26,7 @@ export const DropOverlay = (props: DocumentFileDropProps) => {
   }, []);
 
   if (hasMounted) {
-    return createPortal(
-      <div
-        className={`absolute top-0 left-0 z-10 bg-transparent transition duration-200 ${
-          isHovering &&
-          `h-full w-full bg-gray-500/25 outline outline-blue-500/50 ${classes["overlay-outline"]}`
-        }`}
-      ></div>,
-      document.body
-    );
+    return createPortal(<DropHighlight {...props} />, document.body);
   } else {
     return null;
   }
