@@ -1,12 +1,9 @@
 const isDev = process.env.NODE_ENV !== "production";
 
 const csp = `
-  default-src 'none';
-  connect-src 'self';
-  img-src 'self';
+  default-src 'self';
   script-src 'self' 'wasm-unsafe-eval' ${isDev ? "'unsafe-eval'" : ""};
   style-src 'self' ${isDev ? "'unsafe-inline'" : ""};
-  worker-src 'self'
 `;
 
 const securityHeaders = [
