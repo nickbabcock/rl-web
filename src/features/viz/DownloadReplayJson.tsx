@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import { downloadData } from "@/utils/downloadData";
 import { useReplayParser, workerQueryOptions } from "@/features/worker";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useParseMode } from "@/stores/uiStore";
+import { useParseMode, usePrettyPrint, useUiActions } from "@/stores/uiStore";
 import { useIsActionInFlight } from "@/hooks";
 import { ReplayYield } from "../replay/replayStore";
 
@@ -12,9 +11,10 @@ interface DownloadReplayJsonProps {
 
 export const DownloadReplayJson = ({ replay }: DownloadReplayJsonProps) => {
   const parser = useReplayParser();
-  const [prettyPrint, setPrettyPrint] = useState(false);
+  const { setPrettyPrint } = useUiActions();
   const workerBusy = useIsActionInFlight();
   const currentMode = useParseMode();
+  const prettyPrint = usePrettyPrint();
 
   const workerQuery = useQuery({
     queryKey: ["json", prettyPrint, replay.input.path()],
@@ -52,18 +52,6 @@ export const DownloadReplayJson = ({ replay }: DownloadReplayJsonProps) => {
     cacheTime: 0,
   });
 
-  const togglePretty = (pretty: boolean) => {
-    localStorage.setItem("pretty-print", JSON.stringify(pretty));
-    setPrettyPrint(pretty);
-  };
-
-  useEffect(() => {
-    const doPretty = JSON.parse(
-      localStorage.getItem("pretty-print") ?? "false"
-    );
-    setPrettyPrint(doPretty);
-  }, []);
-
   return (
     <div className="grid place-items-center">
       <button
@@ -80,7 +68,7 @@ export const DownloadReplayJson = ({ replay }: DownloadReplayJsonProps) => {
           className="mr-1 rounded focus:outline focus:outline-2 focus:outline-blue-600"
           type="checkbox"
           checked={prettyPrint}
-          onChange={(e) => togglePretty(e.target.checked)}
+          onChange={(e) => setPrettyPrint(e.target.checked)}
           disabled={workerBusy || replay.mode != currentMode}
         />
         Pretty print
