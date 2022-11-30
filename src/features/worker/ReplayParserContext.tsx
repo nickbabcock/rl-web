@@ -11,10 +11,9 @@ interface ReplayParserState {
 
 type ContextState = MutableRefObject<ReplayParserState | undefined>;
 
-const ReplayParserContext = React.createContext<ContextState | undefined>(
-  undefined
-);
-
+export const ReplayParserContext = React.createContext<
+  ContextState | undefined
+>(undefined);
 interface ReplayParserProviderProps {
   children: React.ReactNode;
 }
@@ -47,19 +46,3 @@ export const ReplayParserProvider = ({
     </ReplayParserContext.Provider>
   );
 };
-
-export function useReplayParser() {
-  const context = React.useContext(ReplayParserContext);
-  if (context === undefined) {
-    throw new Error(
-      "useReplayParser must be used within a ReplayParserProvider"
-    );
-  }
-
-  return React.useCallback(() => {
-    if (context.current === undefined) {
-      throw new Error("Replay parser is undefined");
-    }
-    return context.current.worker;
-  }, [context]);
-}

@@ -1,61 +1,42 @@
 import { useEffect, useState } from "react";
 import { downloadData } from "@/utils/downloadData";
-import { useReplayParser } from "@/features/worker";
+import { useReplayParser, workerQueryOptions } from "@/features/worker";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  inputAtom,
-  jsonNameAtom,
-  parsedRawNameAtom,
-  successModeAtom,
-  useIsWorkerBusy,
-} from "../replay/useFilePublisher";
-import { useAtomValue } from "jotai";
-import { parsingModeAtom } from "@/components/ParsingToggle";
+import { useParseMode } from "@/stores/uiStore";
+import { useIsActionInFlight } from "@/hooks";
+import { ReplayYield } from "../replay/replayStore";
 
-export const DownloadReplayJson = () => {
+interface DownloadReplayJsonProps {
+  replay: ReplayYield;
+}
+
+export const DownloadReplayJson = ({ replay }: DownloadReplayJsonProps) => {
   const parser = useReplayParser();
   const [prettyPrint, setPrettyPrint] = useState(false);
-  const workerBusy = useIsWorkerBusy();
-  const currentMode = useAtomValue(parsingModeAtom);
-  const successMode = useAtomValue(successModeAtom);
-  const rawName = useAtomValue(parsedRawNameAtom);
-  const jsonName = useAtomValue(jsonNameAtom);
-  const input = useAtomValue(inputAtom);
+  const workerBusy = useIsActionInFlight();
+  const currentMode = useParseMode();
 
-  const { refetch: workerQuery } = useQuery({
-    queryKey: ["json", prettyPrint, currentMode, rawName],
+  const workerQuery = useQuery({
+    queryKey: ["json", prettyPrint, replay.input.path()],
+    ...workerQueryOptions,
     queryFn: async () => {
-      if (rawName === undefined || jsonName === undefined) {
-        throw new Error("expected raw and json name to be defined");
-      }
+      const { data } = await parser().replayJson({ pretty: prettyPrint });
+      downloadData(data, replay.input.jsonName());
 
-      const { data } = await parser().replayJson({
-        pretty: prettyPrint,
-      });
-      downloadData(data, jsonName);
+      // I don't want this large data cached
       return null;
     },
-    networkMode: currentMode === "local" ? "always" : "online",
-    enabled: false,
     cacheTime: 0,
-    staleTime: Infinity,
+    enabled: false,
   });
 
-  const { mutate: edgeQuery } = useMutation({
+  const edgeQuery = useMutation({
     mutationFn: async () => {
-      if (
-        input === undefined ||
-        rawName === undefined ||
-        jsonName === undefined
-      ) {
-        throw new Error("expected raw and json name to be defined");
-      }
-
       const params = new URLSearchParams({
         pretty: prettyPrint.toString(),
       });
       const form = new FormData();
-      form.append("file", input);
+      form.append("file", replay.input.input);
 
       const resp = await fetch(`/api/json?${params}`, {
         method: "POST",
@@ -65,10 +46,9 @@ export const DownloadReplayJson = () => {
       if (!resp.ok) {
         throw new Error("edge runtime unable to return json");
       }
-      downloadData(await resp.arrayBuffer(), jsonName);
+      downloadData(await resp.arrayBuffer(), replay.input.jsonName());
       return null;
     },
-    networkMode: currentMode === "local" ? "always" : "online",
     cacheTime: 0,
   });
 
@@ -87,9 +67,11 @@ export const DownloadReplayJson = () => {
   return (
     <div className="grid place-items-center">
       <button
-        className="btn border-2 border-gray-300 bg-gray-50 hover:border-blue-400 hover:bg-blue-50 focus-visible:outline-blue-600 active:bg-gray-200 disabled:opacity-40 disabled:hover:border-blue-300 disabled:hover:bg-transparent dark:text-slate-700"
-        disabled={workerBusy || successMode != currentMode}
-        onClick={() => (currentMode === "local" ? workerQuery() : edgeQuery())}
+        className="btn border-2 border-gray-300 bg-gray-50 focus-visible:outline-blue-600 active:bg-gray-200 enabled:hover:border-blue-400 enabled:hover:bg-blue-50 disabled:opacity-40 dark:text-slate-700"
+        disabled={workerBusy || replay.mode != currentMode}
+        onClick={() => {
+          currentMode === "local" ? workerQuery.refetch() : edgeQuery.mutate();
+        }}
       >
         Convert Replay to JSON
       </button>
@@ -99,7 +81,7 @@ export const DownloadReplayJson = () => {
           type="checkbox"
           checked={prettyPrint}
           onChange={(e) => togglePretty(e.target.checked)}
-          disabled={workerBusy || successMode != currentMode}
+          disabled={workerBusy || replay.mode != currentMode}
         />
         Pretty print
       </label>

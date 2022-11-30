@@ -1,12 +1,12 @@
 import { RlHead } from "@/components/head";
-import { Replay, ReplayProvider } from "@/features/replay";
-import { ReplayParserProvider } from "@/features/worker";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ParsingToggle } from "@/components/ParsingToggle";
+import { ParsingToggle, Replay } from "@/features/replay";
 import { GithubIcon } from "@/components/icons";
 import type { NextPage } from "next";
+import { useHydrateUiStore } from "@/stores/uiStore";
 
 const Home: NextPage = () => {
+  useHydrateUiStore();
+
   return (
     <main className="p-4">
       <RlHead />
@@ -31,11 +31,7 @@ const Home: NextPage = () => {
         </p>
         <ParsingToggle />
       </div>
-      <ReplayParserProvider>
-        <ReplayProvider>
-          <Replay />
-        </ReplayProvider>
-      </ReplayParserProvider>
+      <Replay />
     </main>
   );
 };

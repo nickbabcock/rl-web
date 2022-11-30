@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { useFilePublisher, useIsWorkerBusy } from "./useFilePublisher";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 // ref: https://css-tricks.com/snippets/javascript/test-if-dragenterdragover-event-contains-files/
 function containsFiles(e: DragEvent): boolean {
@@ -11,17 +11,25 @@ function containsFiles(e: DragEvent): boolean {
   return false;
 }
 
-export function useDocumentFileDrop() {
-  const [isHovering, setHovering] = useState(false);
-  const { mutate } = useFilePublisher();
-  const busyWorker = useIsWorkerBusy();
+export interface DocumentFileDropProps {
+  onFile: UseMutateFunction<unknown, unknown, File | any>;
+  enabled: boolean;
+}
 
-  // So we don't need to add and remove event listeners every time the loading
-  // state changes.
-  const loadingRef = useRef(busyWorker);
-  useEffect(() => {
-    loadingRef.current = busyWorker;
-  }, [busyWorker]);
+export function useDocumentFileDrop({
+  onFile,
+  enabled,
+}: DocumentFileDropProps) {
+  const [isHovering, setHovering] = useState(false);
+
+  // Latest ref pattern for props. This way we don't need to add and remove
+  // event listeners every time one of them changes.
+  const enabledRef = useRef(enabled);
+  const onFileRef = useRef(onFile);
+  useLayoutEffect(() => {
+    enabledRef.current = enabled;
+    onFileRef.current = onFile;
+  });
 
   // keep count of drags: https://stackoverflow.com/a/21002544/433785
   const dragCount = useRef(0);
@@ -52,21 +60,21 @@ export function useDocumentFileDrop() {
           throw Error("bad dropped file");
         }
 
-        mutate(file, resetDragCount);
+        onFileRef.current(file, resetDragCount);
       } else if (e.dataTransfer && e.dataTransfer.files) {
         const files = e.dataTransfer.files;
         if (files.length !== 1) {
           throw Error("unexpected one file drop");
         }
 
-        mutate(files[0], resetDragCount);
+        onFileRef.current(files[0], resetDragCount);
       } else {
         throw Error("unexpected data transfer");
       }
     }
 
     function highlight(e: DragEvent) {
-      if (!loadingRef.current && containsFiles(e)) {
+      if (!enabledRef.current && containsFiles(e)) {
         dragCount.current += 1;
         e.preventDefault();
         e.stopPropagation();
@@ -75,7 +83,7 @@ export function useDocumentFileDrop() {
     }
 
     function unhighlight(e: DragEvent) {
-      if (!loadingRef.current && containsFiles(e)) {
+      if (!enabledRef.current && containsFiles(e)) {
         dragCount.current -= 1;
         e.preventDefault();
         e.stopPropagation();
@@ -101,7 +109,7 @@ export function useDocumentFileDrop() {
       document.removeEventListener("dragleave", unhighlight, false);
       document.removeEventListener("dragover", dragover, false);
     };
-  }, [mutate]);
+  }, []);
 
   return { isHovering };
 }
