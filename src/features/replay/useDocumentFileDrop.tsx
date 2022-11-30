@@ -1,5 +1,6 @@
+import { useIsomorphicLayoutEffect } from "@/hooks";
 import { UseMutateFunction } from "@tanstack/react-query";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // ref: https://css-tricks.com/snippets/javascript/test-if-dragenterdragover-event-contains-files/
 function containsFiles(e: DragEvent): boolean {
@@ -8,6 +9,7 @@ function containsFiles(e: DragEvent): boolean {
       return true;
     }
   }
+
   return false;
 }
 
@@ -26,7 +28,7 @@ export function useDocumentFileDrop({
   // event listeners every time one of them changes.
   const enabledRef = useRef(enabled);
   const onFileRef = useRef(onFile);
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     enabledRef.current = enabled;
     onFileRef.current = onFile;
   });
@@ -74,7 +76,7 @@ export function useDocumentFileDrop({
     }
 
     function highlight(e: DragEvent) {
-      if (!enabledRef.current && containsFiles(e)) {
+      if (enabledRef.current && containsFiles(e)) {
         dragCount.current += 1;
         e.preventDefault();
         e.stopPropagation();
@@ -83,7 +85,7 @@ export function useDocumentFileDrop({
     }
 
     function unhighlight(e: DragEvent) {
-      if (!enabledRef.current && containsFiles(e)) {
+      if (enabledRef.current && containsFiles(e)) {
         dragCount.current -= 1;
         e.preventDefault();
         e.stopPropagation();

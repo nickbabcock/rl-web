@@ -11,7 +11,6 @@ interface ReportProps {
 }
 
 export const Report = ({ replay, stats }: ReportProps) => {
-  console.log(replay);
   return (
     <div className="mt-8 flex flex-col space-y-6">
       <div className="text-center">

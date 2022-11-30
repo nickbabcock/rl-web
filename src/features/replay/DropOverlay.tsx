@@ -4,7 +4,7 @@ import {
   useDocumentFileDrop,
 } from "./useDocumentFileDrop";
 import classes from "./DropOverlay.module.css";
-import { useEffect, useState } from "react";
+import { useIsClient } from "@/hooks";
 
 export const DropHighlight = (props: DocumentFileDropProps) => {
   const { isHovering } = useDocumentFileDrop(props);
@@ -19,13 +19,8 @@ export const DropHighlight = (props: DocumentFileDropProps) => {
 };
 
 export const DropOverlay = (props: DocumentFileDropProps) => {
-  const [hasMounted, setHasMounted] = useState(false);
-
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
-
-  if (hasMounted) {
+  const isClient = useIsClient();
+  if (isClient) {
     return createPortal(<DropHighlight {...props} />, document.body);
   } else {
     return null;
