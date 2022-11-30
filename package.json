@@ -28,7 +28,7 @@
     "zustand": "^4.1.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.28.0",
+    "@playwright/test": "^1.28.1",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "eslint": "8.27.0",
