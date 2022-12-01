@@ -5,13 +5,13 @@ import { TeamPlayer } from "./TeamPlayer";
 interface DescriptionProps {
   PlayerStats: PlayerStat[];
   Date: string;
-  game_type: string;
+  gameType: string;
 }
 
 export const Description = ({
   PlayerStats,
   Date,
-  game_type,
+  gameType,
 }: DescriptionProps) => {
   const gameDate = extractDate(Date);
   const blues = PlayerStats.filter((x) => x.Team == 0);
@@ -20,32 +20,27 @@ export const Description = ({
   const blueSide = blues
     .map((x) => (
       <TeamPlayer
-        key={x.Name + x.OnlineID}
+        key={x.Name + x.OnlineID + x.Platform}
+        player={x}
         color="blue"
-        onlineId={x.OnlineID}
-        name={x.Name}
       />
     ))
     .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])
-    .slice(1)!;
+    .slice(1);
 
   const orangeSide = oranges
     .map((x) => (
       <TeamPlayer
-        key={x.Name + x.OnlineID}
+        key={x.Name + x.OnlineID + x.Platform}
+        player={x}
         color="orange"
-        onlineId={x.OnlineID}
-        name={x.Name}
       />
     ))
     .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])
-    .slice(1)!;
+    .slice(1);
 
-  let gameType;
-  if (game_type.includes("Soccar")) {
+  if (gameType.includes("Soccar")) {
     gameType = "soccar";
-  } else {
-    gameType = game_type;
   }
 
   return (
