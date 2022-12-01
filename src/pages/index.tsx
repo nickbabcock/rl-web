@@ -11,12 +11,14 @@ const Home: NextPage = () => {
     <main className="p-4">
       <RlHead />
       <div className="mx-auto max-w-prose space-y-4">
-        <h1 className="flex gap-2 text-2xl font-bold md:gap-6">
-          Rocket League Replay Parser{" "}
-          <a href="https://github.com/nickbabcock/rl-web">
-            <GithubIcon alt="Rocket League Replay Parser website Github Repo" />
-          </a>
-        </h1>
+        <div className="grid grid-cols-[1fr_32px] gap-2 md:gap-6">
+          <h1 className="text-2xl font-bold">Rocket League Replay Parser</h1>
+          <div>
+            <a href="https://github.com/nickbabcock/rl-web">
+              <GithubIcon alt="Rocket League Replay Parser website Github Repo" />
+            </a>
+          </div>
+        </div>
         <p className="text-lg">
           The Rocket League Replay Parser decodes a replay and presents a small
           array of statistics. This tech demo shows the versatility of{" "}
