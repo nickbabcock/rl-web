@@ -9,7 +9,7 @@ export const ParsingToggle = () => {
   const { setParseMode } = useUiActions();
   const parseMode = useParseMode();
   return (
-    <label className="flex items-center text-lg" htmlFor={toggleId}>
+    <label className="inline-flex items-center text-lg" htmlFor={toggleId}>
       Parse on edge:
       <input
         className="ml-2 mr-1"

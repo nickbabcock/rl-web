@@ -23,7 +23,7 @@ export const Report = ({ replay, stats }: ReportProps) => {
       />
       <DownloadReplayJson replay={replay} />
       <Description
-        game_type={replay.data.game_type}
+        gameType={replay.data.game_type}
         PlayerStats={stats}
         {...replay.data.properties}
       />

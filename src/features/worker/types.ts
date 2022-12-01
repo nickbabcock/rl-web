@@ -32,7 +32,10 @@ export interface PlayerStat {
   Saves: number;
   Assists: number;
   OnlineID: string;
-  Platform: number;
+  Platform: {
+    kind: string;
+    value: string;
+  };
   Name: string;
 }
 

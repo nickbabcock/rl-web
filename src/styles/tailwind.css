@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-a {
+a,
+.link {
   @apply font-medium text-gray-700 underline hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-200;
 }
 

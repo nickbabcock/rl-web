@@ -9,11 +9,8 @@ export const Replay = () => {
   const parsedReplay = useParsedReplay();
 
   return (
-    <div className="m-4 flex flex-col space-y-2">
-      <div className="flex flex-col items-center space-y-1">
-        <ReplayInput />
-        <p className="text-xs">(Drag and drop enabled)</p>
-      </div>
+    <div className="mt-4 flex flex-col gap-2">
+      <ReplayInput />
       {latestParse.kind === "error" ? (
         <WarningBox
           message={`Unable to parse (${latestParse.input.path()}): ${getErrorMessage(

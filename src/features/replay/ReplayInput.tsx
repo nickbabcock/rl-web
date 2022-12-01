@@ -3,6 +3,7 @@ import { useFilePublisher } from "./useFilePublisher";
 import sampleReplay from "../../../dev/sample.replay";
 import { DropOverlay } from "./DropOverlay";
 import { useIsActionInFlight } from "@/hooks";
+import { DocumentIcon } from "@/components/icons/DocumentIcon";
 
 export function keyboardTrigger(fn: () => void) {
   return (e: KeyboardEvent) => {
@@ -31,17 +32,24 @@ export const ReplayInput = () => {
   };
 
   return (
-    <div className="mx-auto flex gap-4">
+    <div className="mx-auto w-full max-w-prose flex-col space-y-1">
       <DropOverlay onFile={mutate} enabled={!busyWorker} />
 
       <label
-        className={`btn ${
-          busyWorker ? " saturate-50 " : ""
-        } border-2 border-blue-500 bg-blue-600 text-white hover:border-blue-400 hover:bg-blue-500 focus-visible:outline-blue-600 active:bg-blue-700 active:text-white/80 disabled:opacity-30 disabled:hover:bg-blue-600`}
+        className={`${
+          busyWorker ? "cursor-not-allowed saturate-0 " : "cursor-pointer"
+        } flex items-center gap-1 rounded-md border-2 border-dashed border-slate-600 bg-slate-200 p-4 hover:bg-slate-300 focus:border-indigo-500 focus:ring-indigo-500 dark:bg-slate-700 hover:dark:bg-slate-800`}
         tabIndex={busyWorker ? -1 : 0}
         onKeyUp={keyboardTrigger(labelFocus)}
       >
-        Select file
+        <DocumentIcon className="w-10" />
+        <p>
+          Drag and drop or{" "}
+          <span className="font-bold text-sky-700 dark:text-sky-400">
+            browse for a replay file
+          </span>{" "}
+          to analyze
+        </p>
         <input
           ref={fileInputRef}
           type="file"
@@ -51,12 +59,16 @@ export const ReplayInput = () => {
           accept=".replay"
         />
       </label>
-      <button
-        className="btn border-2 border-gray-300 bg-gray-50 hover:border-blue-400 hover:bg-blue-50 focus-visible:outline-blue-600 active:bg-gray-200 disabled:opacity-40 disabled:hover:border-blue-300 disabled:hover:bg-transparent dark:text-slate-700"
-        onClick={() => mutate(sampleReplay)}
-      >
-        View sample
-      </button>
+      <div className="text-center">
+        No replay?{" "}
+        <button
+          className="link disabled:cursor-not-allowed"
+          disabled={busyWorker}
+          onClick={() => mutate(sampleReplay)}
+        >
+          View sample
+        </button>
+      </div>
     </div>
   );
 };
