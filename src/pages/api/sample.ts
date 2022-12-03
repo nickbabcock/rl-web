@@ -5,14 +5,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import wasmPath from "../../../crate/pkg/rl_wasm_bg.wasm";
 import samplePath from "../../../dev/sample.replay";
 
+const prefix = process.env.NODE_ENV === "production" ? "chunks/" : "";
+
 async function compileWasm() {
-  const data = await fs.readFile(`./.next/${wasmPath}`);
+  const data = await fs.readFile(`./.next/server/${prefix}${wasmPath}`);
   return WebAssembly.compile(data);
 }
 
 const wasmInit = init(compileWasm());
-
-const prefix = process.env.NODE_ENV === "production" ? "chunks/" : "";
 
 export default async function handler(_: NextApiRequest, res: NextApiResponse) {
   await wasmInit;
