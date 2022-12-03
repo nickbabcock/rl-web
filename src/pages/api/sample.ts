@@ -7,6 +7,8 @@ import samplePath from "../../../dev/sample.replay";
 
 const prefix = process.env.NODE_ENV === "production" ? "chunks/" : "";
 
+console.log("DIR", process.cwd());
+
 async function compileWasm() {
   const data = await fs.readFile(`./.next/server/${prefix}${wasmPath}`);
   return WebAssembly.compile(data);
