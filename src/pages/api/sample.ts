@@ -10,7 +10,7 @@ const prefix = process.env.NODE_ENV === "production" ? "chunks/" : "";
 console.log("DIR", process.cwd());
 
 async function compileWasm() {
-  const data = await fs.readFile(`./.next/server/${prefix}${wasmPath}`);
+  const data = await fs.readFile(`${process.cwd()}/.next/server/${prefix}${wasmPath}`);
   return WebAssembly.compile(data);
 }
 
@@ -18,9 +18,8 @@ const wasmInit = init(compileWasm());
 
 export default async function handler(_: NextApiRequest, res: NextApiResponse) {
   await wasmInit;
-  throw new Error(process.cwd());
 const parser = new ReplayParser(RlMod);
-  const fileData = await fs.readFile(`./.next/server/${prefix}${samplePath}`);
+  const fileData = await fs.readFile(`${process.cwd()}/.next/server/${prefix}${samplePath}`);
   const input = new Uint8Array(fileData);
   const out = parser.parse(input);
   res.status(200).json(out);
