@@ -12,6 +12,15 @@ export function useFilePublisher() {
   const { mutate } = useMutation({
     mutationKey: ["parse"],
     mutationFn: async (input: ParseInput) => {
+      if (input === "SERVER_SAMPLE") {
+        const res = await fetch("/api/sample");
+        if (!res.ok) {
+          throw new Error("server parser returned an error");
+        } else {
+          return await res.json();
+        }
+      }
+
       if (parseMode === "local") {
         return parser().parse(input);
       } else {

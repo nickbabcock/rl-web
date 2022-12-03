@@ -4,6 +4,8 @@ import sampleReplay from "../../../dev/sample.replay";
 import { DropOverlay } from "./DropOverlay";
 import { useIsActionInFlight } from "@/hooks";
 import { DocumentIcon } from "@/components/icons/DocumentIcon";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export function keyboardTrigger(fn: () => void) {
   return (e: KeyboardEvent) => {
@@ -18,6 +20,11 @@ export const ReplayInput = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const busyWorker = useIsActionInFlight();
   const { mutate } = useFilePublisher();
+  const [isDeveloper, setIsDeveloper] = useState(false);
+
+  useEffect(() => {
+    setIsDeveloper(!!localStorage.getItem("developer"));
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files && e.currentTarget.files[0]) {
@@ -68,6 +75,17 @@ export const ReplayInput = () => {
         >
           View sample
         </button>
+        {isDeveloper ? (
+          <span>
+            . Or{" "}
+            <button
+              className="link disabled:cursor-not-allowed"
+              onClick={() => mutate("SERVER_SAMPLE")}
+            >
+              view sample on server
+            </button>
+          </span>
+        ) : null}
       </div>
     </div>
   );
