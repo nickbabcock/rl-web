@@ -27,7 +27,7 @@ export const Report = ({ replay, stats }: ReportProps) => {
         PlayerStats={stats}
         {...replay.data.properties}
       />
-      <div className="flex flex-wrap place-content-center space-y-10">
+      <div className="flex flex-wrap place-content-center gap-10">
         <Graph
           key="Player Scores"
           title="Player Scores"
