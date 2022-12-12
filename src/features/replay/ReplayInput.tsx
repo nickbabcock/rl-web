@@ -32,12 +32,7 @@ export const ReplayInput = () => {
     }
   };
 
-  const labelFocus = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
+  const labelFocus = () => fileInputRef.current?.click();
   return (
     <div className="mx-auto w-full max-w-prose flex-col space-y-1">
       <DropOverlay onFile={mutate} enabled={!busyWorker} />
