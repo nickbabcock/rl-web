@@ -1,13 +1,13 @@
 import { createPortal } from "react-dom";
 import {
-  DocumentFileDropProps,
-  useDocumentFileDrop,
-} from "./useDocumentFileDrop";
+  FileDropProps,
+  useFileDrop,
+} from "@/hooks";
 import classes from "./DropOverlay.module.css";
 import { useIsClient } from "@/hooks";
 
-export const DropHighlight = (props: DocumentFileDropProps) => {
-  const { isHovering } = useDocumentFileDrop(props);
+export const DropHighlight = (props: FileDropProps) => {
+  const { isHovering } = useFileDrop(props);
   return (
     <div
       className={`absolute top-0 left-0 z-10 bg-transparent transition duration-200 ${
@@ -18,7 +18,7 @@ export const DropHighlight = (props: DocumentFileDropProps) => {
   );
 };
 
-export const DropOverlay = (props: DocumentFileDropProps) => {
+export const DropOverlay = (props: FileDropProps) => {
   const isClient = useIsClient();
   if (isClient) {
     return createPortal(<DropHighlight {...props} />, document.body);

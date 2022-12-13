@@ -1,28 +1,24 @@
 import { useIsomorphicLayoutEffect } from "@/hooks";
-import { UseMutateFunction } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 // ref: https://css-tricks.com/snippets/javascript/test-if-dragenterdragover-event-contains-files/
 function containsFiles(e: DragEvent): boolean {
-  for (let i = 0; i < (e.dataTransfer?.types.length ?? 0); i++) {
-    if (e.dataTransfer?.types[i] == "Files") {
-      return true;
-    }
-  }
-
-  return false;
+  return e.dataTransfer?.types?.includes("Files") ?? false;
 }
 
-export interface DocumentFileDropProps {
-  onFile: UseMutateFunction<unknown, unknown, File | any>;
+export interface FileDropProps {
+  onFile: (file: File) => void;
   enabled: boolean;
 }
 
-export function useDocumentFileDrop({
+export function useFileDrop({
   onFile,
   enabled,
-}: DocumentFileDropProps) {
+}: FileDropProps) {
   const [isHovering, setHovering] = useState(false);
+
+  // keep count of drags: https://stackoverflow.com/a/21002544/433785
+  const dragCount = useRef(0);
 
   // Latest ref pattern for props. This way we don't need to add and remove
   // event listeners every time one of them changes.
@@ -30,21 +26,18 @@ export function useDocumentFileDrop({
   const onFileRef = useRef(onFile);
   useIsomorphicLayoutEffect(() => {
     enabledRef.current = enabled;
-    onFileRef.current = onFile;
+    onFileRef.current = (file: File) => {
+      try {
+        onFile(file);
+      } finally {
+        dragCount.current = 0;
+      }
+    };
   });
 
-  // keep count of drags: https://stackoverflow.com/a/21002544/433785
-  const dragCount = useRef(0);
-
   useEffect(() => {
-    const resetDragCount = {
-      onSettled() {
-        dragCount.current = 0;
-      },
-    };
-
     function dragDrop(e: DragEvent) {
-      if (!containsFiles(e)) {
+      if (!enabledRef.current || !containsFiles(e)) {
         return;
       }
 
@@ -62,14 +55,14 @@ export function useDocumentFileDrop({
           throw Error("bad dropped file");
         }
 
-        onFileRef.current(file, resetDragCount);
+        onFileRef.current(file);
       } else if (e.dataTransfer && e.dataTransfer.files) {
         const files = e.dataTransfer.files;
         if (files.length !== 1) {
           throw Error("unexpected one file drop");
         }
 
-        onFileRef.current(files[0], resetDragCount);
+        onFileRef.current(files[0]);
       } else {
         throw Error("unexpected data transfer");
       }
