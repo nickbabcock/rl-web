@@ -1,20 +1,18 @@
 import { useIsomorphicLayoutEffect } from "@/hooks";
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 
-// ref: https://css-tricks.com/snippets/javascript/test-if-dragenterdragover-event-contains-files/
 function containsFiles(e: DragEvent): boolean {
-  return e.dataTransfer?.types?.includes("Files") ?? false;
+  const arr = e.dataTransfer?.items;
+  return arr?.length === 1 && arr[0].kind === "file";
 }
 
 export interface FileDropProps {
-  onFile: (file: File) => void;
-  enabled: boolean;
+  onFile: (file: File) => void | Promise<void>;
+  enabled?: boolean;
+  target?: RefObject<HTMLElement>;
 }
 
-export function useFileDrop({
-  onFile,
-  enabled,
-}: FileDropProps) {
+export function useFileDrop({ onFile, enabled = true, target }: FileDropProps) {
   const [isHovering, setHovering] = useState(false);
 
   // keep count of drags: https://stackoverflow.com/a/21002544/433785
@@ -36,7 +34,16 @@ export function useFileDrop({
   });
 
   useEffect(() => {
-    function dragDrop(e: DragEvent) {
+    if (target?.current === null) {
+      return;
+    }
+    const elem = target ? target.current : document;
+
+    function dragDrop(e: Event) {
+      if (!(e instanceof DragEvent)) {
+        return;
+      }
+
       if (!enabledRef.current || !containsFiles(e)) {
         return;
       }
@@ -68,7 +75,11 @@ export function useFileDrop({
       }
     }
 
-    function highlight(e: DragEvent) {
+    function highlight(e: Event) {
+      if (!(e instanceof DragEvent)) {
+        return;
+      }
+
       if (enabledRef.current && containsFiles(e)) {
         dragCount.current += 1;
         e.preventDefault();
@@ -77,7 +88,11 @@ export function useFileDrop({
       }
     }
 
-    function unhighlight(e: DragEvent) {
+    function unhighlight(e: Event) {
+      if (!(e instanceof DragEvent)) {
+        return;
+      }
+
       if (enabledRef.current && containsFiles(e)) {
         dragCount.current -= 1;
         e.preventDefault();
@@ -89,22 +104,22 @@ export function useFileDrop({
     // If you want to allow a drop, you must prevent the default handling by
     // cancelling both the dragenter and dragover events
     // ref: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#specifying_drop_targets
-    function dragover(e: DragEvent) {
+    function dragover(e: Event) {
       e.preventDefault();
     }
 
-    document.addEventListener("drop", dragDrop, { capture: true });
-    document.addEventListener("dragenter", highlight, false);
-    document.addEventListener("dragleave", unhighlight, false);
-    document.addEventListener("dragover", dragover, false);
+    elem.addEventListener("drop", dragDrop, { capture: true });
+    elem.addEventListener("dragenter", highlight, false);
+    elem.addEventListener("dragleave", unhighlight, false);
+    elem.addEventListener("dragover", dragover, false);
 
     return () => {
-      document.removeEventListener("drop", dragDrop, { capture: true });
-      document.removeEventListener("dragenter", highlight, false);
-      document.removeEventListener("dragleave", unhighlight, false);
-      document.removeEventListener("dragover", dragover, false);
+      elem.removeEventListener("drop", dragDrop, { capture: true });
+      elem.removeEventListener("dragenter", highlight, false);
+      elem.removeEventListener("dragleave", unhighlight, false);
+      elem.removeEventListener("dragover", dragover, false);
     };
-  }, []);
+  }, [target]);
 
   return { isHovering };
 }

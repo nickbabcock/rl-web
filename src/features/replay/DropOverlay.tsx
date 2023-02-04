@@ -1,8 +1,5 @@
 import { createPortal } from "react-dom";
-import {
-  FileDropProps,
-  useFileDrop,
-} from "@/hooks";
+import { FileDropProps, useFileDrop } from "@/hooks";
 import classes from "./DropOverlay.module.css";
 import { useIsClient } from "@/hooks";
 
