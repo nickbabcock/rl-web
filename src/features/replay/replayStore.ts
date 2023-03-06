@@ -1,5 +1,5 @@
 import { ParseMode } from "@/stores/uiStore";
-import create from "zustand";
+import { create } from "zustand";
 import { ParsedReplay, ParseInput, Replay } from "../worker";
 
 class ReplayInput {

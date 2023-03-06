@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import create from "zustand";
+import { create } from "zustand";
 
 export type ParseMode = "local" | "edge";
 
