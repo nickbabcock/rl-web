@@ -21,12 +21,7 @@ export const Replay = () => {
       {parsedReplay?.networkErr ? (
         <WarningBox message={`network data: ${parsedReplay.networkErr}`} />
       ) : null}
-      {parsedReplay !== null && parsedReplay.data.properties.PlayerStats ? (
-        <Report
-          replay={parsedReplay}
-          stats={parsedReplay.data.properties.PlayerStats}
-        />
-      ) : null}
+      {parsedReplay !== null ? <Report replay={parsedReplay} /> : null}
     </div>
   );
 };
