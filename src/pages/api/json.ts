@@ -2,7 +2,7 @@ import { instantiateParser } from "@/server/wasm";
 import { getFileData } from "@/server/fileData";
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "edge",
 };
 
 export default async function handler(req: Request) {
