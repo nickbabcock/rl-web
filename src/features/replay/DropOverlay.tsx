@@ -7,7 +7,7 @@ export const DropHighlight = (props: FileDropProps) => {
   const { isHovering } = useFileDrop(props);
   return (
     <div
-      className={`absolute top-0 left-0 z-10 bg-transparent transition duration-200 ${
+      className={`absolute left-0 top-0 z-10 bg-transparent transition duration-200 ${
         isHovering &&
         `h-full w-full bg-gray-500/25 outline outline-blue-500/50 ${classes["overlay-outline"]}`
       }`}
