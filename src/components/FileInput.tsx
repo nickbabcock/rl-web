@@ -46,7 +46,7 @@ export const FileInput = ({
           "flex cursor-pointer items-center gap-1 rounded-md border-2 border-dashed border-slate-600 p-4 hover:bg-slate-300 peer-focus:border-indigo-500 peer-focus:ring-indigo-500 peer-disabled:cursor-not-allowed peer-disabled:saturate-0 hover:dark:bg-slate-800",
           !isFileHovering
             ? "bg-slate-200 dark:bg-slate-700"
-            : "bg-slate-300 dark:bg-slate-800"
+            : "bg-slate-300 dark:bg-slate-800",
         )}
       >
         {children}

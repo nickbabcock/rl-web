@@ -14,7 +14,7 @@ export const Replay = () => {
       {latestParse.kind === "error" ? (
         <WarningBox
           message={`Unable to parse (${latestParse.input.path()}): ${getErrorMessage(
-            latestParse.error
+            latestParse.error,
           )}`}
         />
       ) : null}

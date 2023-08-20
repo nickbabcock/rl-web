@@ -41,7 +41,7 @@ export const useParseMode = () => useUiStore((state) => state.parseMode);
 export const usePrettyPrint = () => useUiStore((state) => state.prettyPrint);
 
 const getPersistedData = <K extends keyof UiStoreData>(
-  key: K
+  key: K,
 ): UiStoreData[K] => {
   const value = localStorage.getItem(key);
   if (value !== null) {
@@ -56,6 +56,6 @@ export const useHydrateUiStore = () => {
   useEffect(() => setParseMode(getPersistedData("parseMode")), [setParseMode]);
   useEffect(
     () => setPrettyPrint(getPersistedData("prettyPrint")),
-    [setPrettyPrint]
+    [setPrettyPrint],
   );
 };

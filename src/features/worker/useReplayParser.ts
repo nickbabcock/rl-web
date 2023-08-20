@@ -5,7 +5,7 @@ export function useReplayParser() {
   const context = React.useContext(ReplayParserContext);
   if (context === undefined) {
     throw new Error(
-      "useReplayParser must be used within a ReplayParserProvider"
+      "useReplayParser must be used within a ReplayParserProvider",
     );
   }
 
