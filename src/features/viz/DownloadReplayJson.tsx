@@ -26,7 +26,7 @@ export const DownloadReplayJson = ({ replay }: DownloadReplayJsonProps) => {
       // I don't want this large data cached
       return null;
     },
-    cacheTime: 0,
+    gcTime: 0,
     enabled: false,
   });
 
@@ -49,7 +49,7 @@ export const DownloadReplayJson = ({ replay }: DownloadReplayJsonProps) => {
       downloadData(await resp.arrayBuffer(), replay.input.jsonName());
       return null;
     },
-    cacheTime: 0,
+    gcTime: 0,
   });
 
   return (
