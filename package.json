@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "npm run build:wasm && next build",
     "build:wasm": "wasm-pack build -t web crate",
-    "start": "next start",
+    "start": "npx serve@latest out",
     "lint": "next lint",
     "format": "prettier --write 'src'",
     "test": "npm run test:unit && npm run test:e2e",
