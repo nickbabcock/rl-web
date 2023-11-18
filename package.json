@@ -18,25 +18,25 @@
     }
   },
   "dependencies": {
-    "@tanstack/react-query": "5.4.3",
+    "@tanstack/react-query": "5.8.4",
     "clsx": "2.0.0",
     "comlink": "4.4.1",
-    "next": "14.0.1",
+    "next": "14.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.5",
     "zustand": "4.4.6"
   },
   "devDependencies": {
-    "@playwright/test": "1.39.0",
-    "@types/node": "20.8.10",
-    "@types/react": "18.2.34",
-    "@types/react-dom": "18.2.14",
-    "eslint": "8.53.0",
-    "eslint-config-next": "14.0.1",
+    "@playwright/test": "1.40.0",
+    "@types/node": "20.9.1",
+    "@types/react": "18.2.37",
+    "@types/react-dom": "18.2.15",
+    "eslint": "8.54.0",
+    "eslint-config-next": "14.0.3",
     "jest": "29.7.0",
-    "prettier": "3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.6",
+    "prettier": "3.1.0",
+    "prettier-plugin-tailwindcss": "0.5.7",
     "typescript": "5.2.2"
   }
 }
