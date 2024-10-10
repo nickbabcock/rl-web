@@ -17,6 +17,14 @@
       "tailwindcss": {}
     }
   },
+  "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
+    "tailwindFunctions": [
+      "clsx"
+    ]
+  },
   "dependencies": {
     "@tanstack/react-query": "5.40.1",
     "clsx": "2.1.1",
