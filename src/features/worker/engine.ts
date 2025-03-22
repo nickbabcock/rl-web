@@ -19,10 +19,12 @@ function getParser() {
 let wasmInitialized: Promise<wasmModule.InitOutput> | undefined = undefined;
 async function initializeWasm() {
   if (wasmInitialized === undefined) {
-    wasmInitialized = timeit(() => init(wasmPath)).then(([out, elapsedMs]) => {
-      console.log(`initialized wasm: ${formatFloat(elapsedMs)}ms`);
-      return out;
-    });
+    wasmInitialized = timeit(() => init({ module_or_path: wasmPath })).then(
+      ([out, elapsedMs]) => {
+        console.log(`initialized wasm: ${formatFloat(elapsedMs)}ms`);
+        return out;
+      },
+    );
   }
   await wasmInitialized;
 }
