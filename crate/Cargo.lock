@@ -175,6 +175,8 @@ name = "rl-wasm"
 version = "0.1.0"
 dependencies = [
  "boxcars",
+ "js-sys",
+ "serde",
  "serde_json",
  "wasm-bindgen",
  "wasm-bindgen-test",
