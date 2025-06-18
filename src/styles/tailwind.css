@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 a,
 .link {
@@ -12,7 +10,7 @@ body {
 }
 
 .btn {
-  @apply inline-flex cursor-default justify-center rounded-md px-4 py-1 text-base font-semibold tracking-tight shadow-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2;
+  @apply inline-flex cursor-default justify-center rounded-md px-4 py-1 text-base font-semibold tracking-tight shadow-xs focus:outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2;
 }
 
 .blue-team {

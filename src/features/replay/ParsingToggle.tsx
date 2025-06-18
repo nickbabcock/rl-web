@@ -12,7 +12,7 @@ export const ParsingToggle = () => {
     <label className="inline-flex items-center text-lg" htmlFor={toggleId}>
       Parse on edge:
       <input
-        className="ml-2 mr-1"
+        className="mr-1 ml-2"
         type="checkbox"
         name="edge"
         id={toggleId}
