@@ -43,7 +43,7 @@ export const FileInput = ({
       <label
         htmlFor={inputId}
         className={clsx(
-          "flex cursor-pointer items-center gap-1 rounded-md border-2 border-dashed border-slate-600 p-4 hover:bg-slate-300 peer-focus:border-indigo-500 peer-focus:ring-indigo-500 peer-disabled:cursor-not-allowed peer-disabled:saturate-0 hover:dark:bg-slate-800",
+          "flex cursor-pointer items-center gap-1 rounded-md border-2 border-dashed border-slate-600 p-4 peer-focus:border-indigo-500 peer-focus:ring-indigo-500 peer-disabled:cursor-not-allowed peer-disabled:saturate-0 hover:bg-slate-300 dark:hover:bg-slate-800",
           !isFileHovering
             ? "bg-slate-200 dark:bg-slate-700"
             : "bg-slate-300 dark:bg-slate-800",

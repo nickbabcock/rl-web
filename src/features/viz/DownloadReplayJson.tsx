@@ -65,7 +65,7 @@ export const DownloadReplayJson = ({ replay }: DownloadReplayJsonProps) => {
       </button>
       <label>
         <input
-          className="mr-1 rounded focus:outline focus:outline-2 focus:outline-blue-600"
+          className="mr-1 rounded-sm focus:outline-2 focus:outline-blue-600 focus:outline-solid"
           type="checkbox"
           checked={prettyPrint}
           onChange={(e) => setPrettyPrint(e.target.checked)}
