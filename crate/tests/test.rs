@@ -39,7 +39,7 @@ fn test_parse_network_bad() {
 
     let replay = parse(&v).unwrap();
     let err = replay.network_err().unwrap();
-    assert!(err.contains("Error decoding frame: attribute unknown or not implemented"));
+    assert!(err.contains("Error decoding frame: time is out of range:"));
     assert!(replay.header_json(false).contains(r#""header_size":6402,"#));
     assert!(replay.header_json(true).contains(r#""header_size": 6402,"#));
 }
