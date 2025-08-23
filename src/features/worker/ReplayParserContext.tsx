@@ -21,7 +21,7 @@ interface ReplayParserProviderProps {
 export const ReplayParserProvider = ({
   children,
 }: ReplayParserProviderProps) => {
-  const workerRef = React.useRef<ReplayParserState>();
+  const workerRef = React.useRef<ReplayParserState>(undefined);
 
   useEffect(() => {
     const rawWorker = new Worker(new URL("./worker.ts", import.meta.url));
