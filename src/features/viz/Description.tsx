@@ -25,7 +25,10 @@ export const Description = ({
         color="blue"
       />
     ))
-    .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])
+    .reduce(
+      (acc, x) => [...acc, ", ", x],
+      [] as (string | React.ReactElement)[],
+    )
     .slice(1);
 
   const orangeSide = oranges
@@ -36,7 +39,10 @@ export const Description = ({
         color="orange"
       />
     ))
-    .reduce((acc, x) => [...acc, ", ", x], [] as (string | JSX.Element)[])
+    .reduce(
+      (acc, x) => [...acc, ", ", x],
+      [] as (string | React.ReactElement)[],
+    )
     .slice(1);
 
   if (gameType.includes("Soccar")) {

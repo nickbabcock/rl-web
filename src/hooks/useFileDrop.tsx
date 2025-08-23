@@ -9,7 +9,7 @@ function containsFiles(e: DragEvent): boolean {
 export interface FileDropProps {
   onFile: (file: File) => void | Promise<void>;
   enabled?: boolean;
-  target?: RefObject<HTMLElement>;
+  target?: RefObject<HTMLElement | null>;
 }
 
 export function useFileDrop({ onFile, enabled = true, target }: FileDropProps) {
