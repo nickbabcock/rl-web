@@ -14,6 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: jdx/mise-action@v2
+    - run: rustup target add wasm32-unknown-unknown
     - name: Npm Install
       run: npm ci
     - run: npx playwright install --with-deps
