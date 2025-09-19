@@ -20,8 +20,7 @@ jobs:
     - name: Build app
       run: npm run build
     - name: Test rust crate
-      run: 'wasm-pack test --node'
-      working-directory: './crate'
+      run: 'cargo test --target wasm32-unknown-unknown'
     - name: Run Tests
       run: npm test
     - run: npm run lint
