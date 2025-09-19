@@ -4,7 +4,7 @@ use wasm_bindgen_test::*;
 
 const REPLAY: &'static [u8] = include_bytes!("../../dev/sample.replay");
 
-#[wasm_bindgen_test]
+#[wasm_bindgen_test(unsupported = test)]
 fn test_parse() {
     let replay = parse(&REPLAY[..]).unwrap();
     assert!(replay.network_err().is_none());
@@ -30,7 +30,7 @@ fn test_parse_garbage() {
     assert!(err_val.contains("Could not decode replay header data"));
 }
 
-#[wasm_bindgen_test]
+#[wasm_bindgen_test(unsupported = test)]
 fn test_parse_network_bad() {
     let mut v = REPLAY.to_vec();
     for i in 20000..30000 {

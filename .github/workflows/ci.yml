@@ -13,8 +13,6 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
     - uses: actions/checkout@v4
-    - name: Install wasm-pack
-      run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
     - name: Npm Install
       run: npm ci
     - run: npx playwright install --with-deps
