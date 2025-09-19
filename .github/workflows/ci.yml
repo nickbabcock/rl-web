@@ -13,6 +13,7 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
     - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
     - name: Npm Install
       run: npm ci
     - run: npx playwright install --with-deps
