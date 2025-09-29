@@ -10,18 +10,25 @@ on:
 jobs:
   test:
     name: test
-    runs-on: 'ubuntu-latest'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
     - uses: jdx/mise-action@v2
     - run: rustup target add wasm32-unknown-unknown
     - name: Npm Install
       run: npm ci
-    - run: npx playwright install --with-deps
-    - name: Build app
-      run: npm run build
     - name: Test rust crate
-      run: 'cargo test --target wasm32-unknown-unknown'
-    - name: Run Tests
-      run: npm test
+      run: cargo test --target wasm32-unknown-unknown
+    - name: Build app
+      run: mise run build
+    - name: Run unit tests
+      run: npm run test:unit
+    - name: Run playwright tests
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        npx playwright install --with-deps
+        npm run test:e2e
     - run: npm run lint
