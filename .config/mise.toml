@@ -3,3 +3,22 @@
 "rust" = { version = "1.88.0", targets = "wasm32-unknown-unknown" }
 "ubi:rustwasm/wasm-bindgen" = { version = "0.2.100", extract_all = "true" }
 "ubi:WebAssembly/binaryen" = { version = "version_123", extract_all = "true", bin_path = "bin" }
+
+[tasks."build"]
+run = [
+    "cargo build --release --target wasm32-unknown-unknown",
+    "wasm-bindgen --target web --out-dir crate/pkg ./target/wasm32-unknown-unknown/release/rl_wasm.wasm",
+    "wasm-opt -Os -o crate/pkg/rl_wasm_bg.wasm crate/pkg/rl_wasm_bg.wasm",
+    "npm run build",
+]
+
+[tasks."test"]
+run = [
+    "npm run test:unit",
+    "npm run test:e2e",
+]
+
+[tasks."dev"]
+run = [
+    "npm run dev"
+]

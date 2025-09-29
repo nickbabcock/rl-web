@@ -15,3 +15,14 @@ A similar, but offline tool is
 ## Screenshot
 
 ![Screenshot of web page](dev/rl-web-screenshot.png?raw=true)
+
+## Contributing
+
+Install [mise](https://mise.jdx.dev/) to setup the dev environment:
+
+```bash
+mise install
+mise exec -- rustup target add wasm32-unknown-unknown
+mise run build
+mise run dev
+```
