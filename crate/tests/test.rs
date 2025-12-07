@@ -1,5 +1,4 @@
 use rl_wasm::*;
-use wasm_bindgen::JsValue;
 use wasm_bindgen_test::*;
 
 const REPLAY: &'static [u8] = include_bytes!("../../dev/sample.replay");
@@ -22,7 +21,9 @@ fn test_parse() {
 }
 
 #[wasm_bindgen_test]
+#[cfg(target_arch = "wasm32")]
 fn test_parse_garbage() {
+    use wasm_bindgen::JsValue;
     let err = parse(b"lakjsdlasjdfal;").unwrap_err();
     let val = JsValue::from(err);
     let msg = js_sys::Reflect::get(&val, &JsValue::from("message")).unwrap();
