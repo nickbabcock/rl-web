@@ -15,8 +15,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
-    - uses: actions/checkout@v4
-    - uses: jdx/mise-action@v2
+    - uses: actions/checkout@v7
+    - uses: jdx/mise-action@v4
     - run: rustup target add wasm32-unknown-unknown
     - name: Npm Install
       run: npm ci
