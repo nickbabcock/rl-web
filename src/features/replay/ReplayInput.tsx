@@ -1,19 +1,16 @@
-import { useState, useEffect } from "react";
 import { useFilePublisher } from "./useFilePublisher";
-import sampleReplay from "../../../dev/sample.replay";
 import { DropOverlay } from "./DropOverlay";
-import { useIsActionInFlight } from "@/hooks";
+import { useClientValue, useIsActionInFlight } from "@/hooks";
 import { DocumentIcon } from "@/components/icons/DocumentIcon";
 import { FileInput } from "@/components/FileInput";
 
 export const ReplayInput = () => {
   const busyWorker = useIsActionInFlight();
   const { mutate } = useFilePublisher();
-  const [isDeveloper, setIsDeveloper] = useState(false);
-
-  useEffect(() => {
-    setIsDeveloper(!!localStorage.getItem("developer"));
-  }, []);
+  const isDeveloper = useClientValue(
+    () => !!localStorage.getItem("developer"),
+    false,
+  );
 
   return (
     <div className="mx-auto w-full max-w-prose flex-col space-y-1">
@@ -34,7 +31,7 @@ export const ReplayInput = () => {
         <button
           className="link disabled:cursor-not-allowed"
           disabled={busyWorker}
-          onClick={() => mutate(sampleReplay)}
+          onClick={() => mutate("/sample.replay")}
         >
           View sample
         </button>

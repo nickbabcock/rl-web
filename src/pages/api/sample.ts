@@ -16,7 +16,7 @@ const wasmInit = init(compileWasm());
 export default async function handler(_: NextApiRequest, res: NextApiResponse) {
   await wasmInit;
   const parser = new ReplayParser(RlMod);
-  const file = path.join(process.cwd(), "dev", "sample.replay");
+  const file = path.join(process.cwd(), "public", "sample.replay");
   const fileData = await fs.readFile(file);
   const input = new Uint8Array(fileData);
   const out = parser.parse(input);

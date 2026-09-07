@@ -1,10 +1,11 @@
 import { ReplayParser } from "./ReplayParser";
-import wasmPath from "../../../crate/pkg/rl_wasm_bg.wasm";
 import init, * as wasmModule from "../../../crate/pkg/rl_wasm";
 import { timeit } from "./timeit";
 import { formatFloat } from "@/utils/format";
 import { ReplayJsonOptions } from "./types";
 import { transfer } from "comlink";
+
+const wasmUrl = new URL("../../../crate/pkg/rl_wasm_bg.wasm", import.meta.url);
 
 let parser: ReplayParser | null = null;
 export type ParseInput = File | string;
@@ -19,7 +20,7 @@ function getParser() {
 let wasmInitialized: Promise<wasmModule.InitOutput> | undefined = undefined;
 async function initializeWasm() {
   if (wasmInitialized === undefined) {
-    wasmInitialized = timeit(() => init({ module_or_path: wasmPath })).then(
+    wasmInitialized = timeit(() => init({ module_or_path: wasmUrl })).then(
       ([out, elapsedMs]) => {
         console.log(`initialized wasm: ${formatFloat(elapsedMs)}ms`);
         return out;

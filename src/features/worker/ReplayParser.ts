@@ -20,10 +20,13 @@ export class ReplayParser {
     };
   }
 
-  public replayJson({ pretty }: ReplayJsonOptions): Uint8Array {
+  public replayJson({ pretty }: ReplayJsonOptions): Uint8Array<ArrayBuffer> {
     if (this.replay === undefined) {
       throw new Error("replay must be defined");
     }
-    return this.replay.full_json(pretty);
+
+    // wasm-bindgen copies the data into a new array that is not shared, but it
+    // declares the more general ArrayBufferLike buffer type.
+    return this.replay.full_json(pretty) as Uint8Array<ArrayBuffer>;
   }
 }
